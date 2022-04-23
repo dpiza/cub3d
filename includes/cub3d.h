@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/04/22 23:24:05 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/04/23 00:01:05 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ struct	s_map
 
 char	*get_next_line(int fd);
 t_map	*load_map(const char *path);
-
+void	eval_map(t_map	*map);
 
 # define OPEN_MAX 256
 

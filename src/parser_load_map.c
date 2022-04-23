@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 17:14:11 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/04/22 18:35:20 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/04/23 00:01:32 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,5 @@ t_map	*load_map(const char *path)
 		add_next_lines(line, &map->lines);
 		line = get_next_line(fd);
 	}
-	return (NULL);
+	return (map);
 }

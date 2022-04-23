@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/04/22 17:43:20 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/04/22 23:24:05 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,12 @@ struct	s_map
 	char	*ea_path;
 	char	floor_c[3];
 	char	ceiling_c[3];
+	int		is_ok;
 };
 
-//size_t	ft_strlen(const char *s);
-//size_t	ft_strlcpy(char *dst, const char *src, size_t size);
-//char	*ft_strchr(const char *s, int c);
-//char	*ft_strdup(const char *s);
-//char	*ft_strjoin(char const *s1, char const *s2);
-//char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*get_next_line(int fd);
 t_map	*load_map(const char *path);
+
 
 # define OPEN_MAX 256
 

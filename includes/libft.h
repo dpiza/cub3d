@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 18:50:52 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/02/05 12:53:40 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/04/25 17:42:19 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,4 +149,7 @@ void		ft_dl_removeone(t_dl_list **lst, void (*del)(void*));
  *  if no character is found, return zero.
  */
 int			ft_chrinstr(char c, const char *str);
+
+void		ft_split_free(char ***str_array);
+
 #endif

@@ -63,7 +63,8 @@ RAW			=	ft_atoi.c \
 				ft_dl_destroyall.c \
 				ft_dl_removeone.c \
 				ft_dl_getfirst.c \
-				ft_chrinstr.c
+				ft_chrinstr.c \
+				ft_split_free.c
 
 SRC		=	$(addprefix $(SRC_DIR)/,$(RAW))
 OBJS	=	$(addprefix $(OBJ_DIR)/,$(RAW:.c=.o))

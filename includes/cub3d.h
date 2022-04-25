@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/04/25 00:34:22 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/04/25 17:12:56 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,22 +25,32 @@
 
 typedef struct s_map	t_map;
 
-struct	s_map
+enum e_map_status{
+    OK = 0,
+    NO_MAP = 1,
+    PERIMETER_ERROR = 2,
+    INVALID_CHARACTER = 3,
+    GARBAGE_LINES = 4,
+    MAP_TOO_SHORT = 5
+};
+
+struct    s_map
 {
-	char	**lines;
-	char	*no_path;
-	char	*so_path;
-	char	*we_path;
-	char	*ea_path;
-	char	floor_c[3];
-	char	ceiling_c[3];
-	int		is_ok;
+    char                **lines;
+    char                *no_path;
+    char                *so_path;
+    char                *we_path;
+    char                *ea_path;
+    unsigned char        floor_c[3];
+    unsigned char        ceiling_c[3];
+    int                    is_ok;
+    enum e_map_status    status;
 };
 
 char	*get_next_line(int fd);
 t_map	*load_map(const char *path);
 void	eval_map(t_map	*map);
-void	eval_assets(t_map **map);
+void	eval_assets(t_map *map);
 
 # define OPEN_MAX 256
 

@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/04/23 00:01:05 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/04/25 15:53:15 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,15 @@
 #  define BUFFER_SIZE 32
 # endif
 
+
 typedef struct s_map	t_map;
+
+enum e_map_status{
+	NOT_FOUND = 1,
+	PERIMETER_ERROR = 2,
+	INVALID_CHARACTER = 3,
+	GARBAGE_LINES = 4
+};
 
 struct	s_map
 {
@@ -40,6 +48,7 @@ struct	s_map
 char	*get_next_line(int fd);
 t_map	*load_map(const char *path);
 void	eval_map(t_map	*map);
+void	map_integrity(t_map *map);
 
 # define OPEN_MAX 256
 

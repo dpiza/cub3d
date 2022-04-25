@@ -12,7 +12,8 @@ LIBS		=	-L./libft -lft
 RAW_C		=	main.c \
 				get_next_line.c \
 				parser_load_map.c \
-				parser_eval_map.c
+				parser_eval_map.c \
+				parser_map_integrity.c
 
 SRC			=	$(addprefix $(SRC_D)/,$(RAW_C))
 OBJ			=	$(addprefix $(OBJ_D)/,$(RAW_C:.c=.o))

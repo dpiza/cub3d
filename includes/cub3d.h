@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/04/25 17:42:02 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/04/28 15:32:59 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,12 @@ typedef struct s_map	t_map;
 
 enum e_map_status{
 	OK = 0,
-	NO_MAP = 1,
-	PERIMETER_ERROR = 2,
-	INVALID_CHARACTER = 3,
-	GARBAGE_LINES = 4,
-	MAP_TOO_SHORT = 5
+	NO_MAP = 0b00000001,
+	PERIMETER_ERROR = 0b00000010,
+	INVALID_CHARACTER = 0b00000100,
+	GARBAGE_LINES = 0b00001000,
+	MAP_TOO_SHORT = 0b00010000,
+	MAP_NOT_WALLED = 0b00100000
 };
 
 struct	s_map
@@ -53,6 +54,7 @@ void	eval_map(t_map	*map);
 void	map_integrity(t_map *map);
 int		is_map_allowed_character(char c);
 int		is_map_first_char(char c);
+void	eval_map_rules(t_map *map, char **first_line, char **last_line);
 
 # define OPEN_MAX 256
 

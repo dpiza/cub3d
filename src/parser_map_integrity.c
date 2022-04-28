@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:58:11 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/04/25 17:41:36 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/04/28 15:34:16 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,12 @@ void	map_integrity(t_map *map)
 		}
 		else
 		{
-			map->status = MAP_TOO_SHORT;
+			map->status |= MAP_TOO_SHORT;
 		}
 	}
 	else
-		map->status = NO_MAP;
+		map->status |= NO_MAP;
+	eval_map_rules(map, map_first_line, map_last_line);
 }
 
 static	void	eval_trailing_garbage(t_map *map, char **map_last_line)
@@ -53,7 +54,7 @@ static	void	eval_trailing_garbage(t_map *map, char **map_last_line)
 		{
 			if (!ft_isspace(*line))
 			{
-				map->status = GARBAGE_LINES;
+				map->status |= GARBAGE_LINES;
 				break;
 			}
 			line++;

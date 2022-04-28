@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/04/28 15:32:59 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/04/28 19:44:46 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	map_integrity(t_map *map);
 int		is_map_allowed_character(char c);
 int		is_map_first_char(char c);
 void	eval_map_rules(t_map *map, char **first_line, char **last_line);
+void	eval_assets(t_map *map);
 
 # define OPEN_MAX 256
 

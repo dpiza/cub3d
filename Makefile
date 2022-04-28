@@ -15,7 +15,8 @@ RAW_C		=	main.c \
 				parser_eval_map.c \
 				parser_map_integrity.c \
 				parser_eval_map_char.c \
-				parser_eval_map_rules.c
+				parser_eval_map_rules.c \
+				parser_eval_assets.c
 
 SRC			=	$(addprefix $(SRC_D)/,$(RAW_C))
 OBJ			=	$(addprefix $(OBJ_D)/,$(RAW_C:.c=.o))
@@ -42,6 +43,6 @@ fclean:	clean
 re: fclean all
 
 ./libft/libft.a:
-	@make -C ./libft
+	@make -C ./libft --no-print-directory
 
 bonus:

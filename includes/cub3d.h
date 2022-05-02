@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/04/28 19:44:46 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/02 20:54:32 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # endif
 
 typedef struct s_map	t_map;
+typedef struct s_strmap	t_strmap;
 
 enum e_map_status{
 	OK = 0,
@@ -46,6 +47,12 @@ struct	s_map
 	unsigned char		ceiling_c[3];
 	int					is_ok;
 	enum e_map_status	status;
+};
+
+struct s_strmap{
+	char	*map;
+	int		columns;
+	int		lines;
 };
 
 char	*get_next_line(int fd);

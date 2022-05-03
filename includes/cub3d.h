@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/02 22:26:55 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/03 13:31:16 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void		load_strmap(t_strmap *strmap, t_map *map);
 char		**get_map_first_line(t_map	*map);
 char		**get_map_last_line(char **first_line);
 void		print_map_error(t_map *map);
+void		destroy_strmap(t_strmap *strmap);
 
 # define OPEN_MAX 256
 

@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 20:55:26 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/02 21:57:14 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/03 13:31:11 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,17 @@ void	load_strmap(t_strmap *strmap, t_map *map)
 	strmap->columns = get_map_max_len(first_line, strmap->lines);
 	strmap->map = ft_calloc(strmap->lines * strmap->columns, 1);
 	convert_into_string(&strmap->map, first_line, strmap->lines, strmap->columns);
+}
+
+void	destroy_strmap(t_strmap *strmap)
+{
+	if (strmap)
+	{
+		if (strmap->map)
+			free(strmap->map);
+		free(strmap);
+		strmap = NULL;
+	}
 }
 
 int		get_map_max_len(char **first_line, int n_lines)

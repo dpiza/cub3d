@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:58:11 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/02 22:00:06 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/02 22:44:26 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	map_integrity(t_map *map)
 	map_last_line = get_map_last_line(map_first_line);
 	if (map_first_line && map_last_line)
 	{
-		if (map_first_line - map_last_line)
+		if (map_last_line - map_first_line)
 		{
 			eval_trailing_garbage(map, map_last_line);
 		}
@@ -44,10 +44,11 @@ static	void	eval_trailing_garbage(t_map *map, char **map_last_line)
 
 	i = 0;
 	keep_going = 1;
+	map_last_line++;
 	while (map_last_line[i] && keep_going)
 	{
 		line = map_last_line[i];
-		while (line)
+		while (*line)
 		{
 			if (!ft_isspace(*line))
 			{
@@ -58,5 +59,6 @@ static	void	eval_trailing_garbage(t_map *map, char **map_last_line)
 			}
 			line++;
 		}
+		i++;
 	}
 }

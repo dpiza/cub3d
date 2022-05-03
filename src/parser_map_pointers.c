@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 21:31:09 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/02 21:41:00 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/02 22:41:23 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static	int	is_map_line(char *line)
 	{
 		while (ft_isspace(*line))
 			line++;
-		if (line)
+		if (*line)
 		{
 			if (is_map_allowed_character(*line))
 				return (1);

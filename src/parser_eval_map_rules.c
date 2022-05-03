@@ -6,19 +6,11 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 13:41:02 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/04/29 15:27:31 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/02 21:56:58 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
-
-typedef struct s_strmap t_strmap;
-
-struct s_strmap{
-	char	*map;
-	int		columns;
-	int		lines;
-};
 
 int		get_map_max_len(char **first_line, int n_lines)
 {
@@ -182,27 +174,31 @@ void	print_map_error(t_map *map)
 	}
 }
 
-void	eval_map_rules(t_map *map, char **first_line, char **last_line)
+void	eval_map_rules(t_map *map, t_strmap *strmap)
 {
-	char		*map_as_str;
-	int			line_n;
-	int			line_s;
-	t_strmap	strmap;
-
-	//get maximum length and padronize map into a long string.
-	(void)map;
-	line_n = last_line - first_line + 1;
-	line_s = get_map_max_len(first_line, line_n);
-	map_as_str = ft_calloc((line_s * line_n), 1); //this is not null terminated!
-	strmap.columns = line_s;
-	strmap.lines = line_n;
-	strmap.map = map_as_str;
-	convert_into_string(&map_as_str, first_line, line_n, line_s);
-	print_strmap(map_as_str, line_s);
-	if (!map_is_walled(&strmap))
+	print_strmap(strmap->map, strmap->columns);
+	if (!map_is_walled(strmap))
 	{
 		map->is_ok = 0;
 		map->status |= MAP_NOT_WALLED;
 	}
-	print_map_error(map);
+	//char		*map_as_str;
+	//int			line_n;
+	//int			line_s;
+	//t_strmap	strmap;
+//
+	//line_n = last_line - first_line + 1;
+	//line_s = get_map_max_len(first_line, line_n);
+	//map_as_str = ft_calloc((line_s * line_n), 1); //this is not null terminated!
+	//strmap.columns = line_s;
+	//strmap.lines = line_n;
+	//strmap.map = map_as_str;
+	//convert_into_string(&map_as_str, first_line, line_n, line_s);
+	//print_strmap(map_as_str, line_s);
+	//if (!map_is_walled(&strmap))
+	//{
+	//	map->is_ok = 0;
+	//	map->status |= MAP_NOT_WALLED;
+	//}
+	//print_map_error(map);
 }

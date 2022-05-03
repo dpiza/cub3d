@@ -16,7 +16,9 @@ RAW_C		=	main.c \
 				parser_map_integrity.c \
 				parser_eval_map_char.c \
 				parser_eval_map_rules.c \
-				parser_eval_assets.c
+				parser_eval_assets.c \
+				parser_create_strmap.c \
+				parser_map_pointers.c
 
 SRC			=	$(addprefix $(SRC_D)/,$(RAW_C))
 OBJ			=	$(addprefix $(OBJ_D)/,$(RAW_C:.c=.o))

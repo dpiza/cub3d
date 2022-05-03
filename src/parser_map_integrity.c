@@ -6,16 +6,12 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:58:11 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/04/28 15:34:16 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/02 22:00:06 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-static	int	is_map_line(char *line);
-static	int	is_map_first_line(char *line);
-static	char	**get_map_first_line(t_map	*map);
-static	char	**get_map_last_line(char **first_line);
 static	void	eval_trailing_garbage(t_map *map, char **map_last_line);
 
 void	map_integrity(t_map *map)
@@ -24,9 +20,9 @@ void	map_integrity(t_map *map)
 	char	**map_last_line;
 
 	map_first_line = get_map_first_line(map);
-	if (map_first_line)
+	map_last_line = get_map_last_line(map_first_line);
+	if (map_first_line && map_last_line)
 	{
-		map_last_line = get_map_last_line(map_first_line);
 		if (map_first_line - map_last_line)
 		{
 			eval_trailing_garbage(map, map_last_line);
@@ -38,89 +34,29 @@ void	map_integrity(t_map *map)
 	}
 	else
 		map->status |= NO_MAP;
-	eval_map_rules(map, map_first_line, map_last_line);
 }
 
 static	void	eval_trailing_garbage(t_map *map, char **map_last_line)
 {
 	int		i;
+	int		keep_going;
 	char	*line;
 
 	i = 0;
-	while (map_last_line[i] && map->status == OK)
+	keep_going = 1;
+	while (map_last_line[i] && keep_going)
 	{
 		line = map_last_line[i];
 		while (line)
 		{
 			if (!ft_isspace(*line))
 			{
+				map->is_ok = 0;
 				map->status |= GARBAGE_LINES;
+				keep_going = 0;
 				break;
 			}
 			line++;
 		}
 	}
-}
-
-static	int	is_map_line(char *line)
-{
-	if (line)
-	{
-		while (ft_isspace(*line))
-			line++;
-		if (line)
-		{
-			if (is_map_allowed_character(*line))
-				return (1);
-			else
-				return (0);
-		}
-		return (0);
-	}
-	return (0);
-}
-
-static	int	is_map_first_line(char *line)
-{
-	if (line)
-	{
-		while (ft_isspace(*line))
-			line++;
-		if (line)
-		{
-			if (is_map_first_char(*line))
-				return (1);
-			else
-				return (0);
-		}
-		return (0);
-	}
-	return (0);
-}
-
-static	char **get_map_first_line(t_map	*map)
-{
-	char **map_lines;
-
-	map_lines = map->lines;
-	while (*map_lines)
-	{
-		if (is_map_first_line(*map_lines))
-			return (map_lines);
-		map_lines++;
-	}
-	return (NULL);
-}
-
-static	char **get_map_last_line(char **first_line)
-{
-	char	**last_line;
-
-	last_line = first_line;
-	while (is_map_line(*last_line))
-	{
-		last_line++;
-	}
-	last_line--;
-	return (last_line);
 }

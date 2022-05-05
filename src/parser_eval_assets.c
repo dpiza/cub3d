@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_eval_assets.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 21:49:33 by dpiza             #+#    #+#             */
-/*   Updated: 2022/05/05 18:04:58 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/05 19:52:32 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,16 @@
 
 static void	fill_texture_path(t_map *map, char *line)
 {
-	if (line[0] == 'N')
-	{
-		if(!map->no_path)
-			map->no_path = ft_strdup(ft_strchr(line, '.'));
-		else
-			map->status |= DUPLICATED_PARAMETER;
-	}
-	else if (line[0] == 'S')
-	{
-		if(!map->so_path)
-			map->so_path = ft_strdup(ft_strchr(line, '.'));
-		else
-			map->status |= DUPLICATED_PARAMETER;
-	}
-	else if (line[0] == 'W')
-	{
-		if(!map->we_path)
-			map->we_path = ft_strdup(ft_strchr(line, '.'));
-		else
-			map->status |= DUPLICATED_PARAMETER;
-	}
-	else if (line[0] == 'E')
-	{
-		if(!map->ea_path)
-			map->ea_path = ft_strdup(ft_strchr(line, '.'));
-		else
-			map->status |= DUPLICATED_PARAMETER;
-	}
+	if (line[0] == 'N' && !map->no_path)
+		map->no_path = ft_strdup(get_path(line));
+	else if (line[0] == 'S' && !map->so_path)
+		map->so_path = ft_strdup(get_path(line));
+	else if (line[0] == 'W' && !map->we_path)
+		map->we_path = ft_strdup(get_path(line));
+	else if (line[0] == 'E' && !map->ea_path)
+		map->ea_path = ft_strdup(get_path(line));
+	else
+		map->status |= DUPLICATED_PARAMETER;
 }
 
 static void	fill_color(t_map *map, char *line)
@@ -105,5 +87,5 @@ void	eval_assets(t_map *map)
 		}
 		map_lines++;
 	}
-	//print_struct(map);
+	print_struct(map);
 }

@@ -3,32 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   parser_line_checkers.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 12:06:16 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/05 17:41:50 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/05 19:52:49 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
+char	*get_path(char *line)
+{
+	char	*path;
+
+	path = line + 2;
+	while (ft_isspace(*path))
+		path++;
+	if (*path != '.' && *path != '/')
+		return (NULL);
+	return (path);
+}
+
 int	is_valid_texture_line(char *line)
 {
+	char		*path;
 	int			i;
-	static char	*path[4] = {"NO", "SO", "WE", "EA"};
+	static char	*side[4] = {"NO", "SO", "WE", "EA"};
 
 	i = 0;
-	while (path[i] && ft_strncmp(line, path[i], 2) != 0)
+	while (side[i] && ft_strncmp(line, side[i], 2) != 0)
 		i++;
 	if (i > 3)
 		return (0);
-	line += 2;
-	while (ft_isspace(*line))
-		line++;
-	if (*line != '.')
+	path = get_path(line);
+	if (!path)
 		return (0);
-	line[ft_strlen((const char *)line) - 1] = '\0';
-	if (open(ft_strchr(line, '.'), O_RDONLY) > 0)
+	path[ft_strlen((const char *)path) - 1] = '\0';
+	if (open(path, O_RDONLY) > 0)
 		return (1);
 	return (0);
 }

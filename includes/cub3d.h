@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/05 18:04:48 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/05 19:52:09 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ int			is_valid_texture_line(char *line);
 int			is_valid_color_line(char *line);
 int			is_empty_line(char *line);
 void		free_t_map(t_map *map);
+char		*get_path(char *line);
 
 # define OPEN_MAX 256
 

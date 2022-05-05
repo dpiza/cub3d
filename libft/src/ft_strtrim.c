@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hcduller <hcduller@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 20:11:51 by hcduller          #+#    #+#             */
-/*   Updated: 2021/06/03 17:15:14 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/05 17:43:05 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_strtrim(char const *s1, char const *set)
 	if (!s1 || !set)
 		return (NULL);
 	i[0] = 0;
-	i[2] = ft_strlen(s1);
+	i[2] = ft_strlen((const char *)s1);
 	i[1] = i[2] - 1;
 	while (match_chrset(s1[i[0]], (char *)set) && i[0] < i[2])
 		i[0]++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hcduller <hcduller@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 17:54:53 by hcduller          #+#    #+#             */
-/*   Updated: 2021/06/03 17:14:08 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/05 17:43:39 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 	if (!s1 || !s2)
 		return (NULL);
-	ptr = ft_calloc(ft_strlen(s1) + ft_strlen(s2) + 1, 1);
+	ptr = ft_calloc(ft_strlen((const char *)s1) + ft_strlen((const char *)s2) + 1, 1);
 	if (ptr)
 	{
 		aux = ptr;

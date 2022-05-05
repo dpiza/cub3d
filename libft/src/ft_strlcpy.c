@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hcduller <hcduller@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/13 15:57:39 by hde-camp          #+#    #+#             */
-/*   Updated: 2021/06/08 11:23:35 by hcduller         ###   ########.fr       */
+/*   Updated: 2022/05/05 17:43:25 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 
 	if (!src || !dst)
 		return (0);
-	r = ft_strlen(src);
+	r = ft_strlen((const char *)src);
 	if (dstsize)
 	{
 		l = smaller(r, dstsize - 1);

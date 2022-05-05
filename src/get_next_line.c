@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/15 14:26:46 by dpiza             #+#    #+#             */
-/*   Updated: 2022/04/22 17:41:00 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/05 17:42:42 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*ft_return_line(char **save)
 	if (ft_strchr(*save, '\n'))
 	{
 		ret = ft_substr(*save, 0, n + 1);
-		temp = ft_substr(*save, n + 1, ft_strlen(*save));
+		temp = ft_substr(*save, n + 1, ft_strlen((const char *)*save));
 		free (*save);
 		*save = temp;
 		if (**save != '\0')

@@ -7,7 +7,7 @@ SRC_D		=	src
 OBJ_D		=	obj
 INCLUDES	=	-I ./includes
 
-LIBS		=	-L./libft -lft
+LIBS		=	-L./libft -lft -lmlx -lXext -lX11
 
 RAW_C		=	main.c \
 				get_next_line.c \

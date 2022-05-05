@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 21:49:33 by dpiza             #+#    #+#             */
-/*   Updated: 2022/05/05 14:12:31 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/05 18:04:58 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	print_struct(t_map *map)
 		map->ceiling_c[0], map->ceiling_c[1], map->ceiling_c[2]);
 }
 
-void	free_struct(t_map *map)
+void	free_t_map(t_map *map)
 {
 	free(map->no_path);
 	free(map->so_path);
@@ -105,6 +105,5 @@ void	eval_assets(t_map *map)
 		}
 		map_lines++;
 	}
-	print_struct(map);
-	free_struct(map);
+	//print_struct(map);
 }

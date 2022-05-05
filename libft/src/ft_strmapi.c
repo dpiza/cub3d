@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hcduller <hcduller@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/06/01 20:51:28 by hcduller          #+#    #+#             */
-/*   Updated: 2021/06/01 21:55:30 by hcduller         ###   ########.fr       */
+/*   Updated: 2022/05/05 17:43:16 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 
 	if (!s || !f)
 		return (NULL);
-	p = ft_calloc(ft_strlen(s) + 1, sizeof(char));
+	p = ft_calloc(ft_strlen((const char *)s) + 1, sizeof(char));
 	i = 0;
 	if (p)
 	{

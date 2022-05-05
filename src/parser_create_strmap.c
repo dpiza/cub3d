@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 20:55:26 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/03 13:31:11 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/05 17:47:07 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	load_strmap(t_strmap *strmap, t_map *map)
 	if (strmap->lines < 0)
 		strmap->lines = 0;
 	strmap->columns = get_map_max_len(first_line, strmap->lines);
-	strmap->map = ft_calloc(strmap->lines * strmap->columns, 1);
+	strmap->map = ft_calloc((strmap->lines * strmap->columns) + 1, 1);
 	convert_into_string(&strmap->map, first_line, strmap->lines, strmap->columns);
 }
 
@@ -60,7 +60,7 @@ int		get_map_max_len(char **first_line, int n_lines)
 	max_len = 0;
 	while (line_n < n_lines)
 	{
-		local_len = ft_strlen(first_line[line_n]);
+		local_len = ft_strlen((const char *)first_line[line_n]);
 		if (first_line[line_n][local_len - 1] == '\n')
 			local_len -= 1;
 		line_n++;
@@ -79,7 +79,7 @@ void	convert_into_string(char **dest, char **first_line, int n_lines, int line_s
 	line_count = 0;
 	while (line_count < n_lines)
 	{
-		local_len = ft_strlen(first_line[line_count]) - 1; // there is a -1 because each line has its own \n.
+		local_len = ft_strlen((const char *)first_line[line_count]) - 1; // there is a -1 because each line has its own \n.
 		char_count = 0;
 		while (char_count < local_len)
 		{

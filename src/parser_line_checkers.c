@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 12:06:16 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/05 12:43:41 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/05 17:41:50 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	is_valid_texture_line(char *line)
 		line++;
 	if (*line != '.')
 		return (0);
-	line[ft_strlen(line) - 1] = '\0';
+	line[ft_strlen((const char *)line) - 1] = '\0';
 	if (open(ft_strchr(line, '.'), O_RDONLY) > 0)
 		return (1);
 	return (0);
@@ -45,7 +45,7 @@ int	is_valid_color_line(char *line)
 		line++;
 	if (!ft_isdigit(*line))
 		return (0);
-	line[ft_strlen(line) - 1] = '\0';
+	line[ft_strlen((const char *)line) - 1] = '\0';
 	color = ft_split(line, ',');
 	i = 0;
 	while (color[i] && ft_atoi(color[i]) >= 0 && ft_atoi(color[i]) < 256)
@@ -61,7 +61,7 @@ int	is_valid_map_line(char *line)
 	int	len;
 	int	i;
 
-	len = ft_strlen(line);
+	len = ft_strlen((const char *)line);
 	i = 0;
 	while (i < len - 1)
 	{

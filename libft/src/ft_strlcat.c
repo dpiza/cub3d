@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strlcat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hcduller <hcduller@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/17 09:27:13 by hde-camp          #+#    #+#             */
-/*   Updated: 2021/06/08 12:11:21 by hcduller         ###   ########.fr       */
+/*   Updated: 2022/05/05 17:43:29 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 	size_t	sd;
 	size_t	i;
 
-	sc = ft_strlen(src);
-	sd = ft_strlen(dst);
+	sc = ft_strlen((const char *)src);
+	sd = ft_strlen((const char *)dst);
 	i = 0;
 	if (size > sd)
 		sc = sc + sd;

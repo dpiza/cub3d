@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hcduller <hcduller@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 12:59:00 by hde-camp          #+#    #+#             */
-/*   Updated: 2021/06/08 14:24:43 by hcduller         ###   ########.fr       */
+/*   Updated: 2022/05/05 17:43:12 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ char	*ft_strnstr(const char *haystack, const char *neddle, size_t len)
 		return ((char *)haystack);
 	if (!*haystack)
 		return (NULL);
-	i[0] = ft_strlen(haystack);
-	i[1] = ft_strlen(neddle);
+	i[0] = ft_strlen((const char *)haystack);
+	i[1] = ft_strlen((const char *)neddle);
 	if (i[0] < i[1])
 		return (NULL);
 	i[3] = i[0] - i[1];

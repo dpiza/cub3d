@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 13:41:02 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/05 12:51:42 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/05 17:55:04 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int		get_map_max_len(char **first_line, int n_lines)
 	max_len = 0;
 	while (line_n < n_lines)
 	{
-		local_len = ft_strlen(first_line[line_n]);
+		local_len = ft_strlen((const char *)first_line[line_n]);
 		if (first_line[line_n][local_len - 1] == '\n')
 			local_len -= 1;
 		line_n++;
@@ -39,7 +39,7 @@ void	print_strmap(char *map,int line_size)
 	int	map_len;
 
 	l = 0;
-	map_len = ft_strlen(map);
+	map_len = ft_strlen((const char *)map);
 	while (l < map_len)
 	{
 		write(1, map + l, line_size);
@@ -57,7 +57,7 @@ void	convert_into_string(char **dest, char **first_line, int n_lines, int line_s
 	line_count = 0;
 	while (line_count < n_lines)
 	{
-		local_len = ft_strlen(first_line[line_count]) - 1; // there is a -1 because each line has its own \n.
+		local_len = ft_strlen((const char *)first_line[line_count]) - 1; // there is a -1 because each line has its own \n.
 		char_count = 0;
 		while (char_count < local_len)
 		{
@@ -154,7 +154,7 @@ int		map_is_walled(t_strmap	*map)
 
 void	print_map_error(t_map *map)
 {
-	char *msgs[7];
+	char	*msgs[7];
 	int		i;
 	int		mask;
 
@@ -166,9 +166,10 @@ void	print_map_error(t_map *map)
 	msgs[5] = "Error: Map not properly walled.\n";
 	msgs[6] = "Error: Duplicated parameter.\n";
 	i = 0;
+	mask = 1;
 	while (i < 7)
 	{
-		mask = 1 << i;
+		mask = mask << 1;
 		if (mask & map->status)
 			printf("%s", msgs[i]);
 		i++;
@@ -177,10 +178,9 @@ void	print_map_error(t_map *map)
 
 void	eval_map_rules(t_map *map, t_strmap *strmap)
 {
-	print_strmap(strmap->map, strmap->columns);
+	//print_strmap(strmap->map, strmap->columns);
 	if (!map_is_walled(strmap))
 	{
-		map->is_ok = 0;
 		map->status |= MAP_NOT_WALLED;
 	}
 }

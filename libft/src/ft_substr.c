@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hcduller <hcduller@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/31 15:23:18 by hcduller          #+#    #+#             */
-/*   Updated: 2021/06/08 16:07:38 by hcduller         ###   ########.fr       */
+/*   Updated: 2022/05/05 17:43:01 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	if (!s)
 		return (NULL);
 	i = 0;
-	sl = ft_strlen(s);
+	sl = ft_strlen((const char *)s);
 	if (sl < start)
 		return (ft_calloc(1, 1));
-	sl = ft_strlen(&s[start]);
+	sl = ft_strlen((const char *)&s[start]);
 	nl = smaller(sl, len);
 	ptr = ft_calloc(nl + 1, sizeof(char));
 	if (ptr)

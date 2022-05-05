@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/05 13:44:58 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/05 18:04:48 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdio.h>
 # include <fcntl.h>
 # include <libft.h>
+# include <mlx.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 32
@@ -46,7 +47,6 @@ struct	s_map
 	char				*ea_path;
 	unsigned char		floor_c[3];
 	unsigned char		ceiling_c[3];
-	int					is_ok;
 	enum e_map_status	status;
 };
 
@@ -74,6 +74,7 @@ int			is_valid_map_line(char *line);
 int			is_valid_texture_line(char *line);
 int			is_valid_color_line(char *line);
 int			is_empty_line(char *line);
+void		free_t_map(t_map *map);
 
 # define OPEN_MAX 256
 

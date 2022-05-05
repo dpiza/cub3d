@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/03 13:31:16 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/05 13:44:58 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ enum e_map_status{
 	INVALID_CHARACTER = 0b00000100,
 	GARBAGE_LINES = 0b00001000,
 	MAP_TOO_SHORT = 0b00010000,
-	MAP_NOT_WALLED = 0b00100000
+	MAP_NOT_WALLED = 0b00100000,
+	DUPLICATED_PARAMETER = 0b01000000
 };
 
 struct	s_map
@@ -69,6 +70,10 @@ char		**get_map_first_line(t_map	*map);
 char		**get_map_last_line(char **first_line);
 void		print_map_error(t_map *map);
 void		destroy_strmap(t_strmap *strmap);
+int			is_valid_map_line(char *line);
+int			is_valid_texture_line(char *line);
+int			is_valid_color_line(char *line);
+int			is_empty_line(char *line);
 
 # define OPEN_MAX 256
 

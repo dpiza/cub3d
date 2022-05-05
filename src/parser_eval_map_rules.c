@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 13:41:02 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/02 22:27:06 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/05 12:51:42 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ int		map_is_walled(t_strmap	*map)
 
 void	print_map_error(t_map *map)
 {
-	char *msgs[6];
+	char *msgs[7];
 	int		i;
 	int		mask;
 
@@ -164,8 +164,9 @@ void	print_map_error(t_map *map)
 	msgs[3] = "Error: Unecessary lines with garbage.\n";
 	msgs[4] = "Error: Map too short.\n";
 	msgs[5] = "Error: Map not properly walled.\n";
+	msgs[6] = "Error: Duplicated parameter.\n";
 	i = 0;
-	while (i < 6)
+	while (i < 7)
 	{
 		mask = 1 << i;
 		if (mask & map->status)

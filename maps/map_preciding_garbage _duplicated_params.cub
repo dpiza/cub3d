@@ -1,10 +1,13 @@
 NO ./textures/no.txt
 SO ./textures/so.txt
 WE ./textures/we.txt
+WE ./textures/we.txt
 EA ./textures/ea.txt
 
 F 220,100,0
 C 225,30,0
+
+a
 
 1111111111111111111111111
 1000000000000000000000001

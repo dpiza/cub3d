@@ -1,0 +1,551 @@
+diff --git a/Makefile b/Makefile
+index 1234988..a65cae8 100644
+--- a/Makefile
++++ b/Makefile
+@@ -19,7 +19,8 @@ RAW_C		=	main.c \
+ 				parser_eval_assets.c \
+ 				parser_create_strmap.c \
+ 				parser_map_pointers.c \
+-				parser_line_checkers.c
++				parser_line_checkers.c \
++				hooks.c
+ 
+ SRC			=	$(addprefix $(SRC_D)/,$(RAW_C))
+ OBJ			=	$(addprefix $(OBJ_D)/,$(RAW_C:.c=.o))
+diff --git a/includes/cub3d.h b/includes/cub3d.h
+index fcc5a9f..50e6658 100644
+--- a/includes/cub3d.h
++++ b/includes/cub3d.h
+@@ -6,7 +6,7 @@
+ /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
+ /*                                                +#+#+#+#+#+   +#+           */
+ /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
+-/*   Updated: 2022/05/05 19:52:09 by dpiza            ###   ########.fr       */
++/*   Updated: 2022/05/06 16:41:42 by dpiza            ###   ########.fr       */
+ /*                                                                            */
+ /* ************************************************************************** */
+ 
+@@ -26,6 +26,7 @@
+ 
+ typedef struct s_map	t_map;
+ typedef struct s_strmap	t_strmap;
++typedef struct s_mlx	t_mlx;
+ 
+ enum e_map_status{
+ 	OK = 0,
+@@ -56,6 +57,19 @@ struct s_strmap{
+ 	int		lines;
+ };
+ 
++struct	s_mlx
++{
++	void	*connection;
++	void	*window;
++	void	*img;
++	int		*addr;
++	int		bpp;
++	int		ll;
++	int		end;
++	int		img_width;
++	int		img_height;
++};
++
+ char		*get_next_line(int fd);
+ t_map		*load_map(const char *path);
+ void		eval_map(t_map	*map);
+@@ -76,6 +90,7 @@ int			is_valid_color_line(char *line);
+ int			is_empty_line(char *line);
+ void		free_t_map(t_map *map);
+ char		*get_path(char *line);
++int		key_hook(int k, t_mlx *mlx);
+ 
+ # define OPEN_MAX 256
+ 
+diff --git a/maps/subject_map.cub b/maps/subject_map.cub
+index 2b7ca62..325c583 100644
+--- a/maps/subject_map.cub
++++ b/maps/subject_map.cub
+@@ -1,4 +1,4 @@
+-NO ./textures/no.txt
++NO ./textures/no.xpm
+ SO ./textures/so.txt
+ WE ./textures/we.txt
+ EA ./textures/ea.txt
+diff --git a/src/hooks.c b/src/hooks.c
+new file mode 100644
+index 0000000..38f1c4e
+--- /dev/null
++++ b/src/hooks.c
+@@ -0,0 +1,28 @@
++/* ************************************************************************** */
++/*                                                                            */
++/*                                                        :::      ::::::::   */
++/*   hooks.c                                            :+:      :+:    :+:   */
++/*                                                    +:+ +:+         +:+     */
++/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
++/*                                                +#+#+#+#+#+   +#+           */
++/*   Created: 2022/05/06 16:01:01 by dpiza             #+#    #+#             */
++/*   Updated: 2022/05/06 17:18:45 by dpiza            ###   ########.fr       */
++/*                                                                            */
++/* ************************************************************************** */
++
++#include <cub3d.h>
++
++void	winclose(t_mlx *mlx)
++{
++	mlx_clear_window(mlx->connection, mlx->window);
++	mlx_destroy_window(mlx->connection, mlx->window);
++	mlx_destroy_display(mlx->connection);
++	exit (0);
++}
++
++int	key_hook(int k, t_mlx *mlx)
++{
++	if (k == 65307) // ESC
++		winclose(mlx);
++	return (0);
++}
+\ No newline at end of file
+diff --git a/src/main.c b/src/main.c
+index 8c06580..283b791 100644
+--- a/src/main.c
++++ b/src/main.c
+@@ -3,10 +3,10 @@
+ /*                                                        :::      ::::::::   */
+ /*   main.c                                             :+:      :+:    :+:   */
+ /*                                                    +:+ +:+         +:+     */
+-/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
++/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
+ /*                                                +#+#+#+#+#+   +#+           */
+ /*   Created: 2022/04/22 16:48:44 by hde-camp          #+#    #+#             */
+-/*   Updated: 2022/05/05 18:06:52 by hde-camp         ###   ########.fr       */
++/*   Updated: 2022/05/06 17:27:38 by dpiza            ###   ########.fr       */
+ /*                                                                            */
+ /* ************************************************************************** */
+ 
+@@ -14,17 +14,26 @@
+ 
+ void	mlx_test(void)
+ {
+-	void	*mlx_connection;
+-	void	*mlx_window;
++	t_mlx	*mlx;
++	int		img_width = 0;
++	int		img_height = 0;
++	char	*path = "./textures/test.xpm";
+ 
+-	mlx_connection = mlx_init();
+-	if (mlx_connection)
++	mlx = ft_calloc(1, sizeof(t_mlx));
++	mlx->connection = mlx_init();
++	if (mlx->connection)
+ 	{
+-		mlx_window = mlx_new_window(mlx_connection, 256, 256, "Test Connection");
+-		sleep(2);
+-		mlx_clear_window(mlx_connection, mlx_window);
+-		mlx_destroy_window(mlx_connection, mlx_window);
+-		mlx_destroy_display(mlx_connection);
++		mlx->window = mlx_new_window(mlx->connection, 256, 256, "Test Connection");
++
++		// mlx->img = mlx_new_image(mlx->connection, 256, 256);
++		mlx->addr = (int *)mlx_get_data_addr(mlx->img, &mlx->bpp, &mlx->ll, &mlx->end);
++		// mlx->addr[256*128+128] = 0x00ffffff;
++		
++		mlx->img = mlx_xpm_file_to_image(mlx->connection, path, &img_width, &img_height);
++		
++		mlx_put_image_to_window(mlx->connection, mlx->window, mlx->img, 0, 0);
++		mlx_hook(mlx->window, 2, 1L << 0, key_hook, mlx);
++		mlx_loop(mlx->connection);
+ 	}
+ }
+ 
+diff --git a/src/parser_eval_assets.c b/src/parser_eval_assets.c
+index 686a615..cd942d0 100644
+--- a/src/parser_eval_assets.c
++++ b/src/parser_eval_assets.c
+@@ -6,7 +6,7 @@
+ /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
+ /*                                                +#+#+#+#+#+   +#+           */
+ /*   Created: 2022/04/24 21:49:33 by dpiza             #+#    #+#             */
+-/*   Updated: 2022/05/05 19:52:32 by dpiza            ###   ########.fr       */
++/*   Updated: 2022/05/06 16:06:07 by dpiza            ###   ########.fr       */
+ /*                                                                            */
+ /* ************************************************************************** */
+ 
+@@ -87,5 +87,5 @@ void	eval_assets(t_map *map)
+ 		}
+ 		map_lines++;
+ 	}
+-	print_struct(map);
++	// print_struct(map);
+ }
+diff --git a/textures/no.png b/textures/no.png
+new file mode 100755
+index 0000000..071b6da
+Binary files /dev/null and b/textures/no.png differ
+diff --git a/textures/no.xpm b/textures/no.xpm
+new file mode 100755
+index 0000000..1297309
+--- /dev/null
++++ b/textures/no.xpm
+@@ -0,0 +1,345 @@
++/* XPM */
++static char *result[] = {
++/* columns rows colors chars-per-pixel */
++"256 256 83 1 ",
++"  c #345F2ECF29F3",
++". c #3655314C2CF2",
++"X c #3B0634C72F5D",
++"o c #378B357B33B9",
++"O c #39E4366C3383",
++"+ c #3C0938C23609",
++"@ c #3E133DA53D52",
++"# c #42E33B113447",
++"$ c #484A3F0936DE",
++"% c #42AD3EA73B57",
++"& c #48383F90380B",
++"* c #446940C43DD4",
++"= c #4BD643843C59",
++"- c #50EE46DC3E02",
++"; c #51FA48143F63",
++": c #3F9A3FA33FDD",
++"> c #402B3FAB3FE9",
++", c #3FA13FC43FE4",
++"< c #44C144C044CC",
++"1 c #4B3646624285",
++"2 c #4DC3491D456D",
++"3 c #475D479A47F3",
++"4 c #47E647C54822",
++"5 c #47A947EF4846",
++"6 c #4C1E4C284C3D",
++"7 c #5048479A4025",
++"8 c #520C4AF84507",
++"9 c #527F4E264ABF",
++"0 c #5550513E4E0F",
++"q c #593052EC4DC5",
++"w c #4F7A4FB24FEF",
++"e c #50534FA34FFD",
++"r c #4FB14FE8501E",
++"t c #53F153C453B2",
++"y c #59B55637538C",
++"u c #5C6E59145683",
++"i c #576F57A75808",
++"p c #583357AD580E",
++"a c #57BD57F45836",
++"s c #5CEC5B6B5A7E",
++"d c #60F85B305687",
++"f c #613A5E865C88",
++"g c #636160CD5EE1",
++"h c #688E62FB5EE6",
++"j c #5F425F746040",
++"k c #603D5FC0601D",
++"l c #5FCE600260E5",
++"z c #655463F6632A",
++"x c #68F666E3656D",
++"c c #6A9F68976724",
++"v c #67236772685A",
++"b c #67AA683B6951",
++"n c #6CBA6BF36BA5",
++"m c #702E6B2E67D8",
++"M c #70B36F186E0E",
++"N c #720E70736F60",
++"B c #6EEE6F737075",
++"V c #702F6FCD7037",
++"C c #6F9E70487163",
++"Z c #73C5738473B3",
++"A c #7894772C7653",
++"S c #79BC785A777E",
++"D c #76DE77757880",
++"F c #779A78567971",
++"G c #7B5D7B617BDC",
++"H c #80C17F207E2C",
++"J c #82BA80C57F67",
++"K c #7EC17F69809B",
++"L c #803B7FCD8088",
++"P c #7F9A80638197",
++"I c #82D6830D83E1",
++"U c #88A687218642",
++"Y c #897D885F879B",
++"T c #86B9873F88A0",
++"R c #87A3886D89B5",
++"E c #8B158B2B8C18",
++"W c #90358FB38FA0",
++"Q c #8E888F4090BF",
++"! c #8F879093920E",
++"~ c #921B92B293BF",
++"^ c #982097D09785",
++"/ c #976797CE98D6",
++"( c #997999099924",
++/* pixels */
++"iiiiiitttr0rttrttttttttrttttttttttttttttaittttitttttittttrtttttr0rtrtr0ttrtrtttytiiiiiiiiiiiitttttttttttrttrttttttttttttttttitttttittttttttttrtttttttttitttttitttttttiiiiiiiaaaayttttttttttttrtttttttttrtttttttttttttttttttttrtttttttttttttttrtttttttttttttaaaat",
++"aaiit66533333<3<5,,55,33,55,5,,56,55,56,,=,6,,,=,6,,,=,66,6,<<6,3=<335<*<3334466ttiaiiiiii666666556566366566565555656556655655566555566565565656566566,6,666,6,65;5w6ttiiaaaaattrw6666656666666656565666,666,w6666666666665666655666655666566656666566566wttaaaa",
++"iii66<0yt069iaslsjssaaauq66*%#+#@+.......X.O@O+OO.+.  ...          ..     ..O+,*36taiiiiy63*%<%%**@<=<460aassssjsssssssaittr90wtw60ttassasi96**%++.++OOO+O......  .X+36tiaaaat0656*@%++@@@@*@<66ijssasjslst9=*,@+++Xoo.....oX++++@@@++XX+O+++@@*<<,156tuat66ttaa",
++"iit3tKYHSggxZGG!~WKW~QITYAfduq;qq;;;;;-====-;9-==;9;-==;-===================;8yh6<6tiiit63=98178817=9qqy00yczxgvxnFTPFZGTKIZZgfcguucAMZZnGYIZMhu09;;;9;=9;=====-*=*%*#<6tiaatr56zu;;=*;=;==*--uyynBFDGPIPKZCgyf0808;=&=$&$&&1===1=8=1=&&&&7=1780dzxfuxCnZYFa6taa",
++"it6rEISHNccgZZzAPTNZIIEAMSmfhxffxNuq;yyy9=-=-;q;;--zx9q9fg;;;;9---1======;8118scs4<wiitw38y981=t09y18y1912000y90y9;5ymssyfZKZnhnffdfCnzgzzsZAgnuxCnnf9fy;fggyy00y9;;6=,<wtatt5tAgquu09;y;6---9-ut0usnNGSZGMGSnxxcgsuyq8y92990=888u880=0q1171t9897=t18qaftqzZt6ta",
++"i63FESANnZBuqnusFFnjhHHZZfxZANZcghchbucd9qq96ugMnzdycSGnfnANZgMxfghzcxfggyqg0ysdqq,6tit62q9hfs8fNxz00ssygs0ysv0q9sw0=@;hsq9jnxNNxfutufufyuuyNNcnAbNZMff0nufgxsCnNznfy00*5titw6AMfgnutyzf6-9tttz69yysrlnNMCZNBMAnZczcgjzngfcCjjrtcjy0qtu9d99999200t1g12&112ugn5ra",
++"t66GGGHSGNCNnxsqZqAZzFSScxmyhdMzcxAGcyNyzxgs00yxzyuffZJGZNGAZzZADSGSnNnnncglxvxgqs<3ttw3qdy2yf09=szu9usnsgvyxzfgyht;9==,9xu=9FFnMnCgjngNgfglsMcZZZnCzCgfnnznGZCACFCzxsxt3rat6lZNydzfnzbyufta09avlyyt6=bnMMNBZbCNcnncnZZZzBnauccfzzgxazzztztztyutffduua9f92zfbrwt",
++"t3iSccMxcAGKnBnzNZjCxsgfNfnhNhMNzyNAZAxcnZzShfugZZZbznZZchZZAGHGDFSGSZZnGxgCCsssggw<ryw<fffffxgxsyu0fs92nBg919fgki=uy*9569cnhlZMMngz0jgzgsyzfyBNnCNnnMZnsBnlnCZxZnCBnvbf<ri0,bGmuggcll0sxnnzxaggj6its6fNMffyZzxnnnnMnZbZZBcncMzzZfxzncnnMxguuzazxuautfzgtadact6t",
++"t3yWhGnNANKnNNAzBzbCDycngxANxMZnyycAZcZJZDCZnzysZxzz6;sAdgffgZGAZNDSGPDnZCZzzvhhxgt*rtr3uhfgykxncizznzzaZz01y4yf2rquuu0h9r=ggryxnZbzs;tusMy9fn9ZzZCnnnCAACnnngjMZZCDBvya<rtr*fZxhxzzjtxfnBCnzzlsbaaajinf0gfzCxggnZMMZZZcCCMZCZCjnBcFnzczzfzbzjnjtgxgbcazzdbnCt6t",
++"t3aIKAAnGMGGGSnZxGvzkuuhmnAdgxdmAu0hhnAGGJGZNMSnfxgfstsydccMfx0cAGNKDSSDnBGCxzxAAcr,wtw<fxggyzvZBMBBvvnj2uuuy1yyusnuzCdknu66fssMfuzNZvtfyzsxszlNACACMCANDnMnCAsnNNZbbcja<rtt5gNcgxzxBxnzxxnCbvbjaBjias;zgznnxgzgnMzcznCZbnnnZnnZzbncznnZcnnZnauzffzn9bfzgjjubt6t",
++"r3aWZxsMSAGGGFFnzGNfyfqcxSxnmNccfgyqMGZZGGGSGcfsfuZny0-gcxAGxNznndMZnsgxvFSCvggcbsw,ri6<fgxns91fccDCBxx0yzygs6cxfzzhkk96syu35gysbNbNnbgnnzzslsllCABCCZCMZZBxnZnxznCncfba<6tt5fSMzNMNgznbnnnnngvnzvnlr*,fyfnznxxusysccansbzycMjlszcbZnZZZncjazzjfdjgabujzfzjjnw5t",
++"r3sIJNugqxxSGZGCCDAkfcyghngMNMNguzhffgZSNZGNMCnxgx9ffy0yhZznnnxuxyfycSDZnvznFscNBzr,rt9<fxcNnZftgAnZZasysqzuNsyznMsnMnnhMgsrtqCgZnNzNMZgnnbsnsMDgCnAnnztsnxCzxnnbNbBzzsa<wtt<fNgfhbsyNBNBnAnvbvbjvl=-*=gznnfxCCxu0gnzfucsyzzcMngjCgZZnncu0fCnnsgxbnnbCBZbbBbZt6t",
++"t3aEJdxhBBgnDGGCxhscNghugxxcZAnMNMzzcuyzZnuZAGNAxhZffsftSnnAZGzfnncgs0yZnbBxcgnSDgw,ri63dfxuzunxtyay00y2ulgzcguyfgcMZznAZMls0rfsMCZnzlnMMnBBlnZlzvxznnsncxcCnnfCgusNZbjt,wtt3fAcznZzznNxxgnBBxgzls;t;stzggxzxnqxczjcncacngcbzzMbtucncbZccnxznClzZnbCCZbBCbnnCa6t",
++"r3sEHSHNGZFAlxzzhGDNZAnughAmnKnASAxfhy0fzNcxcZAAnnDffNxyMAcZMZZfxMncnzz0ubFzSnNZKx6,wt6<dhxZnf9scx0ygqzzyNcczzzvzkMMZurskMtuibtigfmbbf0bDnCDvnNfs9nbnnnAncsnxxvAgMznCCja<6tt<sMnnxnfnsxMDBBCCBnn6*6t90jjnxzcxxxnzzuzjszaugCnbcczcacZZnCnfCzCgxjnZbaZCnzBCzncbw5t",
++"t<iJccyzZBZZZBGZcyduqfysdmZmNMAnMMZMnMffsMNxZAxzzxSnZnnxMSMGZMcMnMNcnyyxuvusZnSAGnr<wtr<fhxxnMvffsglxagss0znfzbnznzbdyikcgsnlnlbgNNggnMgfvbCjy0ujnngzxnACcAncCzCbgbuNnba<wtt5fNzZxZZxzyZCDCnCji6qtgfa6jznxnjNunncngcMMngszlCcgCgzcrncCCnzFnCCznnzfffaCbZntzzbw6t",
++"r3yHGgxyysq1cncBxuunNCNZsxnAANgZAMNSnNNnzzMzhdMnzzfynClgccMxxGZMDNcZbcftyZniysBSGCr,wtw<fmmmMnbcxBcxcnzxcgynnZzaiAnfngzsfnnsfssuugbcgzMft-*=*6us6=yfxfnnNfMnnnGCzDNvcjzi,wtr*fcn0xncMnllnvnv0iauNbNzlii=uynfnfxnnZnzcznbMCszzCcsbzfnnZZncnZCnCunjjfMClsaZbCbC65t",
++"t3aENMcZngngsncscgyNAZHZnChhncnnZNgZCcAngZAcnMAnnZfnnjnjxnNZmMMnBPSMKNznx0zzshcgcFt,rtw<gghZZZZBBnlxsglxccnrnnnsBnCcZZzNgsCnCvszxgzxnCyggyt99tsjybfxCnfZnZzccAMnZbZZDNns<wtt5fcxjgcZCvnCzzznzg006f99azaaznzygzgzuZnnnfnnugzugssMxjufnnCgZZZCCCxCbgCBznzft9gbn65t",
++"r30JGAcsggcnnfdddudnksZnZhcnZFAgNMGAHKGGnxunxxCnZAGAZBnvncMZMMxsFNcBcnZnnzztggxnlgr,rtw*dgghbzFZCxxxxxzczznltnBzafnccFCnZlnnib5fzfxMnnssxffsf0tuu9axsyMCnxf0uzgfNnfsubll<wtr,uMhngCZxzxNBgbnngzufnsylatazZzfnunncgCxxfx9Cgtwgzcsadxt1bnnznDCbnZnnnjZCjlxzfCxx65t",
++"t30JNch0dgd0usycdgkdqcycnZnNhMgmgMngAFGAnGZAAgAHDGGACGnvMZAGKGZzZNGnMxGnCCzsyhnhxlr,riw<dgnkknsgBxDxnnxccjcNusnnlcnMZZZblid6jybbgngnnxzusZxgxzxjyfyynMBnBfyzfunggxgzsNja<wtt5ucMnnnNngCnbbzzBjgnZnbflfssgnnxnxgjfgzzngggafsscczcnffaatBnCZnnCZnMBZnCbbjCZjnzn66t",
++"r3rHNccckgcskcfdfkhknZzhhNchZNZZMMyCNCgCMnMNsMcNnDDnDCBxNZZAZx0xhZZZSZsAFDzjyxGGNlr,wtr<fhnnMgzgzDZDDCnZnbzzzuZgsMiznzzs0ygblgssxCnMfnnnfxfMnjsxuaflnZCCn0sgcnxZbxfzibna<wtt*ucmnBzguznCCbvzngZnnMbzaCssxMbznxxzxngxgjjBvZcvxczZbgntgndunBZnZZCCBBCCbbfggCbnj65t",
++"039JSGcNAngccgZnccZZNACsuqycMnNANGMcnAn0cMxZnZMczxnKAnngMMAGCxnnAzZxGGDCvzxslnNzss9,rtr*dghAznZlxcBZBxxBNCnlncNcazcnaqzgjs0glguiaytgfCAMfgCxbfnxnnnjnADxCyuzxnzynMNblzns,wit,sccgutNZCxbnaj6yznzztNzsbsjsxxxxsznzBzncxjsZsjlznvMMBbzaanf9yfbnCZnbbZZzzznZzBCz66t",
++"t<rGHAhSNMhkMnZnAGZycnhdfkusNMAZZANHGGznfMcMHxMCbnZSGDngZMHCxcfxSbznZGGDCDBBBuzczl6,rtr<gghnCZlZccgBNxDBckBBjnaussuhlgcbZzuyuzyaynMng9fCMxaZvzxbngajanzBfufNznCnzMnBbalj,6tr,agMCzuNBzAgvCCsfgnxNjNlsvzlnxflxfxfxznnnxxsngzgMMvZCgbxxjfyabft2azfannMBBjCZnCZz56r",
++"r39UAAxNZnNZZgSFnsqq9cnAschdMMFAGGAFGzncZSMSnMAnMnbzBDnxMAnnMGCxZnCZCACDZlzCzgnZllr,rtr<ghMZZftnlBCCZCCZNBZCzcsakgutcgczsnybsbnlngyy9sz0nDnznfsvnyZBlnSsnfcCncxClbZDBzjj,wtt5uzhcnzjxbZngny0tuBCDBbvvvblyfysfnghcggcBCznvCbnMvNZnCnCzabnjz9fuubftfayabznCCBDn66t",
++"r39HAGhGMAKNnusgggckcgszAGkgcMAFKAFxhdcNMxAMCFDDKCxGvDvxMnAMZGHMZGFDZGCnZABsNcNSZvr,ri6*hMckdcflBnnZZBNBDCznlcccBulznZznbfzjbzfujgzxbnnfgMgbfbavBv6xsnAngunACDgnlsulCjvs5ttt5ucMznjjDgCCnnggnynnZvs0au6tqzzzzgnxnnNnZnnCcCbvnfBZZZCnbggznfxxuxazgzztjtzDCCZCZ66r",
++"t3rISNZZSMnAclZZnMnfZnfcnnxn9ZGGDnzcfcAGnnAGGCZGGvBZZncGHCMMnAZnGCGZFFFCZCBnnAMNclw,wtr3gdghgcZnnnNlzBnBncnzNcZCMfgjfbMZMnbna5AbxnnACZngjbxNlns9BnvsjgAMxffffcxnzsfgxsta<wtt=ucNZxnnCBnznZnnxZbBvttBjvstuznnfnzzNngZnCCNnbjjznNcubfftzfsznzbbxgfcbbaat2dCMZFMw5t",
++"t<0SMZmGcSZZGKnZANZAZZZCGnNMzxZNynNcSZGZAAGCAGCAnZnDnxAACMMZMAGZZDGCCGFDFGZxNgZSnzt,wtw<ghgfckFBZDanBNzssgZnBnnZZnnsnlnlFCfgfarMgCnxZnzBDbxBxfxs6CCnlzZugxCncMNnDZxblxss<6tw,qxgnxCvCCZnnBfgnBgnnzBgzslvzzgMffzuncnngzZjgCnnzxsfznbxnZgsCnbdnbCfbzgf9u6tuxZFKw6t",
++"r39ZMAGSSGNcFnZnZZNGAAFCxhnFNc9nMMZSGMGAnGGKCMcAFDFZbxfuhsGMAGHGFFZDZSFFFZBAhZnKBlw,rtw<ghgccnZsjxNBnlfctgsZDCDbZzbNnfzBbylbCsf*nnCNuxnvnnNxnnzny60anvCzdngNACgxZjxzniii,wtt6axmbstjnCnnCjxnBnnnNlnjvlljyfbnszCznnnnZCZNzvszBzzjnnnxMCnCznZnnjCncbCnga9tgnZFCt5t",
++"t<9GSSNSNGGGBBcSNcNNFGGxGFZCZgkhAnASCSHGCFHZZZZCDCnnxugAGZMnCGGFGDxxvgGZDDAGAGZKDzw,rtw*ghnMgnZnCnZxnlnnczxzcZNZbcZCngCnzCnfsnyi96qnDZCAnBzzzNxgzgatt6byuugxxucnNBxZzzjs<wit<scNAbnagngbnfBZxvgBCBzbnzvyyncnxnnncNncngnBCzbazzNZxZCZCnbfZxZnCCnZCbdrzz6tnaFSFr6t",
++"t<9GUZcHGZGZGnnSHAGZZZHZxCFZCzgxcMAGCZNNZGGGDGGKKFCzgnMZZDCAGZFGCnCCCCCznZnZNNZJFnt,rtr3ghZADCCZBZCbcBxzcnncvCFnZBBnZBbZzjZnlzlBjzsfsggnnybMZvvBfaffyaysxnxngnsnxznbnxba,wit<unACjgannnCxnnflbBbNbCbvzvzhbbNzznlfncnnAnCnnzanznfjMZZZBZnznzzfbfnnnCMfgs1axaSIt6t",
++"r39GIGAMccnxnnSAFZPCGZkcMChfAMdgfANFASGHCKAnDGDDCZvBgAGHDGGHZCSCFCZxZZZZslxcZNBZGzt,rtw<gnghCfnnGZBnnBxnnnnnzvZCnZZMZBMbcnzxlCnbjBnABnCjffAnBDDvZblzazfxznnAnnCnZnDBCzMa<6tw<yMyjgzacnggnnNbClCbzBBvablshMnzzxnZxxcngxsnvCBjfnZzCagbnCCCZcnCbndrbtCCCjww9CgZUt5t",
++"t3rUMNccNZNMZSZnNFChNCZNCCyfnnMgnyyAGFGHKGGDFDDZAnnxAFGDDFGGCGGKGGGFZZZZZzgZGZDvCCt,wtw<hhzZZnBnNBCznzBNZncnBcCcZMBZlngfnFZCzjsjnnnCAnu0yngnZBCnZnZjtyxfzMBnnDBnjCZClyta,wir<ynxjuttgxnxBBCnDbbnxNvvnznNZnnnxMbnznngvvgzvcsz;BBBngCnfCCnZCZzzgZjZbzzBCzjtCbDIa6t",
++"t<0GHGxMcnZZANnnhngCnZcKFZgugAMcJAx0nAKnGDFDDZDfnHCnAKDADnZCGGGHZGZFGCFZnSGNZBnCvzt,wyw<gcZCZZDZBDnacvzccbnbBcZFAfzzguMbnNFnZnzsnxDZnsugxluzslbZZnBblssnMMZZBZZnNnnsNsai<wtt<yhznbasCxgnBBxgnCnlgZBbBbbnbfnszfNzfgucBzvBnBZvnjCDCCCxzaZZnZCncCncjbdnBbnutbbCIa5t",
++"t*tYYGNcAASCSCFAFFCnNZZxuyMzkNZFDxAgqnMGHFZNGz9;ufZFGGMkuhZZFFGFFFFCDZDBFFNAMMZBBbt,rtr3hMhgZZZZxanbfBnzBBzZbbZZZcjnngnzlBCZCDnnjnbaygxzM0synf0ss9zlsgtfzxxNZztdggzdblsa<6tt,yxCsBjawrugbZDZBBBZCnnnbcnuxzfbMZnxzvnnZZClczFZCbCnnxnbbzlCnZxCZZCbbZnfCnFzjsCGGs6t",
++"t6tJTGNACGFGMNCcFFdnZCFGncZmuygFZCMnGnuuuyqukqycxxMnkykqnCzzCGGGFFZCjFbjzknGFnZGBMs,rit,gcnZkulufCvlfcBDZZBNFlZfzZZgnzCjbxzgijnCnbFnzMnzffnffjtsltaxbysyguffzsu6gMzbBZja<rtt6icZvvs=fblzngnzbnnZCCZCn0tbznusMZtsunnZlnljBbZnCnCcCZnbZnjZCnbZZnDZxbzbbCnnsaDFPs5t",
++"t5tJJGFASFGnzGZMcnZgFZDASAgxZyyqSZnygffgzgzckcNkCZFcbgnnZNAZCZAZZDCZbZbZyhhgFGGKzBi,wtw3hMZncnMnnBNncZNCncnlBbkcZgnfZFgZCnMCsfajCgCznxSbgnngxffafystlbuzcgxbzffuzMxzBjla<rtt*uccnjzjxnZnznxjZCnCCDnlfufuCgMczfuxnxgZnbbDCbvvnClZbDznBBzBgMnZFCCnCDCbbZbZazFKPs6t",
++"t5tYQJNgNCNNKFFNcNGFhyhMZMzMMZg9MNANZCCxcMZcASKZxnnchhAcNGMCFGMFFDFFFnllhndMjGDGGDs,tiw3hZMMFABnnZxcBZNCncnlBBcnhZFZMzBCsCClnlvli9zcbnnnCDAnDnnasjBsfnfuccnnnzhbNnNZCZZj<6tt5unZCsiCfxNBBnCBCCnbnCzMuzufCxZCugnxCnbnnvZZbBncCFbDnZCbCBbnMnMZMnbZCZZbCbbCljzGIs6t",
++"i66E!JSSFFHNFGSScHGFACnFSAAAFnMCsnFJGDGAAcSNCPGFFNGFnnGFnFDFZFGPGnGZZZnZZZZZzZPPPDt3ttt3hGGZZZCCDDBNncBCnZGCbbnnZZAZCBZCCCZbDnnvxtyuygyzbZDZZZCxbbjazlzscZNZDzbCZNDgzBBa3ritwtZGFZBvzZDnNDnBCBBCZbbbnzNFbZZfbfgCcCZZBCBCCnDnFDBDZCZnZCnbnbMCCCZCCCCBCZbCbjNJKwwt",
++"ir*Z^ETSHIGGGIKPKKGHIPAGAGIKKGGKJNZIGJGGSKPIPPKPGSKKHHZAGGPPPPPPPFGPPPGPHAPPHGPPQG,wtit6iGGHDDFDCCCZDDGDZDFCbZZNFFZFZFGDDCZFZZCCbBCCZNSGGGZFZBDFZnBCvDGvnANFZFZDSZZFDFC65tii05MGKZClvZZDDDZZCZFBbZntCNAZZFxCnZFNFFCFFCCCDFCDZDCCBDDCbBZbCzxaZCDZCDBDFCFBCnANz5ta",
++"atw5I!WEERQIRERPERREETTJYTJTTTIIIIPRPPIPTTRPPPPPPRRTPYTTPPPRERRRPRPP!ERPETTRPR~~Pt5tiaiw5lHPPKKGGGPPKGGPPPPFGDSGSGGFGFFGFFGFFGFFKFGGHGGGGFGGKPKKGPGGBIIISJGPJPPGPGJGGZa6tiiit6qZPPGZZGPPGKGKKGFPGGcFFFFPPGKGGKGGGGGFFFFGPGGKKFIGKKFGKFPZKKFKIIIKKFFFIKGDGMZu5wta",
++"att6,nT~QERERRRRTTTPPITTIKIHKKPKPPPPPJIIIKPPPPPPPIKPIPKPPPPRRPRRRREQ!QQ!ETTRERRDt,rtiaitr5aZGKKGGGKGDGGDDDDFGGGSFAFFADZAZAFFFFFPKKGGGADADFDDDDDDFFPKKKKKJIIJKGGGFFFFnt,tyiiiit5wbFKPGIPPKKGPKKFGCnGGIIIIJPPKGFFZFZFFFFFKPKPPPKKGKGKKKPPPIKGKFKGHIPKKGKIGxft5wtaa",
++"aatt6,56555555553355555553333333,,655,6,6,5555=,3535<53<65,55,w5,w5,6,,6535555336rtiaaaatr656666666656566565666665565565555556656666565656,w6,r65666666656666666566555wttaaaaat6566w66666666665566666666666666666666666666666666666666666666666666666665<56wtaaa",
++"aaiiitrw66w66w666666666666666666t6w6w66w6w6r66w666666666wwwwrw6wwwwwwr6rwwwww6wriiiiaaaaaittrrrrr6rrrrrrr6rr6wr6wwwwwwwwwwtwwtrrww6wrwrrwwwwrrrrwwwwwwwwwwww6wwrr6ttttiiaaaaaaatttrrwwwwrwwwwrrrwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww6rrrrrrrrrrrwwwwrrrrwwwrwtttaaaa",
++"aittatttttttttttitttttttttttttttttttttatiaattaatttttiiiittttttttttatttttrttttttiiiiiaiaaaatatttttitiiittittiiiiittittttttitititatiiiitttttttattttitittittittttitttttiiiiatatatatitittttttitittttttaatataatattttaaataaaattaytattaattttttttttttattttttttatttaataat",
++"t6twrrrrwwwwtwwwwwwwrrrrwwwwwwrrrwrtttiaaaaaaaaatttrr0rrrrrttrtrrtrrtttwtrrtrtttwwtwtrrtrrtrtrttrrrtrrrrtrrrrrrrtwwtrtrttttiaaaaaaaaittrtwrtrrrtrtrtwwwrrwwtwtrrtt0rrwwtrtrtrtrtrrrrrttwrrrrtrtrwwwrwwwwrrwwrttttaaaaaaaaaatwwrwrrrrwwrwrrrrwwrwrrwwwwrrwwwwwwww",
++",,,*,,,,,,,,%,,,,,,,,,,,#%,,,%%%,,%*56riaaaaaatrw5<<,55<<<5,,,53,5,,3,<<,,5,<3,,,,,33,,5,5,3<3*3<<<<5<<3**<*<*<<3<<<3<3<*5wtiiiiaaitt65<=*<<,<<**<<*<,<<<<,<*<<*<<<<*<<*,***,*,3<,<<,,<<<<<,*<,,<,<<<,<,<<,,<<<6wtaaaaaatt65<,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,<,,,,",
++"ZGZGZBnznNAMhxf9w=;;6==**=%#%=**%%*#%@6rtaaait6<<322=-6609rqisjnCZGDZZZBCCBDCCZZZFDDCBhzbzMnCZNncgsy6<*********=**++++*+#X+5wtiiaitw5@###XXX+OXO#XOX#%=;tabCxcytw0=,=***=****6;56iznFCCZBZDZcgu0211&%%######X#++<6raaaatw5@+#####@$$$*=-257829yfvCFFFZFGGKGIGFFF",
++"JIJJJNAHAWEAnnAJnhhmydgqddygydAcuyquyy*5tiaatr,0yuqq99fGAkgzgMBBPPPPPPPPGHPPPPPPPPPPPGTHGFGZGGAfcANxhgsq9y98;282q8;-;2;===*O<wtiatr,=;9;;*===-;===;-=6yqffgGZNAIMzAxmgudnfqyucAFvBFPGPPPJUGANmfh0q8;8;08888-=--=%,6taaaw5%8q--;-7;;;8qqxxhdgghhSYIZYRW~~P(^PW~~~",
++"PHGGGPGKGGmNASAcAIZmSZhgydq6--88;;9qqyy*5titt,fzgdghMckuZMFZZMbFGZAZngszbkCGZZMnCCFGGGGFAFCZncucZgMMNhmnhnhg9y92=9fqu9896-==@5tiit65qqyf0u0q;6fu0yfty;q6yunmZcMAAGxAAMMgnCNnNZGFGCnKnZPJnmZnchxyg00008ty0g0dgsu005<wtat6&ddqy000tyydtfgfnNNcgnnNGcPYRITZCGCIJJJI",
++"GNGKGHCNnZMNNf;Mscggxqyuuq9uuuuu8xfuzuft<tat60NMcCZnbCnvxCDlClZCnCsfyd0fauyZMzgZDnMNBDnZBnBFBgnnNqzznnhMMNMgggsuu90u=0uutf996,witr<uhfgfnfMlbynzcczBzxabzsnnSSbcFNMgMANMCFGFBnGFFCbZnCPZfyyyhgyg80ccugy9azngcngzya<6tat<0hhxgncNxxzsMKnCZANFCnccPCFGNngxMcqnczMZ",
++"JSCNZnHDzCfnmmfy;;uy9;qhddhNZfhnyyfzxgzg,rtt5gJNAnCACZnZBCCBZCbnzq2usuyqsx06znbnfsnzZNNBZZACgnBZggfsncnznZZZZcNlgng0xzugffyts,wtt6-hfghhNNcZAfzlZGnNbNbSblsllnDNNNZZgZnCBZDCBBFDDnnntlnsghuggccMnAMcgszxuuMfccnaljr5ttw,hmccfPxMcZnBncCMcPSZZPKZZZsjsxfcguddnxdd",
++"fAGNGKJDnnxxxAMccycgZdfghxCkzqmfZxgjuuzj,wtt5NSzgskcZnBCZBnjCnbsy6uukdur=5=r90MrnBzZNBnFMMFNcgnzcgBzurnzgsquBNnSfccgffzzBflsl56tt66xxnMggNNNfZSBnflnDZnsnntrtfgbnNZNCCFZDZDFCZZDCntunquzuhhAgfgufczcNcncMggzcbnzvca<ra6,mNZGGCZnCKBFZZCNGMFKFKAAzxggcMZqgyuqZZgn",
++"fjKnGGnDzzzZhMZxmnxgMMffNnMxfgAAZnCNzssz,6tr<bAMAZsxjljnnzbnlnk5uuyhfkyu0gx0r3=lgbbBZZZZZBnchkMnysfsgfkgnnknZcnMFZNCbCbzzvlzl,6tt56cxshbzsbzAczNMznxlBnnzunzynCDMNZFnCFCDDDCvnnljvvsfMykzgfNnhczMngMxZFMnNNZZDZcllj,rt6<mAmJGFGxSGFZZbnZSFxBFFnMNNcsdMccndgfqxsj",
++"CnKZSAnnMhxZGZhMMMuMNcdccnuxquznANcZnjvl,6tt5bAMnZnBlBlgunnbZjuugusuyunqyiNyqr6=gcbnZcBbnBZkccMnMNgZczqsgnZZBnsnNNNnCkMnbClxj<5tt66MxhZgffyNnbZbnnbnzCBzzvnnzysDZfMFNZZCDCCnzzy9;fty6gxdhcgthMfbuzgzNxcMFZZZZlFvzva<rtw,mNAmSAZFDFDFBgKFGFDBxzZcgNNFNNMZxMcd9dZn",
++"GnfMZAZzyxAANAZZZZfxcnGAxzNMczcASHCNCBnl,6tr*cJGZZCfubZhsCnnbn0sgskcnuftsi9sqrsfrZkanZFnnMcncZZBcgzZnzBgsncZNnMzCfcZCCnCDbfas<6tt,;hxhhfgbgfZNnznBzzfnxzzsznDxtaNnNFFZDCDCgu9uzzsuq0y9ZnzcZcgxzMNAMGMzMMFZcnCCsvjba<rt6<mAASZGnFxBZDDCDKDGBDdufxhnscZcdZcGMzMgaZ",
++"yxMnGZAClxZMNZGxMAMZMhcMZAgACMCFFFZZjsbl@6tt<zGMFCznzsgZnBbC9ukuqfszg2ziqy52sMglagqzuugZMcZggZZncnNnNZnBZkkcZAlMzzNCgnnnNgljs35tt,5xhnnNbNDggSDZZnzjbzuZsy;6DZMg99fADBnZByqycuycCufz0=xkNMMNxMcAzNMzzCNCZDcnCzgxlbs,tt6,mSmJHScFGFnFKSSDZGDzxNczAFMq8ndsMZGMcgZM",
++"fsnzNGZAfdhAGMAmAAANMMAGgnnSANnxGGFZZnnv,6tt3zSAZZnfZnlsZnxxykgkqknhZshz0uu699fakrngks2rMnsccNcZNDZZSZnnndzzMnlBbxxhZgfZvbulj,5tt6;ccmZnCNnFCCFNFZBNnnZnzsvjzif96fkyCnznfuqdzgxsukNfkfyxfMNgcgNcNAnZNCNFnCZCFCczlvs<rt6<mASAAANACCnvGSKSZCfCccZMMdqgggyZMuMHxngx",
++"cunZnGGAsfsAcZNmHAcZNAGNZAGZFCZCMFGZZCxx,6tr,bHnZzufCvZzlvNkgfznkncnsnznngazuts2uqsgugcigcgcZnZcZZMAccsnnczgnzAnzNZZCZCkxDClj65tt55nxZmAAZCFSDSCFDDCbynBDgvnny*6dfcftufqzMfgffSNNNBzznsu9uMzmZNxZCMMFnFFMFDFZGnbbzs,ra6,mZAGFPBDCDCbZKKCMdxNMNzfducugqy6MNzMnMfg",
++"Mu6zxAGNumxgGNNZGnNcNAGZGAKGFGZFxgxfsuzb,6tt,bIbcgNZFbZzlBsccghgschMsnMncgznkglasa9tNtcslgcMnccNzMMkzMZBfZFCBMBbcZZNkCnCnbnss,5tt56hhxgggnDDDCnnnBCvsBnfZnBzy9xfgufMCfdtucxMnNznGZccNgfugggMNZnMNZnZCZnZFFZFDCCbCbj<rt6<MNZZDFZZFBDBBCFDxxnNSnchuAddfuyydtczGMGj",
++"hfnlfZZZNmxyAMZAMZnnNNNPNKKZGFnqucxMsxjs,6tt5nPbzZCNzBxvltqcznCxnggkcnFzNbBBgBk0utnunbcjkcznMnnFngknkNnFnZnbngZfNNnxCnjclnzjj,6tt5;zfnMCCxxCZgFSFbnDZZZnBna*fsjnfCcCfybncfMCAMcbgnMbuZyuuuunMNCMMcZZZZcgcZnFFZznvBs,rt6,NNGHFnZFDZFDZDDCNhhcctxfcxdhhgdt2g9xNHFx",
++"GZvynnGZcnxfNANMhNZgMMHAGAZCGghxC9nMjqkj@6tr5xCt6;yzbzgblsjzhuMZcccsAzMCnbfczuglgznklgZjgcnkMBNnZnnZgcMZZBCFBAZsucnZhBCAnCjlj55tt*6ggMcCvCnbMZbSDnCnCZBNv0yDfbanCfyyzuzuzghxxnCFCfgcCZgchtjgcFMMZggnMzZNZNbMlDZbzxa<ra6<mAHFDzDGGBFFZFfbquNMddgNgfnnxNZgxgrdgFZx",
++"SZvaaZGnnMGmfNgMZHZHZmZNGGGZfgAxhnsAksfs@6tt*gMnCNfcgCCCbfkfxDzznZnnMnNzzcbtnsrg0u60utgcbnlnNzFcZnMABZMCCCZZZBgNZNCNnzChZZnjj55tt5=czCSSubblZnZCDBDbBZAfzxZbZMvgzyMnCzzngzNSZSFCcnMZCfnCZhbaCNGccZFgFNCFGAFclcZcnca<rt6<AHJADjgPDZZFZgfdhxhMnZMnMMZnAMZcxczsZNZx",
++"zzMnsxnzcAZdhccZNAAHMnZZgGgcANnMGNknZxjs@6tt5jSbffcMzbuZxMgCCcfnljgBAZngnnnZnbzngstksrBzZcsznBNnncZDZBnznnAgfzkZZCZNCbgCCxnvs56tt5-xnNMfFZvbNFCfBzxSDnbGZbznxNzZnCcguufNzbbMFSZgZNFSxNMZBNnBnucZZnnNFMCGZCNccjZnnCt,rt6<ASSNZClCCZnMbsgMcMfMxxJMgFAgAGZFFNFjjMNG",
++"BBNzlfhgMmGxNyZfNGAAnSASZucZGSnncGNCAnlf@6tt,zKfzcCzxZClugnnMFZZMgfffnZZnklnngcnMsnazglkbzuligBnnBnMBZZZBMZkMZMzCnFnCClCzbvlj56tt56xZZMMzCBbFFCFnvBbnzfnZnNBnnzgukzccCncNNbSFSZSZFMfNNFnzCSZzzMcnNnczgxfvyxszlzCCbq<tt6<AHSSDCnCZZFzhfZfhxZcMZMMcZMAGNGFMMxMzzgA",
++"ZNCbnfycNxxZNZcGyNGAGAAcnmnnZNnNcNjuZCls@6tt5zHZCnnNCDClcCZCfxzksggzfcsgMnckFnlzFnnlncrkbczZnlANMBnMZCZZnkMnnBZAnZCZZMbxCBsbz,5tt56cNmZZDBzscNZDnBaunaffznSBZBBvshnnBzzZCCbtzfxzZFgNMNCNDNznANMzzMdafuzgscNcZgvMMnt<rt2=SJASDDbDCCAcxxxncMMxghAZAcnMcuMzMZFgduad",
++"fgxGMhfNZAAxGZnZgMZAndxdfuNMNNAMGZZCnnjs:6tw<zDDDDZBCCDlfDnxcuqyyuzNNbgusnCBCZBnCzzczclsslxkncDDcMNNCcffgzzMNCDCDnNZbsBMxBlzs,5tt52hnNnZZcnyztzCntzsjMnznjbtMxZnbMnZnZFbZxxnffuxyzCCZFZZZCnnzhgNMggsggMxscgnBFvZBZa,rt6,AGGAGGCnbvgfdhgZAnMAcNMGAAAZhaxucdcncNCM",
++"Bbf9u0bcAnZmxZcAbtcmgmmmAACAGgnSGGZMSZzs@6tt<zDvnDCZnDBznnq89sssgvczsugDznBCnNn0stsr2<ysgc0299lnnCDDztusfuugBFZNCNDDZDnnBBvis36tt62xxaCSDnxdMnscdgzCssZZbcxccCnaNMZFCCZxz1a80r2shdtdCnnncnzugMZZMsgFnlsMxFZbZDFnZct<ttw<ZUAGCZDZlvfhzhNgSNSGMGZMZZScNZhZcdCNAxxx",
++"ssycgguscnSFAAMfc9;NmcNnSGNSSZGSnbZnDvvs:6tr<vFznnfnBDCvx90yffzgcvgczusqzvlnnngNglf0l0tyt0ls6u09cZhtgqgfggbgBzNNNnNNbgcnbznsj56tt32cmnCnDnnZxxzgdccsfsgScfcZcnjxgCFCCZjnfaqdf0gfxngccZcZZCuxgqcnfMcZnxDBCZFguasxZbr<raw<NGGZBZgZBangnxZAxnGSZZZZxNZZGNggnCxcNjtM",
++"xssf;tyzMNNJHfguuqiqZZMzMGcNAKFASZZffzss@wtt<nFzsDnBzsvsuyggfxngxcbcbcbnjjBslcczsfzn9yy9uqt0=qy6uzuuMzhnzfzCCuCxZcCZcgMzvnsns,5tt52mAZDMxtt6SnxjnZgnscfxZCBZcZBcbxFCnbgZd8ggzcgxzcnCzzndfZCxygzzxNNxZZMCndsgfflMbMt,rt6,AUJZCnZZlafnMccNGJGZGGAASZZSGMnnSZCZZncd",
++"fczysgbuAGNNcfmNfytnqAFAGHcNSMFZDDbMnCzl@5tt<BGZDzbntbs0gyyyzzvfsnBzNZAzzlgBznnxcvNlzncu09t=6szl6;ncNMunzznnbfBzcZzMcNNbjCxbv,6tt56McSZDCGxnsZZczxZxgajaZFCZBZDZjZgDngMgucxxxzcxzzzxn9000dnxqfznZAxFGnZnxMCxMMxsxBa<rt6<ZHGAMZMBnAnzddxGGZGSGSZANASZZNNJSNSngngn",
++"SZnzZlgfnGcncMMchgyyqcAZMKAFSGAASGDZBvvs:wtr<bPnZbfyzuuy09gcnxnzscgBDZCnsyznczCZnvnBszll*2ss=%*rf0tZncnNnnlcbzBfzbuznMMnMjjfj,6tr58MMAZGnZZSzztZnFZDxjsfcZSZcCFxCbbxMNMfnncxCxjgu1f8q1tfdtgnCzxuNNFZMzggcnbZZngzsbt<rt6,AYJSnMn2qdyxnMfnMGGGHxMGGSZAchgmZZMSCcZt",
++"CNZNxZanCGggANchxAgfftnHFSANKGGSGxvvBvnj@wrt<nGBZfssuvvuggMbZxfzzgnvnnniBzcllxDnDcCBnxslhgsuq2y*0fluNbnNncCzbbgzhcMzfnNnxziaa,,at56ZNSGZMznMZZjnczZZBBBslZZZZDDZCzujNZMczMnZZZxcdtuuu0qznhCNAZZdsMcZFZzMDSDZFnZFnct<rt6<SYSGDgvfqgfgMxcxFFHGMGAGGAAMZZZZCGSAggzn",
++"nGzbNNbbgHcHNcxdzNFgcuyNAZZPPZZFFGSKCbnl@5tr<BKFvfyncgxznzfcZZxDBnvzzCzZCBxzxMABBnZcBccyxNl0s2920yz0gzMNZZzCbbnNnxZcZfczZbxsj,6tt68AZSCZSZngZnDcnxcjgDnDbzBbgBBnFnMguzMgsgNNZSfnfnxyzxyznnCSCcngcfcZZMMMDDgZgZxbjga<ra6<JHMMMKfguMNZnZgxFnAyqSZSGZNAHGZGSnggGNZN",
++"zZSbznNzvGSGmZmmNAggNsq6NNAAGSZFASGFnzzl,6tt<BAzsMvyZBsfczfxcfzgxxzlnanZBBnnnCxxnNnnscMksqssqssl0ulj0lgCCZbZzufbzMNNMMMZNBzaj,6tt32ZGZZZcFDZCCvjMxxzdjccbvZFzslbCCZhngZNgcsgZZZxdcafdxubznZZZZZMCnnvzZSZcFDzFSDbzjt,rt6<SJBDhmcMAMMMccfxg2uddxZScMANSJKnSZZGZSDZ",
++"nnGZCzCzzFcMNmnAZGNNNkxstkZAFGGZKGAGCnnl,6tr<nZnfxn0fvMzcxczxxnxzngsa9zn2zZBxgzs90sqxnnmgnnsaffu00;s;6nZNDZBlzfBguzMnbggFSZll,6tt32MSMAAMzcgSAZbnnZnCZBvBMBZCZvvxgsZhc88dyMxxnhcnndnCfCxzztucnngzzzvjBcnMMZMFFjMBvt<tt6<SJScNuMcngnGAMBfsqdSxcZfNASSGKZnSZGCGSDN",
++"nvAZFCzjfNgMZZMSKZNCZZxsfxcAFKGZGGPGZZZz,6tr<BKcgnzvvy9nxznzMxfzcBxxvnzfnxglg92sqsqrrsgnnZBlzzsulutsu0=CBDZzsnnzgcnzuznNNZBzj,6rt36ZAhnNZSCMZnBnccZCnZDBgtsnFDZZjcqq0tbfgzgxannnfMZbgnnxbbzczfCSzZZczZZSZZFFSfcZlsr,rtw<SEDcdgNZdMnxcMMhfunMcfNnMcZZSSNZNGZSSnxn",
++"BxxNbunjsMnNAMMAMxAZNHCMss9NGFPPCGGZDCCv,6tw<nZcnbDsnffuyugfgzxbxlCzzBlCBZB22910sqkcsgckNcCclsj0uzfyssrtBBNnxnxngcMngCzzBZBBv,,tt32AZNnMScAZSccBZNZznZDnxtczDZDfurfgfgxMgannxnnNncdMCgggZbnbnzMMSNcnZcZCxMFngnzcZjt<rt6<GYSdtgthAGAGghncznugSNZgfyBDGSGZZGGSGGGP",
++"NbNZNzgzzsgNZnSMANhFPFFnkZZfnZGAAAAGPGbb,6tr<BGcznvCbzfxgfxzznxBxBvDlnZvgyyu1fgxnztglusnnnscnzlcgxbubgstlZZxsNbxghBfNnlnBBCnj,6tt58MMZgxnZZZFBZbZnbczjjFbbjaDDxt8yzgcNNnZCMnZzMZSZZnCZnbzzznNCnZSZxzssaasAgcnxzxZzt<tt6<JYcxxdzzuMgMMGZxggzhxazxMcHcSSGGGSSHGSKZ",
++"DDnGNNsaglMNMAcAAAGAFZGZZgFhduCADNGNKDCv,6tt3ZANsNnBnzxnnMxnnfnDZnCnnCb02qqli0zuafbbczk0sfgnNCzBnbzMZbz00tZnNDBZgcNDbbNMfNCbb66tt69AGSndMZSFBZZZDBZDZbvnsvgBnxsggsxnznSZZCZCMxZZMZNFZMZnCGnnSZcMnCNnnncdnjcbZCSBDva<ra6<YYZNNnZhfZngcMMnGZcMcnxSNxnSNGGSDGKcxxnD",
++"sfSSSCbgvlNSAmxAGAnnGPZGAzd996qnZFKGGTGb,rit4nKAZgyZBxMxzZZMDznZDCCvDM2qgnclssgsszs00ljggZclnZlayy6fy0bu66ncNScbznNNNCnCZDZCn6rtt66GUAFZsFCZZFDBZZZCnbzGBvvzcgddCngMAFNnnZSZxZCxZCFFCDDnFZCZFnFZSSCNDvCCxcCZcGZZZZs<tt6<YSMMNnZZnMnyafAgMGcxAcAZSZNSZSDSZZnSGNCN",
++"BbfGGJDDnlzNANSSGKGCFZGGnMnPhcsyzGPPGTTv5rit6iIPSAltizZxnNMADMbnCZCCiscZzBz0sNAZZszznZtfnNZnFZNlbzgnzs9f969hCSMDMMZZCDnNDFZDB,ratr5AUGCbSAFDDDZZFDZZZCZDZZznDssMZcFGZnMnxMFMnZxFSZMFFZZbZnZcZFZnSGGZSDZSDbFGGFDZDZ66tat1NJJNNzSCMAAAngAFFGZZJcAGGZDZSGKGnZZNCZxz",
++"DGGDRPPGxcZPKNGPKHPPPPHPPHTGKHFPbsZRP/T65tiir6ZIIGZbzdgbZSDFDZFGFZvvvFFDFDnSZFFGGDDZGGZZFDBDDDBGZFGDZCbBvsa9NASGNDFFFKGFZKKFi6taat6jYYIGBFGGGGFFKGGKGDPPPDDDbnnGnHFGGGFGGPGGKGGPPFGFMFGGDFZbFGUPPGGGGGPFGDPGGPGPPb3rtat66IWRGYIIPPPRRIFRGFJIIIPPIRPGPPPRRRKIIIIP",
++"ERERQEQQEEF!EW~!EYREEEEEERTEETEEQQ!!!Tt5riiit66DIGDzydfunGGKPKKKISITPPPPGPGGGGFGGGGGGKPPPPPPPPPPIKIPPPPPKnynyAGZnFPPKKPPPPFz5rtaatw5cREEIKRRRRRIIIIIIPPPPRPKCFUYYYRRRRRUIRRIUIPIIIUIIIIIIIRRPIRPIPIPIIIIIPIIIIIPn56taair3aPWWWWRP/PPPPRPREEEERRRRYRRPP(PRRRRRYIR",
++"CCCCZZZZZFFGGGFFFDAZZZCZBCBBBBBZCZDDl<5rtiiiat66annnsxzCZnCZCBBCCBnBnnbbvbvvvvvvnbbbbCbCCCCCBbnnbnnnBZZDZZBla6;6tMFFZZFZZvt,rtaaaatw5rnFDFDDDDDZCZCZZZZDDbjlCFDDZCCZZCCCCCCCBnBBCCCZZCnnBBCZCCCBBnnBBbBBBCCNBCnt56tiaaitr55jZZZCIFCZFFDFFFZCCZCCCCZZZZDZZCZCBBCC",
++",,,,,,,,,,,,@@,,,,,,,,@,@,,,,,,,,,,<<wriaaaaaatr663<333<<3<<<<<3<<<<<<5,<3<<<<<<,,35,35,,5,5<<<<<<<<,,,,<<<<6,,<<<6,,,,,6,6ttaaaaattr65<<,,<,,<,<,<<<<<,<<<3<,<<<<,<<,<<<<<,<<<,,<<,<,<<<<,<<<,<<<<,<<<<,<<<<<56rtaaaaaatt63<,,,,<,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,",
++"wrrrwwwrrrrr6rrr6rwww66rrrwrwwwwrrrrttiuaaaaaaatitrtrtrrttwrt9trrrtrrrtttrtrtrttttrtrtrttrrrrrtrrtrttrrtrtrtrtrtrtrrtrtttttaiaaaaaaatttrrrrrrrrrrrrrtrrrwwwrrrrrrrrrrtrrrrrrwrrrwrrwwtwtrrrrrtrrrrrrwrrrrrrrrrtttaaaaaaaatttr6rrrrrrrrrrrwwwrrrrrrrrrrrrrrrrrrrr",
++"ittitittttttyitttttitiyitttttttttrtttitiiiittiatittttititttitittitttttttttttttttiiiiiiiiiiaitiittiitttitttitttitittitattaataiitaaaaataattatttatatttattttitittititatataaaataitaaaatattttttttttttttitttttittattatttataittaaaataattttttttttattttttttttttttttatttaat",
++"aaaaitrwr6rw6666r66666666rwwwwww6www6w66rww6rr6w66666666666w66666wrw6www6wr66ww0tiiiiiiiitttrrrr0rrtrrrrrrrrrrrrrrrrrrrtrrrrtrrrrrrrr6rrrrrrrwrrwwwwrrrrwwwwrrrrrrrrttaaaaaaaattt66w66666665656566556566666666666666656666666666666666656666666266666566wwrtaaaa",
++"aaitw5,,@@,,<<,@,,,@@@@@+@+@o+++@++++@@@,,,:,,<<656666633<<@@@@+++@+++oo++++O+@<6rtiiiiiir63<,,,@@@@@,,,,<55666w6w6wrr,w,66,5*<<<<<36666wr66wwwr6wwwwrw66ww6w66666655wrtaaaaair6<,,,,,%<,@@@@@@@@@@@@@@@%,,,<<<=,,,,@@@@++++oooooo@oo++@+++++o+Oo@oo@@@o+@<wttaa",
++"aii6,*9;;929kgfdqq822--=52;====*======7889yqqfMmZDPPPIYGMgq;===$%%=$=$$$*=#$=##X+3raaaatr3*2===*#=%%=====6qcnZSGKGKKGGAANZMzhuuq00tsgnZCKGSKSKKKPPKKPHKGPPGKJGNCxfzdy55waaaair3@8ymcmJHddqqqqqqqa8q9quqdchxHAAxxjddy8;;;;;-===$-<&-==;--;888;-=-=8-;;qq;1=+@6taa",
++"at6*2dhy0dqdfGhMnhcZccAygnyyycguq9y99qqqq9qfMNZcnGIGCZMMhqq9q;=7====$q=-=---====*+6riait320qsuyyy==99;t;t;99flzMGSZFGGGSFAAnMcnzcnNBcxfSDKSGBnZDGGZMFKZMZGnGZCMxnscmczw6ttaar5<scZGYHGYAmNAdqhcccxmfxnAmSJSMSqdqgdquqq;88;;;;;;;828;88808;yddqdq88;0yqcg0q;$@2ta",
++"ir32dfhhZcuyfzcNMMkhgnAFAgMugdd2gNnZcxfqgxbZGMbngbZbxffqffffyd9dffyq07ygyyxf8d0121,wtat6*y0hnccffssftyfuqy666salzzslNZDDncCcNbNnczBcCnvaBZDCBccnbbnzBxBjzCnuxNnMmcncGZbw6tit6,zHGPgSxxAAShNZZAdFJASSPPJGSxdxudhduguduggfgqugq99d0fyyd80qytddZZhAcgZNxdzchdu9@<ra",
++"tw,sgsfZzAFbudGAAgAZAnsfdgNAGGMmnzszgcnNncyunnZZNvsggfxcgdfZgcZfzsMnnfydcsnCcNxq00,5tit50cugjMnqzfutzfftlnyytstftfzzsBnngbgcbNncnCzgCcBsrnnsvZCzsBnnBxnMvzxfnZnznntzsNZb6ttt59HYPFfqxhzSmNSCSmzzNZcZZGAfghndfxxcNcZcchxfqMzddnguMzmxfNh0ZnMNdhggcmNNHSxcZMnyt+6t",
++"i62hAgdNngFCzbZAAcZAchcndft;20snDZSSFSZnMNbzxfZnvfubzgxgcnccnZxncugsNMcncnzzMnBBja9<ttt3gNMasthMnNbNtnNnyzll6ssxsnvijBntfzcCxbxBNcnCjcCvgMxNZnbCxnnCzzzcvnafjcCcccnnzzjn6rtw,n~YZnfyyuxmZAJAICCZZGGSZzxcxMfhcNxMchNNncNGAdNnGgNcNANZnNMAGcufcGmncZcuMtgMZGZzf,5t",
++"r52cAZfMFxMsllgFZZMngMAMnNcccccq21uZZZDnsyagbMnZnvn0NxxcfxmMxZAnnnnSfZANnnBxAZZBasr<rir3ggyzBanfcnNZznbllNblslljNnlvvjuyccMnCCNbBNBBnxCbjzCnBBxbMnsssuvzysMxjzbMnzuMnbZC6waw,Z^cfddnCf0CAGGGGFZFJGGfgxxcNMcdcnGZZNCGSZGSGSNSZAZnFFGFGGz0dzzzgxInSNzNnzfxnZAZx<5t",
++"y55mAClnMzAnMMbGZZFnncZGzMZMksncys92snZSxMfczznbCzNfZnchNcnANNMxNNsnncFDnZBZZNGvll6<rtr<scsy1ltxznBnlnnZnBzvjsyzlbBvv;fnnCBxCnBBnzctajdajzncBnCgbncgjcMCcczcnzCxCnnCbCZZ6waw,SHSZhxzNGztMZInFFNGGNZnSdMhgMxAfhxccSZSGJSSJZSNSnSZnMAAcfcJgAMGZzGNFcGcMMfmAMGNv<<r",
++"r56NPZBlnFGbsnjnAMAnnNZZMnNgnnNZxZvszsybSbDstnbbzbDMZMxmmMMnZMNnsZNNscnZAZBgssxZxa6<rtr=hhcx9<xBbBnnZZbCBzjnalzMbnnv5lzBbBzxCZZCBnxxBcfzr6rtCcgnxlcxzgjCbCnbfzCxMMnCZZFS6wtw,mJSMSZZgdqyMGJSFSNcdyfffxNdxdMmMufuhhdgfnnnnGAHGGGGMzJzGNnynsnhcgNAGNFMMcgZSGFCg,<t",
++"t55MZnsiusMFCnljDVbMMAMMAcMSDnsnSZVkggzyfZnZzzZnbbNnnzccMcNMMSnMZcAZAnBNMDzzNguzzj6<ete3dznck9<bnznbnzBVVnjbzjjBZbb0j2tsCcCZCzDCZZnzgjvBztfftqZnnfMnnbzznbnnnbbnnZMnBnDGwrir@nGAMmFZZCnnZGGFFFddngxcmGngzqgfZmsNzcgdyfhAHznnNHAZJnGGNMnZZMZFnjZMAcxGxbncMGGCz,3r",
++"t52NPAAzgMbqugulVDcyxxcAzxVGZSnMGVnzugsxnxZSzlZCvvDnNxnNfMmcZnxDGcGFDgnxgSNcsnzcbzw>ete<fznxjt%1cBMVfVakBnznjvjbblygzZnjCCMczMxgnBzxBszxxtjgsgssMnznncnngblznjtncCMBnCPG6rtw@MJHSHPFZFZZCFHnzzcxmZmncydnZgduNnNfxMxzccxgfGHHAZSGZCcNJZAGGCFMNfMFMMcgMxsGAIIZz<<t",
++"r59AAGFnZZZMnsbfsSMcMVMVVcVDSSVZDGnsMnxsDZvbFBDBbuNZsnbMzDcMnDnAFNbgcnZZAnnngzazsv6>tte<ddsxkst92xxVbbsBsspvbzjBxusnlzgbxnnnxbjBvNnvvsZnjafgglacnvznjbMbllcnsaazjjbznZGK6rtr,ZJUHGGZZMzjZCxgxzxNZdSZNyNffZNNfgnZZZGNcNZzGcZNZNMMZzzGAnZngZZGFbZZMccxMxsGAFHGb<<t",
++"i<9AKFgzMAAMCbnjkZcnVMDDVmVxAAVbVBZnbzZnnBassssnyuZAZcnngSMSDnZZv0zz0nZDvZZnBZCgpst<wtt<dyxtybvkt9bnnxpzzBbpkjatss9gczzbznChnCnzBvzvxzvnvszNngtxcbvnNcCnCnnZzfgcnzzanBGG6rtr*NJZAPPAGFFndyhgchfnZnZgSmmxmAnAfHGnZxSNGGcZnAKHZNnSJGZfGGZJHMnFFBcAFMMMfsaFfuMMC<3r",
++"r5qGPHCMnjnZFCBlpfxMAAVAVmAVVAnSZZZMZDFbzg00tu2nZsnZSSDxcZZDDZxxggcZZxNZFZhzcNzzis6<rt9<dxxcb9ps9epnbZVBppjzjjt9fnnnnnigxBkcNnCnvBnNnnbzbaszsvvgnsfnaszbnxzctbfjnnZnbcZM6rtr,cHccxACZZMcdznSGZMMmNHZgzxNNMNNgNSSSANGGGCBAFnzSxZSCGGbCGFGZGGMZxAmZMZHMxdzNvxjg3<r",
++"y5tGKAZBnFbnGnnBz9zVSAVxcZMcMGVmzMDZnnDnytfkfsstbsnDba0gMSAMZZxxncZNGnsZBcgnZnCzya6<rir<uxVzksbzj2zznMZZbnpbank9sMxjBzllnxNzCcCxBvZZCZBvffqNgCngszczxgxnfz6lcgbsCCnnMnZc6rtr,nHPnnnZZndCgffxMSMMGNHuNNANNNNANzGMGZGGFGPKGFnnNcGGGGGGCNNJGFZGZnZZGZMMFnnqccZnb<<t",
++"r5iYn=dnZGGBnbZbcesSAZVxVMZGMMZVVnnzfvnZfnzsyssz0vvMDcxnmAZDxfZfMMyxNgnZnBnABZxsya6<ttt<dfxcnvvzttpz9fBnbztyyyfzsnMnbBjfnjsnCCxizZBBnBBlafssznggzzvgsvsbzbzlZzgllZnvnnNc6rtr,cURAHGZNMCMxhnSAgNnSHNAccKGHHMZSNsnGZSDGHHGSMZPxGGHZZJZCCGJHFGAGcZncFZAcM902MGnb<3r",
++"t56cyqt-*uZDDGnzksfkMcxxAVxMVSVVSDZcxngxSbzMBas9ty2DZZvsMDDAnZxxZcAnZSzzZZnZgCnzba6<rt63fkmVzkbkktk9bubfksssustklslzCBlBxlNCcgnBazvgazb6qagszgaNnzsvzxxnMuCzbngbzzBBlBZc6rtr,ZPRGGSxMGGZzZShndNNZGNGKNNGDZSHGZnNyxNZZGBGGZZCZAHCZIAGFFnKFPIMAMZMGFZAncggftbBn<3r",
++"t36ch09cu96yMZMnDbxbZxAkVnAVZSSAnnCSSbzZDZnDzxsbsztgbZnzcGANNNxNcnAZvDbDNNZZNNZxlsw<wtr3fgxnCavvZazsyzfxxnbfysybzssfCnbCzbnnnCCCznzzBnusnszazaaszncfMjvczzcfvznzaiZnbZnM6rtr,ZWJPAAAGMcMZgmNNGSGIcHZSHGMdGMZSGNxNnZBMDKcGZHDCHGHFAAGGGNzgNgNmNGZzcfmcnNmcg8tf<<t",
++"036hcggug2-yrrnAVnZpkxVMmVmMSVVMZZZgfcbfffnZDgfnggz1ZSCvNNANngNBZFZCZFDCuZZBDNZBbl6<rtr3gxCntbzzayysszszts9azzty9ifslbnngnZBZnbbdZZng9ggszcNBxzcaxnCCvcbCbCbvnbzzs6cbZhc6ttr,SUxdnMFNGJMcfxncSyxgcccZGZMNnZAGSSZKZnvDNDNAHFAGnxfnZzfgZNghAnASZAgdNncSGnhgMusu,<t",
++"r32ccdgfkskrr92zGZDDxMMVSDZVDZMZSDDDDZxnxfutGZzxbsy02ZSnBAMnNMhBnnFNZFZZBxZcnFFnvz6,rtt3fnvzxlCnbvvvfnxbxy9ksts9gisslalnMMBfBnnBzZzagtgagvzxnBnMnty9nMbMnznzZnCnvcitjBcn66tt,FWGAFccJzgcJCddhzggcMMCxzcZAZnAPJZHGKHZcGZAAud9;nsgccgZgudNggANZNNMczcSNnnZxgzgj,<t",
++"t32hccssgAZhkrsrsnZVkfxMcnMnGVZSNZGZZZSnnZbztzy9svgsuinnccNnAgZAGSZGNGZnggBZAZlvBzr<rtr5hynxxBbCvcBnszbbuukfytbtsgafji60bgnnnBnzg9tZxNxgnNBNzjga0xytavzaZgazlnCCBljajcbz6rt6,SUJGGZuqccZxcZZhMgSnAnccxZSZZDNPNPPBNZZnxxgdyyqsxNSNng0fggzuGZMGZnnANcncmnNFczff,<w",
++"t33chAMzZZzussnle2VSZdyZVZsMZxVMZNSFDgcNnxbzvxsnscvvs0cGnnZZBMNSSAZBZZZbgBZZFZFxvvr,rt04gxgzCnCbvZZnzknvzsvbzyasflla0isMfBCCngfrusg9guxgagssfzcnanMzsczvjbaCnaCZBvciacxd6ti6,G~Jn8xdxxhZSgMxxAAxcdusgNNnGGNnZDSGKKGNujfzMhxfc;xu00fccNcfgNcZGGZANAMANNGZZGbjj,<t",
++"t32mNcnNllNzMsuZkkedVMxcASbVMMZVSZFFfNMccznnbcDDvnbu0066GZAZZNAZNNASDFDZAnFAZZZZvlt<ttw4fmnnbCbznZBnfnxxzZxsbxisnljssaasyfnnysngfzftggsgnngvcnzsunvzcfCngbczlvbvnzvsncgx56t6@MAzdgdxhZxSxcgMMNnmZMSCngNnAASSHGASKNzgt;qhMGAAMNMxxydNncANdMzcZNcMJgZJMAFSnGnzz,<r",
++"t33hMSFFnFFk9s6cZzsf9bVMZSDcmMmZgNbNncNnDDZnnZvzzsy0s020yZNAZNZZCSAZZCZNZZCADBFZzvr<rtw4gmNZBClvbuty9szxnzxzBbzzCjsjjjsnMlrhnnhsccazBzscnvnzNsnzzsjbxcZnzblbztjuBBzasCzx6rtt,nJNxfxcCdMGxAnMSJzAzZASczZcMGGKBNAAnNfndhsyy0;xZGMxZMzhAAZCzNMNNNFcMAGMHcSPnFnxj,<t",
++"r22cZGSFg00r2=-*ys99kzVVykMxcMVMZGDDDnnSDZDBDnxsyzsaazla0ZFNZDZMZZZCchZZGBDNnDGGvvt<rt04xnZZbzzzfzczvyafayvbbzpjfnlsfijgCuizszszuzzxnvgrzzvnnBZczbcftjzZbnczzczjfbcyazxc6rtr$cJMMMNnnCACGSGHngnNnNSGCScSBSGDZDZgfZgcfcgnhnsgz0AAAMNcNASGJcnnnZAAMGFJzZGGZnnjf,<t",
++"t3<cSNMqygguau0s60uy=yzNfbAnxxMxZnSMZZGSCBbnxZagbzzzzgay09fcuAcNcZMnNSZMZSDZZAFCCbr<rir5cNNZBnzlgxvcBgtbnnilBnlzvlllf0ytnnBq6uhnnnBBBbbZznzBBvCfMbjuzzCnbCMNcnnzzcClfccg;rir,NUJzMnnMNGDnASmxZMGAGIZZZSSvSIGnccnnAgfZfAmAZmAcggxCAFAFMZSGGnZMAGGCcJZFCGGIFFnz,5t",
++"t32mHd9cfgghzzzav0nzyi6zZbfnMMVnNNznNnSFnCnbNnCnvNBB0nnzltt0s9;szZDcNnZSZGCzSnFCZnj,rtr5cccnZlvCszgzzzfccvznlavcvllislya=-39y=khzzzcvCZcCznBczBvbCnCbsnnClf8jzCbbjvcCzxg6ri6@ZGNnSHNhZncGJfhZSZHGcnnZSSztBASZMNNfMAnfhxxcZnNMnNqfAGPZZsMcznZZZJSGCAGFFNAGZCbl,<t",
++"t36mugxyBcvgxzxznzaNny9gbMduxZMZZnnNnnDnFFZgZnNZnAzBvDnzcsuyy0yq9y7fggnNSCZcFZZCDCj<rtr6zcgqsCzzzgnvnbazsncxgttxcnvasgczfgsqst2kcnBjZBbZBcBcMxBzzjzjzxczbxttfa0tnnscZZCz6rtr%MJZASAxSDSZZxxZZGGZZzZZGFnSnzcgZhxhmSNZnbnNccZANSnngunPFMMZnZGKZcZNFNFJFMZInZnbz,<t",
++"r33hhkgczbgnzvzZlyicCZzsZnzx1fVmZDANgDnZFFlNnZNZbsnBCzvlnMMxgshg99ufffgyg9zZnZZZKFa,ttr5znxNgnZnbMNMnZsbnNcnzziflcvvjclaksdtsgcrjCZccZBnzcnBZBnBnCzbzvzsastxazs0<cnanBcz5rtr%MJUNPZxnzNAyNZGJGZZCFMGAZjSZczczxzNnAZMSscZANMhZZMAZnuzAAGGFZGPZczZGGFNJFFJJAcvb,<w",
++"t33hhmggczZnbCgytsy0t1snfcfyy2xMZDZSMNSGDDznAZDnCnCZzlCv0tfgcccshhsyunxnzsufGbbnZTz,rar5gMnnxlCCCZnnnZsznBxlnzajslazzyzjtscfzgnj0aMnZcBnnCZCCMzcbbnCzbzbcszbfzfjy62nnnhx6rt6,nHZZZmAGNDzyxZSzZGPMSSKFKJMGndnmcnNJnGMZfNZGAGAAZCGcCnnFZGFZKZPGGZPFNJGGIZKGFDnv<<t",
++"t3=hmnhnBZzvguzbuzs2u221yfcuz99MMZZZZDSSDBbNzlvBZDBCCnzzNcMMxkhyngnBcAggcZvvCDnzCFv<rtr5xZNxbbvznCnngZnBxzCBlzlrslztafnsgfgnsrfgxbtMZBnnnBZcBBnBCnzbvCjnzNabnssbz09<&nMc5rir@cHIAANGGSzymgxGnAKGZGSnGDSnmzxZcnzSnxnbGMScCmGHAMxANSCczzFFKGGZFPPZAMGGGGKZFFGsz,<r",
++"t3=ccMNBBAnczvsbVvfu0096=nMzfMteZAZDDZZAGDZZnFDCCDCDCznvMxhcsghxgcMNZcnxnNbgszuvnPz,rtr6cAsDvvzCZnxnbzsvuBCvbvlasljlyy0s9cgnnnnMxtjuBcCcBZbCxcZCNnnaznCjcznxcznzjzt<98hc5rir@nUJZKSHKnmnnNgzZGGKZzZMGZnzzgxxnhcxzAKGNtfuccAGGAHHGZMNZDcZZnFGGGGPFPnZGFGMNNZzj<5r",
++"t33gmmZBCcvbZgCZbsgdtuvye9xnfy9yMZDDDFDSFCcFGZCCFFFnZlnCZhccsxxgsggqzqDZcfMbggsssCv<ttr6NZCnlvnbnnZxZZnzBCCxBjBBaflafqslrknlnggcfnzusBvZcBBjCnBnnbnCzzaCnzbxnNjjzyjs99dc6rt6,MWGSZKGhZcANgNSjjFZZIHZzucnZxhSSGMcNJGmccgfAnfZAfnGFSZCZcnFGCzZzBKKIJGZFZcJAFCzz,<t",
++"t63mmNNGNxngbFzv0zxgzt9ss2fMDbxy9cnZDDZANBDDFZZZxbvZZCClACggxscMnncflnxCZznzbCCbnFz<rar6CFnZbljznbNnCnCxnCvvlbBblvs0clfnuclZBnZnBnzzatnZZCMzcCBCCcCzszCnnCnnjssz6;3zlsnn6rar<N~IIKKNcgnmCZFZFgGKDDDDNBBDAMAMGSGSDnZZbAGKDGGGgKGCAGZPbFZzKncnZZvCPGCFZHCFNFCbb<<t",
++"t63MNAAGGMZCCZZvxxnubbffpssZbnxsy0ZnZFDnSSnDFZBZGFGCBxzyBgAzccNNMScgbZCnnZbnCCCCZPa5rtt6ZGzbssrwunnnllnnnnnCBCbCBnaznZslku0sMBZkCtjCfsazZCccacvZnfnnagznnZZncxcnvjlt9MZn5rir<n~PKGBxZNSZPIGGPGKGHZnZNDCDGMSSIFSZGDJGAGFSGGGKZFPPGGGKMZZFnZZGZUFGggIFPFFInZKZC<5t",
++"yr<hGGGSGGGGDZZnDKSDZVbjfb9cZbDZnutMnxGZKDSZSDFnDnsnGzZNxcccZGAAnhMGKFZZGDZZCKCCKDw6tit6gGZGCCljfnDBZCZCBDDnBBBljDzgaCbnnnutnBzlznnxzxfdZnnNCZfcCZnZjagznZNnznCCZBbblfcs6iat,i~~ESSHSSIUPPPPGPKIZMIIPIPPZGJGIAGPPGKPGKKGKKPKGGITPFGGGGPKPIPPGPGGPPPIPPPPJIPKz<wa",
++"it66NHIKGGGGGPFPGGGGKKIGZBnAIIKKGMxNZNnDIIPnncFZDCGFMAGKnxxGPKIIIIGIPPPPPPJKPPPEPj5riiir6nJGKFbbgZnZZZKZFFFDBDKKCZGCZlnZZZSntnFGCNZnMCxznNZZDDCxFZGFnancnjnFSncFKFFBGHM6wiaar<B~WJEUJIUIPQPPPPPPSUYPQPPPJWRIIUIREPPIJPPPJPIIPIPPUKPIPRRIP~PPIIIPPUUUYIPPYYRF55ra",
++"atr66MKPPPPPPPPPILKKKIIIIRKREQEREETPIPZnATIGGYE!EEEIIGAINJKYQYRRYTTTTTPTIITPTRQKl5rtiait06nGPPPKISPPPPKKPGKPPKKPPGPPPPPPPKPPFbKKPIPPIGIZxnnGPFIPZFIGnfGSGFGCIPKIPFPFFB66tiait6<vQ//~^W~QQP~QPQ~~WWQQP~~~~~~PRRRJPQPEEPEPYYIPPP!PPPPPPP!PPP!PPP!PW!~!P/PP~PD6<rta",
++"aair6<wtitiaatttiiittittaaajjajjjssjsattt6yaiussjssaattwusajjsjaaasaaijsassajli55rtiaaaitr6rssijsssjjljsssssjijisaaasjlsssjsjjijajajsssst6wtaasaataatraasaatasjsjsjar;rtiiaaat6<<ajjsjsajljaljaasaaasasaaaaaaiasassaaiaaitaaasaajasasaasaajalajsassasaljs6,5rtaa",
++"aaattr665555555533333333555335553555555533433355555555553333<555555555555555<6wrrtaaaaaaattrwr6w66666r666666566666666666666w566666666666666666666666666666666666666wrttiaaaaatat6,<<<<<<,,,,,,<<<<<3<<<<<<<<<<<<,,<<,6<<<<3<,,<<,6<3<3,6<<5<655<<<<<<<<<56rttaaa",
++"aaaiitttrttrtrtttwttttttttttwttwrttrtttttttttttttttrtttttttrtrttttttrtttttttrtrtiaaaaaaaaittrtrtttttrrririritttttttttttttttttttttattttttttttttttttttttttttttttttttttatiiaiiaaaaaaatrtttttaataarttrttrtrttatrttrirttttttrttttrtrtttrtrrtttrrrttrtrtrttrtttttaaaaa",
++"trtttrtrtrrttrtttrrttrrtrtrtrrtttrrtttaaaaaaaaatttttrtttttrttttttatttttttttttttttttttttttttttttttttttttttrtrtrtttrtrttttttaaaaaaaaaatatttrttrttttttrttttttttttttttttttttttttttttttrttttrttttttttttttttrtttttttttaaaaaaaatatttrtrrtrrrtrtttrrtrttrtrtttrrtrtttttt",
++"<<<*<<<<<<<<<<*<<<<<<<<<<<<<<<<<<<556rttaaaaaattr666666665665656555656556<66552665666566<66656565565556666666666666656566wrttaaaaaaatr6665655656565556555555555555555565556555555555555556555556555565555555566rtttaaaaaatr61<<<<<<<<<<<<<<<<<<<<<<,<<<<<<<<,<<,",
++"          .             ..#X+*=55996<<6taaaaatr66ajjajjaaaaatrrrrttaasat0t9<<<%%++OOOO@X+O+++@@%<26q62<6ttaataaaassaaatqr556ttaaaatr6<5r66aasaaaaajsajfatr66-<1<15<<r66812256660t8r0q662****,*<%@+++OOXXOOOO+++@5rtaaaaa05,@XXO+O++###@<$OXXXXXXXXO+#%%XXOX...  ",
++"--------;---------------;;;89qgUSZGYIa%6taaatr5jCFIPRPIYPHJHHZPAFIRIAzddutdNxxgxy982-==q882-89q0gxnZZxxCCBDIRIIIRRRIJGMnMZzr6taaaar66xMbMMGGYY!RERRRYJZYSNNxydu9qydfNNgqauuugdgnNcMAzxyyqqyyqqdqqq8-88888-8=8;-<@<rtaaar5@=qdqqqgdqNcmNfq8q;8q8qqfquqqdd9;8-;;--",
++"0;89--9;;8q9y8-;;9;9;q7q9qq8tshxYYHYYJg,6ttat5zAnngGZMZGPGFFSFGGGSx0yyq0yu0;9yfynMfd689qquqa0jafgCnSAZcZGCAzcGGDGFFZNcZcNFzz66taat6rAANHGCCGCFGJKPScNgcgSMxsxxdxggMZM8a009n8agnfncxccduugggxufgfuuau9-ruqgagucgfr<1taaa6,qzhcxzSSGYIJcdqxgddg8uqdquqdqMgdqq88;gx",
++"fdfdsfyqya9JxfugztqcgxxffgNzfjyccYISnHS0<tatrrFFNnannCCnZAAFZAFna9q99yqgyqt897yyzxnfxfssAcxfzaNxjnnnSCSvxnMZgcbvbxcxMcZMvxhMb5raar5GYIGFZnzCbgFcCBfggNu9ccMMgfZNDnSuqqggydfnyy0rfNnnngczgtZcnccnndggxgMgfgagdftxst<5tar<8NSJAJFGGPSHgcZZGANSZZgMMNAMASMxccNdfu8d",
++"MnxnMNdncgfdMHHHMSNcMAnxMCMAxnzncdCfZHFn,rtt6xJGFBnjnFnnZxZZgyqt90uyycggta9tut6uungnZCMavnAMnvjaazcnZCbBZnxbZbjcMMcnCg6ggMxMZrwatrtYYGGBCZDnagZcCMxyfgq99cnnnMMNSftgMfxgzd0zxxxcAngguzzdxgaaAMfnMgAAnNMCxZMZZMZgzz65rar,cYUISNSSIHSzZJJSZPSSSHGSSFMCHZCASSZZHMgz",
++"HSSJHNASAcMzxFHIJJZADPFHFAZcPnzMfnxcGYPG<rtt5NGZFnnnnZnDxgt6yygz00udtxMyNqduggsdqqczZCMnsMnMZBBljjzvnnBcZDnzzbnDBZMgcccnZnCZKa5tt6aPKDAMBCnZCgnMnsaMcgzxy9nMANMf0quxnMnnnnczznxcNncccZSnSMNxxxagMNMNNSZZMxxxnACMZZa5rt6,SWJJHGMPFFnJGJGHSGGJGHPZAJGPSCJZNHGSIHJS",
++"HHHFFGAZDzAFPggMHPJHxHPZYZFngnnCZCcgZHWG<6tr5CYCFZMgtqt9gq*ssgzftxajMgxtszAxnnjggjlZMnFnnbCZBbBBnnCvvDZnCCDCCBjnBxgfxxFnDnnnZa6tt5sKPFZFFnzCnnbxnMNZMMxMgxt-220xnxxxxuMnnDnczCnZncnccFAFNZnMCxxtzSZnZNZFMZNCABBZBKj<rtr<H~RKGGFIFFCnznZxgZSNPGGGHCGPHZSSSSSANJHG",
++"AJGHPPDHHFAHncfzcrfxPHGKHZHFbsnnGnNxxZJS<6tr5CFN5rng69y0szsggcsufxzcngcclzMMnsnzagsZZZZbBlbZZbCBnnCCnBbvxZCZDBFxfnZZZCnZCCDDGa5tt5aPZZCZGGCjCgcsfMgqaMcgfgxyng9fZnxuZSMZZZnbnbbzccZZASFNFZNFZZxjggMNFFCZMAANFZBGBGj<rt5,HYGBBFPSGcSGNCNSggGSCZSPPFDFcGFcNSHHZSMS",
++"NSHHGSGDPDHMHNfxfugxs8txfzxFzCnznNZMMGAZ,6tt<BZZxaf9990gg0aucuzgcfnctuxxxnMZZCCZcnzbnZCnDZbDZBDCnZnCnZCCBZCDCCZjcFZFZDDZDCZKTa6tt6aYnFZnZDbbczzxcgzgMgzZsfyxnafaautgfgxfbnnlnnnzNZZcgyazxZZnZZCNnaaMZFCGZFbagzjnzzs<tt5<YWYCGFISMGSJHJJNnnSGKCGSDFHPFnPNSSJSGJGS",
++"HZMMHHPGHFFHNPASZSxxctzsxxnFFznMZNNMxcZZ,6tr<nZnngs2tqxxczazMzgzcMccgcxxbbZccbCFZnbznsgnBZBZBBzbbBCCzbZBxBZDZDvbnZnZBMCBnDGGPa6tt5aPnZCDbFFjMZdzcnNgxcMMMgncNcMNZxxgxnMznBnbzsnjZSn9fgnzZnxnZnZNnxgfaZCGZZMCnMsCBZj<rtr<GIPZCFZMxnSZZGGSJGGJJGJGnAHFHnFASSSSGICM",
++"HPHZAANZSAMNAGDPAZFNZggxzHDZHnAFGnAZZZGM,6tt<cFzZgxauxguggagzagxgnaxZZNZbsMcngsbZzbjZzzZnZbCZbnnnzcCBaBcBgDZZZCZMZMZDDZnnFFKJa5tr5aYZnCnCZcfgzfcNzMMMxxzcMfunfMNnxnxnjZnBjCBcfajcfnNxCznFMnnZnCCZnngjxZZCnFnFFCAZBa<rt5<HWHnnSPZSSNhdh80aqxznxGGHPFFHGcZASSPGGAP",
++"HGZFGcZZMDnZFMZHHMNFHMAAnZnnZcnCxZZZZHJM,6tt<nHFxcfxgccMzMzggg0zbxznZZnnxzxbzgznbZzbncZnjBCDnBZbzjjZbbnzfcbs2t9f28rus2gsncZPAa6tt5aPCBZCZtsMZzMMMNAMzfMzfxzaNxyggzZgBzcZCZZxnjcxjMccZCxZCCFMnNNMMxNCnzCCMNZCnZZNZBj<ttr<Y^GnMSPzqqqqqqdd0d-q=8uysnFSFFFNNGGGGGGA",
++"PJFHSJSZMAAAAczHGSZMGZAMnnZnHGDZNFcZgGMn,6tr<nGZffgNczgfCnsscMaxgcfujzNCCbnCCCllZnnaMvbZbnnnnZBbnnnnBDCjZxc9uasutdfgasqjcyuzNt6tt5aZnnDCgys90gzsgggcxxxgzgnMgczcsazCnnzzcBxnZZDncznZZCAFFnMaCCAnbxZFbzgbcnZFFZFZBSz<rtr<WWKx0ySddcggqxgnuuqqy898gtttFHSMAGHPAAGH",
++"PPSSASAGGMPSZHMzSHFMZPFFCjZZzPPFFgNSZCGM,6tt<nHxnNncxZcNMsgxMCbzfncjcuxZZCCnZZbCnCZzgnZnbBnbnbZZBnnrzZnntcZcfqdssxgjdnnxxsgZmt5tt5rDCDbs0cgyMy0fqf0fgcxZccfMzgMxnMnnnzZBBcnCbbzcnnSFNfSZcMsZnngFZzMZZZbnNNFCMZsZMCx<rt55YZraygygnNcAGJNZzgngfyasgss9gIJASSHHZNGZ",
++"ANSSZHHPAPDFFGSAtHGAACPDMnFMjnDFJGSgacZc,6tt<MGFgasuZAnCDBfZCZbxzCSbZbNnbCNxxbZnjnnbZBCCzZnnBzBZCZvczgzgfuxgfuszcCzznvzvfMznAt5tt5rMMngMMuzNgxyuffgnxNgxgcxnZcfMCZfZZnnnCBBBCnccznZZZZZcBZBnBMZZZBjZZFvvCNSFnNSFFFb<rt65JYNchNdd0;qdccAcxMxzdgtf;721=fJzMASHSMAS",
++"GSPJFHPFDHHCGPAGNAPHPCCCFFcSczMDMnfAxnxc,6tr<Cngfgxu29zZnnxCbnnZMSZCCcNCCnFbCbnfjzzbMBZCZnBnZnbZjZvZznnzuftcffrgfgfZbunxavFcAt2tt55xcgMZggZMxggafugxccffgMjMtfnMZjcFFBZZBFBBFZFMZznFnBZFZDZbnZFZZZbCFBCncAFbNZSSFPn<rt6<YJNcggudfdxcxqyZcMgMAcg9uqtr900zxuMSAHAA",
++"NHSNNAGSAHDzFZAZFAFMnAHBCZnNcczNNMnAnZBx,6tr<nZcccZxfgubcgZCCCnxcZZZcnZZnxCZFDCCCnvbZvZbBZnBbvsxBZBBxCZZxsBunfgyxxbunnlvMaxnSt<tt55xnxgxnZx0gNxgfZcfgxcZNMMMDnZxnczncnntjfnZCncMBBnfZxZnFFZzZDZZCZbvCZZCMSZMZZZZNSn<rt6<SUccuAgcuNdfghgcANNxzzcGzzqgtzuqqdfcAGHA",
++"HPNSYHGFADHDHSSMMMMZnPPZZZDHZMNtqSnAGZnc,6tt<cFZZDMcDxcxcnZxcfbMCnscgst0CDsZznnxnzabZZnbnatBnzzazjBDNc6ggBfNzxNZnnnxxAnMzvvMZr6tt55ugMzadgnxnaguggMgccxMNcnCMFGcnZznjjzxxnatnnCnBnGZzFDFZcZzCDZZFZZbgnBznAZatra8NFx<rt5<SYSNdudxMNcAMAGjAHMGMcGZHFxgMughnygxxAHA",
++"HFAHHSAHHGDCNZAADZGFFFDDPMGCCCNgg;dnqfyf%6tr<znccCAZDncMZCfzfcZBCNzgntaz0MCncnDnnnazZZnnbvvzMCbgacvzdcnBfgfnBgxzcbnzZCCNcbfgSy6tt5rMg0gfxgxxFCxxcxzcncMgcMCCngxnCncbnCDZCBjasFZBnnBZnCBDZZBDFBzDFFAZCZaxffaquf62gna<tt6<NAShgdcdMANSnFZANHNSAMZcxcNcggfgAzqyZdnS",
++"AZHAGGPHPGGAASSNGANZZnCncNHDCnNg8uhguzcf@6tt<gZrMcMBZZCzgnZZCZZnFznZccNtzanZxnCnCnzznnvBMZvznDvMBZx6sznngcxtzNcDxzCCnbcugvzzNa5tt5aMdanMgxxzZMMMMnccncFcCFgcMnMnlbCnnnnnFxncaMFnBCnDDDBCBBZFSnbCCCFSZttaajMqfxufaFs<rt6<AAchMGmZASHJYZggNGSAGMKZGns9ttquqyudfydz",
++"gHAAAFAAHSSHANCAZNDFZGCZZNFCfgyxcnNczzgf@6tr<gng9fbxjgaxfMy00sgxCnZgMZZczxvCcFDCCZbnbBnNbCDvZnBMBnggzNxzcNNtsxZnnzCgztgfun0zNa6tt5aSfufxgMZMZsu0fffnggccZcgjnDMCDnnDBnZlsSZncCZcZFFFxBFFZFBFDFZxZxgcq98dn88cSgcMfna5rt5<SYZnxZhNNMMNSJGCYGGGGMZxagy0ftMxfgczfd9q",
++"fuASHHNGSSAASPFSHnFZHMPMPMCgZHAMnSNNnNxg@6tt<gNxt0txxcMctrffncfa0gzcgfbSBBbncCbcngvjajZNDCjZnvZnvzszgzZZNnvnzNnzxusCCfdytnMnAa6tt5aSnn0zSnSfcggxgxgcxZNFCZnMDCZGCCCCDnnlztZcnCnZCvDFZBFBCnZCZZBZCFg8y9a88q*qnfMScNa<rt6,SGIZngxNhhxqMGPFPZZ08uqgNMMZcgMuudAStdcy",
++"gfsSHAZHFSGHHGAPHHGCPDHFFFnNAnANSSMAZCBj+6tt<fMn9tnZzxftuzzMBfBszscnDnlfzr6nnNZnCbzvjtNBvBsfBDzjFbnBMMZNZZZnZgzdxxzz8yu028sfDt5tt5aScxgzxMgngxgMCNxNca9CCZSZSCCSzMzjDBCZDZjbxZZZDzngxsBzxZnZZxnxCfagyqfzfyzxfgt92st5rt6,ZSAScNcNMhJcxZHShhdghxfMbDcxxzgncfNzMydx",
++"MZgfMHSPHSGFNnSHFPFPFFDHFNNPGAJHAGHZnbzg@6tr<jZFcgryzzMzCnczbbZfsnnnCZCCxvlnzvDfCBaCgaZZFBzzucsnBngd9tqrnZZnyxgBznjtxry22wgalt5tt5aSZAZnxnaZxcMxNMNCSnMxxFZZcMZZjDnaCDZCBFCBzZMuzzarxxrs0tZNMZZZafycgNygxzx0aadgzgt<rt6,ZYIHNfnZMNMNHnaMxNxcfMxHnZZM8qdgzcxMNgNM",
++"HcycrASPNSPNHPHPFPSDPHCacANDMgdxqgZGPZzj@5tt<fZnaurnxuxMAacCnjnaxZCzfZDnCnnnxszDnFBbbtBnBcsgNvBbvrgtq9russntsgzcxngsdzyfgxbClr6tt5aSNMNnfucsnMNNZNxxSCMcczagZnxMBjjaaZnDnZBZcaadajxctzfgnn18xMZNMfxcdxMfgffcgnFxjar<ra6,NUZndccdhAHNScMZMMANxxZHDxfuxfxxgxghMMZx",
++"ggxgMaHHAHJGPFGPFFHDnxZZZxSgcNxNzngGFCBg@5tr<gnzbcafngcxuzBBnnbnsnnxZbnCaxnlnNaCBBbjjzvBBBszNZZs92dgftvcvtsfNgyczxgMcsfzrx6lv65tt5tGSznuggCznZGZNZnCxnCFcCxfZMcFnDCbatCZBBznffgnzzgsfaNxfgraagZxMccuncfZgNMcCCxzgzt,rt6,NUcSxnzxMASHNfcccNSAZMccZfczgnnAMZZNMdnh",
++"gSHZMnznSSFPHGGIFPHnZZCHFncZxnNSSHcNPZnj@6tt<dcZcBffBcMMZxnxFzzbzCznZCznbscCzxZDCZbnzbnBnvNCZnBgff9cxvfgft2ufgzuzMggCgxnzufgl66tt5tSGnzuMgxzZCnnZnMMxzZSCFZCnGcZbCDBbzsZZxtg0gZnZBzznsuxgu879=8cngqgxcNMNMngcgnxczr<rt6,SYcAmcxcZHPFSHJAxMccDffZMcMuDgZNNAZxzydf",
++"yqfPnynzAFJFPPKPDGxMZCHHGAMFnANSAFN0zZCg@6tr<uNZCzzscZzaMZnczcnbbnzCFCZZbnncnznsFCbCvjnMcNZnZczgcn2sncNvgzf1fxgcnMatnnxgzgxbj55tt50GHZNggcnBz8yfnNSZCCZSgDCFjnCGFZbnbzcxzjga0a8zDBBMxBMtqaqyy9rrgfMczqzcZZNnxMMCbc6<rt6<ASMdSczcgzMxNZPASNAxMxaMJBAnxuZKMMNdhcu8",
++"uy9tMFgxnMHHFPnFGFSFPSNNnNSDZcNAAHNFxKMz@5tt<ucgnDZsxMnxacnnbBznCzCFZCCDnzanBFnDCbbzavqcBBnznut29ugczcZgnttfgnxNxzcanxnbCzbbv55tt5tJSZzNNnzyauzssSZFZSCZFnZZnnnGDnnnzjtuxxdgfgurruZZCxguug0a8gz8fxxcAcn0fZNZZnNZnjt<tt6,mNAhqScxcSGGgAnGHZGMMGnGZGKcZZAANSgMAhxc",
++"guxyysDnYxNPPHFPHANFHHNGFADAxcSFFAHNFFZg@6tt<dcnxZZfBgMnxBDgnzCBjzfCCZCDbDCFCCbbCnzMnzfsasznufquuzcvvxnngfnutdcgnxuxfCnCZBzzb56tt5tYSxdNScsuggsagCCFZZSZsCGGCnnnFnZCzt8gnzxxgMngutuzDn0xcau8qtgg*tccxMgccfausMNFnzt<rt6,mNNmdNSnASSJAHSzNMSMHZZDKGbZcGHNZxNAMZSn",
++"ZcMzca9MJzzGGGSGKSGGCGJGBSSDDSKKZGGGZBBz@6tr<uNMznzbjxcNnannnjncfcsnDCDCvCxCCBCclnZCnBczagzzunznCZCxbfnzggMztdMZMggCunnMZCbCv65tt5sIZMdMM0ggxu0uauZCSSznnASZnDnCnCCnsasxfnnMczNzZzbjbtuuqaxZga8na2zMNNcMAcxCjzbbNzr<tt6,mMNNZnNzASPJGZZSZHHJMDnvsGKGFGFDGnGGHHGc",
++"ZMMzzsa9xGGnAJKKJSGPIGJGFZCPnMSSGHKAGjbb@6tr<fAMayZBgCcMzbCbDCuanzfcDCnCZnCbzwfnzjnZBxnnfzZadngzfnZCMjnnjxnCbfMnxMzMbnZnnBZCb66tt5uAdSZnnMfugnxzffaxCZZZAZZFCnxnCntxszagngnNZgMZCCzbnfg8gx8y0ug0f9cxNDnnZjnnbnMnznt<rt6,mNmxgnnMuHNcnMHSNZGGJGSSxcvcxMFPxnGGZcHA",
++"HGFCcgfs6MgbzSJKJJJSGPKKKcFGZZAJKKGxMZzz,6tt<uZcCfzvcxCxCbCsanncjCszxZCDCZnnnZCncjjDCnncagzzNNZnZMZbnxgCgaZudtfgMMnbnzZCCFBZZt6tt5tMda0SxxgNgfnzgaf6xZCZFFCMZZFnzftzgnnsnxMxgscZnnzZngMgnnugnrrsgnfzMMMnNZZZNNbnbzt<tt6,mNScgncCMHSSNAGcnMJaZGSZZncacnJzNNGASJGJ",
++"HSZSZhzgafZntdFGSKGKGSKKPFFDJAGGGASKGDZn,6tt5fAANBsngcnZZCCnffcMCnnznlfZCZCnACZCCnvbnfqugxxanNZnZZnMCnMgngxxntdnCxnnnfbnbCZCFt6tt6rMnnftnfxnzxsZNCsjrxZSCFFMCZMtuaanznbsMcZMFZlFZBBgaadcndZzMnga$z6uMMCZZCMZZMnBCba<tt6,NHPRFZzbgcJAcSZHSJZKPGSPKKxFzZDzNGGHJSNZ",
++"DCZGGFZFvzBgMftZGPGZFGPKGFPFCSHJCDZPPPPv<rtt6aGGZBbznCZAZZDBnBZBnBCBzfnbnCnZDDFCCCzqcnccnzNnnAZZZFCZnnnnxsznMjaNnMMbnnnnFCZFDrrtar6NZZnuzMnnSFnFBaCcsnCnMZCnntaZNnncrxCBFlCFDDnnxZjftBxxNNNSDnCjgtrMcZANxcNsvZFnGZw5tar<mJHJCGCFZGKGHGGSKPKPKGKGKGCFZbZNFPPGDDJG",
++"KRIGZJGPPDZPuMfMSJRPJIIGGYPRHHIKFIIRRRPr5raar6ZRGDvZnASZCGFZZDFDCCDBCbBCSaZAGCCcjfarfnZNNcAcfnAZFMZSZZZDxZCCSZbZFCFDDFDCFFGPb5raar5gSUZZzZFGPZDZFFcZngtngMCnZCnFZSFZNxxbxDGFGDFCxxznZDDSZNZBSZDGMjNfbcDNADGFGGPGDn3wtat<qJYYIGGGPGDRJJHJPIKIKIYPKKPPPGPPPYRPGUPY",
++"RYYRRPYWRRWWWYKAcYYY~W~~E!!!WW!WR!R!!Rl<6taat6aPRPYJIPKGPPPPGPIIPPKFFPPFGngzCzsnnnzzfdcSADAZnfZIIHIGHHIIGIIIPPPFFPFKPKKGFTIZ66taatr5MJJYGKKKKPPPPKYIPIYPYPIYYYYYIJIIIYPGGYRPPRIPZSZDYPSYYPYPIIIIIPGAIZGIIPPJPGIPZr5ttaa6<gYWYW!R~ER!WR~YRRRYRYYRYRW!~!WWEYREEEYY",
++"IRIIRRRYR!~~~~!W~WI^^E^~~^^~!!EW!R!RKa<6taaatr6rZPIIPGKGGGGGGKGGPGPPPPIPSNcAAnfczggquggnSNZZNcfMNMAFIIIIPHKKPPKPPPKGFFKGPGb66taaattr2gZHKGKGGGPKKPKPPIPYYYRIYPPPHHPPGPPIRIPIRIRIIPYIYYYIJJPPKKPPPIIHYIHJPPPGGPGb65raaaat6*qARRRRRER!WWWYRRRRYYYYRYREEEERRYRRYYIY",
++"<<<<<3<<3<3<3333<55<<<<<<5<55<555555<56taaaaattr56w6666665666656r666666555<5<<<<<<<<<<<<555555<<<56666666666666666666666656rtaaaaaatr5555555555665666656656566665666656656656665556565656555555566566666656566556taaaaaat65,<<<<5<55553<<<<<<<<<<<<<<<<55<<<<<<<",
++"666666666666666666666666666666666666rrtaaaaaaaattrrrrrrrwwrrrrrrrrrrrrrrrrrrrttrwwwwwwwwrrrrrwrrrrrrwwww6rrr6wwrwwwwwwwwrrttaaaaaaaattrrrrr6rrrrwr5r66rrrrrr6w66w6wwww6rwwwww6wwrrrrrr6rrrr6rrrrwwwww666r66r6wrttaaaaaaaaatr6666666666666666666666666666666rr666",
++"tattatttttttttttttttttttttttttttttttataaaaaaaaatatttatattttttatttttttttttttttttttaaaataaaatattttttttttttttttttttttttttttttattatatataattttttttttttttttttttttttttttttttttatatatataatatttatattaatattatttaattattttataaaaaataatatattttttttttttttttttttttttttttttttttt",
++"aaaaattttrtrrttrrttrtrtrrtrttrtrrtrtrtrttrrtrrtrrtrtrtrrttrtrttttrtttttttrtttttttaaaaaaaaqttrrrr6wwww6wwrrwr6tw6wwww6wwwrwrrrrr6rrrrrrr8rrrrrrrrr9r6rrr6rr6wwrwwwwrrttaaaaaaaaatttrrtrrtrrrtrtrrrrrtt6trrrtttrrtrrrrrrtrtrr0trtrrtrrrtrrtrtrtrrrtrtrttrttttaaaaa",
++"aaaarr6553<<<5<3553<<<5<55<55<5<<5<5<<<<<<3<<133533<3<33<3<1331<<<<5<5<<<5<5<65rraaaaaaaqr6<<,,@%,@,@,@,,,@@,,,,@@,@@@,,,@,,@,$@@@@@@@@@@@@@@@@@@@@@@@@@@@@@,,@@@@,,<6rtaaaaaatw8555<<<<<<<<<<<5<<<<<<3<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<55wtaaaa",
++"aatr66uzbnxncMBZZCCCBBBBnbnBCCCCCCZCZMMMznnzfugzt6=9621=2tqtstqttaagxnBCCbbBBCBs5rraaaatr55zFFGZcngffy8;*&$@&$&1517-=*-892$$####X###########++########$#@#%$$$$$%=91%@5rtaaaat65rut0r8008<,$$##@%=-85606628262=*$%%&,<qr*$%%#%%$<39yty08raaq080t65=***==-*,5rtaa",
++"aar36q899tzfnnGGPIFPPGFRGZGGPPPPPPSPMAAcxyagZczDMzxn0tyqaaMZxfnCZCZFGGGDFFKFGPRIZwwtaaar<aW^W~GZSJJSJhmqdqqq;qqdgddyhNcN0qqcq;;;------;;=--;----;-;8---;--8q;;;8q8qqq9,<rtaatw6bZMgdgdgxhq989878qr99q;fsfqqgqggdfq9qqtzcgdyu0ddtayfungudauMcMcxZnznfuqq0q0655rta",
++"at660td0g100t0ufblbBZDnbnbbbDFGCAAcZxMMyuztuaxsbxZndufzNCffMxMnzzZFCAnDBBbbFDDZGJZ5raat56~^^YmZxdcmSGZcmZmNfcgcqddqdy8ZZcqq;-yc9q8u8=-8qgqfguqaqqf88y0qq0qq09qugddydfft,wtatr5CKSMNZMNnnyuuuufatqs9qaasxusuqxfxdunndygcxNSNncMtcfcfZgfhnxy9hZHZxNxcssqqa8fjst6ta",
++"yr5dhu9q=fyfxa0tt5rxxngngsMxcNZMnnnZZnunnxzgtxbzZcanbBnjfCfgnDCCjBZCbDnnBndtnnCnDHa6aaw<B~~PZNNASAzcqdcAcSchZZgghxNmqqq8gAmxhghxMgdqqqygfyaq9zxucqgcggndzzNgggnguncGZxz0<rttwaJSCzdyufzugnMxzxjxgxfgcsaMssxjacnMZNCCcbtZcCCnZZnCFZnfafxszu99stzCZnSZNgCzzzsxs5ra",
++"ar5ddyg6a<jfzcfaaa16dtjzcta*aMZZncMMCxzMZfzMBsBz0fngBZCCnZannZjnCBbZZnzBbnszau0gDGx6ra6<FKJJcNccnMNcdduGGmAMCfmfMZfxGvq8qyZZPhNNSSNNSMuNSnngdMGzGSxZSnMxMCnJCNZNNzucznNz,wtt5nYScsgnzcfnuBNMMZDZDzMnvZzgzMgsg0znZCcnCnvruNNNZFZbCFZzxfsnxzza82accnzZZZnZznfzj56t",
++"rw2xunffjggjsvycazfttgafvzjs=65cMnuzuznMcncnCZcaMxBBDBjCnZsnnCBzbvaznBBbzjjy=yxdgNx5raw<PDDcMASAHAZdnNNcxNCcZSxAcsAZDBmgdyyqNPGSSnZSHSZZMgxnncnzSSnHGGSJGSISIZNNNSAnCMMZ,wtr<CGczcZnCNfgnnZCZZBZZFMZvjssxsMnzfazNCbSZCDvusnsNCZZNZcnnZCfxFcgzcftzcNZZnZnZZnCn66t",
++"t59nczjzfjavyCZzad891gtfzfyxsa8rtafzufnzZBfZCnMbxxBnZzBZCncbBBnBCBZBnvnBBnxz9tcZxMg5ra6<YZxMNSGJZMddxMMxNNNNFdZHzzMZZvxmdZnNdfNJSGSHISZJPSnCGSJSZSnZSGJMCSPGGNGGZHMAZCMM,wtt<MFFZZnZcCxzMnMZZZBjvZDnMZjzNNZbfcfsnbnZZFcxDbZFsCnnZsdxafjcznxzNzsxauZnnnZcnCxFz56t",
++"t66zcnCzcxzaryzsaffssajvf8<gct61=00xZnfnBBCBZZCbBBZZbCZCCbCnaBnCCBbbZnznnngfy9tt0Mg5ra6<JSMGNAAcxhdunhZzcNgSCGZxZgdAZNndxnZhzyygSGPSZGNSHGIGGSGSZPnCHDFHGZGPZPgZGPZPZMZC,6tr<MIZngMzzZxSZZZxxffxccZngMZjgznxZznvuaczZFnbvczCDnZgzgZzzngcNcNZnDbbnanZCZzcnCZGb55t",
++"t62xMAMcanjzabazzystzxscsfgyxgt6ta=9cZZzMZZACnCBnBMBnZCCCCbZCzznDCvbnjbfujffsczgdNx<rt6<JDnNMfhcmNGMnZnchScZnHSAZZfNZANZZmNHngNgaZSGGHPMZCFGDzMzPKBFHGPGGPGFGFPCFcZnnNzM,6tt<MSnxugtsnzgtsgzzznCZnvnFZnxsnnnNZbZbzzzvnZDCnCDCDnvzxNcnZnxaMFNNNnzngagnnnZncCZx56t",
++"t62ccCBBcBc6zacrzZvsxZbfzfnycBca8ux9aauCxBZnnnnCBZBnCZBZnZDZZCBZCzzjnuzzzzgxngfjgMx5rt5<ZgduhhdnGxmcSZzgSANxSGSScZMcAxAZNHAmZMzZS0MGHHPSMHzGZGFIPGKZZGPKPPPPIIIGFFPnIMDn<6tr<MFZxfnczxCMxxnBZnnzZMjvZCZNMzxzZbngsnCZsabxDZbvnCzNnNnAxnnNjftz0svna0atcZZxDnCFn55t",
++"t26McZCscnMcnbCsfxvxBfncCv6yacguyudtzuu<axnnBCCZBBznBCjBBBCCnBxunfnzZzdtnanzufxzxGB<taw<UZdqnnfAchZMZxndANHAunZxKnIZxgNGZGZNZPSNSZcNPSZDPSCxZGPSMZGMzxSFCMZHPGPIPGFFCCMB,6tt<MAZxzxCccMgannZZZCZCZznvvjsMNCMnMCMzsnvCnzCnCDDFZcnzxNnCAnnxNNxtnzrNzffqncZbxDFx55t",
++"t56cNNcMvzBBnvbzzcvzZzagfxvsf69=du81agu89f8yMcMZBBxZMZcfcatunMZBnbMxcnszfcguMZycCZB5rt65YGxdxMZAmnSxZmxcySSZcNnHSBBMnznZMSSZnqJKnZu8GGGGGPGCSGJJZggxzndzxgZCJJGGAGGPPZZn<6tt<ZGSzgZSMxMCnncCnSFFZZZZbxtsffZnMzszxsDbsanzn0NZSCZFGzxNCZxncsncZzxnfb6zrcNZDjNGZ56t",
++"t69cNzznbjZZnzabxBBcsxNMnZBMzvtt0axgr20u9<9t9aaja9zjtubj9=9=<9cncBxffxzBzzScaznnADB<tt6<YUnZdNNfmHxmcAcznxsBBzZKSGZBfMNxSGmHNcnNgxzssSZGGGGCSHZGzzngsNMzMngsCYGIZGANPFFZ,6tr<NYFcZZCMnnZnZznZZZFZZCMxggcvffxNnngbfzDCCsZZjfCbNCNNccNnNnNZFCNbcnCzbslctbCCNFGD55t",
++"t56cMfagvzCCZBabvnzvattdzDBnff8tugyttuttfajafggxcufnajfty099096uannCvnnCncnZnCCzZIB<ra6<WWGchmNcMmcSGSZnmcPBgyMPGNSMMnmSNPMPZZcNDMSxnjHZKKGGSANAnMzMNMxHPZgncZGHGGMPPGGN<6tt<NYMMZZMaMCCDnZBMnZZzasgcMxnZDncvnnvzxzFFncaaznnZZCAFzCNZZZZZNCZjFDCcnznxbfCZZZFCr5t",
++"t66McZMMZsbZZnbbfvxDxcazfsxz69fdgautyxdutxjnvguz6ucgxguaxutau=s16u2abnnzftfnNZNZDJZ5rt6<YZhdcNcGMAZZGSZHNZNnBzGPGZNSzmuASGSNZAPSSZZSncfnGPGZAccMccJMNZZxggzMxcxGAGMzZPNF,6tr<nZMMZDnznCcDnCDSggaavcMbxZnMCvZnZnZbcCZfttzbsCZZZnncnjcCZnZFZnZScnncCbbnZznFZNKK66t",
++"t69McnMZZxZcCnsvvfvZMZxcfcMtdyfaaMfcfufzzfjxx20u6fuxxcfuuuf0uufu9yfur6gnfMZMnnnnDPM<ra6<HHczNcNNSJZGAZNZmJDGGcBHZHGKNnNZPSSxGIGGPSCDnFjzKKNdzNgcMHGGGCqzt8adq80nAAFnncPP,6tt<BZgtMnznZMnBZBssurxNgxbzgucZnznCFZnzx2unxlvxbfCcCNnCCnnNnNnDCnZFCnbcDnlncCncNNGKr6t",
++"t69nNZBZZCnanjcnBzstxcBCCz8tdgfgsuu9brbzugxt9tztxfuaxZxgabngfaata6z0f6jatyMNDzgfcSz5tt6<YYNcddZZSmASZmZKZfMIMzgNNZGZNMHSDZGGCFGGZPFKFZnBZxMcqdANZSSMgrzgxzs00a00nAInNZFG<6tr<MAnngCcfzCCCDzgnnfsxnzgxncCvZcMZZZCcttarsjbsszDNFSZZZZNxnZZFCCFCDZCFnnnjraDjNZPYt5t",
++"t5tNxzfa0tdayatBnbvzjCMcssyfxancfuttgzbfzn9au9*$*02uyafnfMfCMzcbtyaft9fj9f2tjxzczSn<rt6<HJJNZcNNSAZGSSJGZCHBccsfSScZZMZSNGGHFPnGPPSGGBZSt0nMSSMHSGZxMnZZnfggggu0fSHSNZFG<6tr<bMNMznxcnjcbjfnMxxMczbgxfnMvbxZZCCC00zzcnBCjzznnbZFZZZSNNNZCZCZCZbZCCDnZlsannZGIa5t",
++"t6tcMcfccBnfnzbbnczzxxugNadafygsxnfttAnzvgcj90u90t=6=r6zZugf0Muu0xgcfjautzua2=anFJc5tt6=JUHSHNcANGNHSSGZIKNDBzgfMSMNIPHJNZGKSZGGDZKKFFBznugnNcuNSSSgZZNxSZgdungyufGGGMFY<6tr<MFnZzcaCCCcBZMFFMZnMxjannnZnlvZZzatzZCanzzljbxbcaZZcnxz0tssxcnFnFCDCCCCZxczNzcZKa5t",
++"t6tAMZnZfccvjzcCnznvarqszyaczzjxsznt6MMzccyssxsgqya95099Mxxzgsssa0gnxb0gxnnsytsszAc3tt6<J~UmJGzGNNAGZJGAHZGFZMcZsNNZSKJAAGJFNPAGGDMSNMxcAcxSZGAxZAxAAAZxdMZcZsZNfvSnMDFY<6tt<NZNCnvgNCZCZnMfyfgcccglfbnZMjlzzcjqfnBvzbzlbnbFczds0fdfdsadf0u0qgAZCnDZZnnCDCFAIa5a",
++"t5yDACNMCZvZBBZzCzlvscz9gNccxxgZnnnxzjsjttygsfMgcafytrgfaczxnnCggjbbnjngjuuuanzfynz30t6<J~MANNzSNZAAHGGHSZIFZZGZszSSnHGGDKJGKHHKPSAcxxufNMhMnGMxxZcnZMnAFcGzxZMMnggIDFFP<6tr<MAZNMajFCnZgyumngzZZMnnncMZnZbnszjfBbnxzvCjbbnFsaf00tzcnu9zzgfs0t9qfjCCSzfCZjcFAa60",
++"a5aHSCZnnBjzavzcCnCbcxgMgzZZcZcgCMCZnzgjjgnggxtscgfatggzjMNcNznaBagaCjs9sangvzCznnn3tt63J~JJGZZnGmMNHNGGHJFAGGcGzgNGnSNNGGPFKKGGZcxMAdhMcZGNSZIINSGSGAZGxfFDFjaxt9BIZnKF<6tt<ZJNnMZntuy2uaccMCCzgMnCzvxcczCZcjMZBvDCCaClCzCndCtdutydznzsqaqass9<905qZZnAZFccSa5t",
++"r6sSZgcZnzCMZbbCbacgMxagMfftg9a6j1r0s9agzzgjgMfszzMgCjazgnnDCnnzzzBnjbnxxzsvnzsnnGn3tt6<J~GHMJMnhNMAMScJGZMcSGySSBxGDMGZtAICSGSGZGShxMxMZMZGZJAxSAAMZGAdZFFnGgfxAxxnFcKI<6tr<MGGZCzf7008yu6MCCczNCMCZzcCCcczznMZnFnzbjBzCbaffcx0ygyxNNcNzafaqaq090f559jCNZAGGa6t",
++"t6aGnMcjnZnCCnbbggcfnxMbnzzgzgxxxgzazgrgxnczxMznngscgngba9aynNZnunzCsgznsnganCzBvIZ,rt,,WSmZSGGAmcNSxANNMgnMAcAcGgxsNMxxcxNNNnZnZZASZxcASMNGAMgxhMNJPcGMZZGMCuzBgcjxMZZH56tr<MGAufy9gfztuascMNCCcxMzcnbnMaMnnZMnCDFBnbzjzntgxgCxqt9afcjtsxxqaazg9za09992tgAGIq6t",
++"a5aPZCxncBZZnsazgyjxscgZfcnMxzxnZjzjznazfxMMgZCMzzngnjzaffxsttnnnjsjznzCgyxxviazCDC,ttr6JJAqNNHZNGHMNGGAASnHSGZzzGhuqmNZnnxshnSAZxPShNSSAAGSGhxZZMnJGGZGZFPMnZMMnaxnjZIH<6tr<MZfzuysyyzzzur9ACCvncCCZncCnDCzzCCDCBzbnvvCCbzznndsnuxxctucxcnxqaqa2tafa*289-fcAa5t",
++"r6tYSCCZZCZBBzcvntcjZcMbcxMcnxMjnZnnZxCaasaaznMMnnnnjznznzagztanBnxa6;9;sunvgvvxCGn<ta6,JJScNnGNmxNAAHccAGSNcc0xsycfqsxGAxhfN0;0gx8dSZZHZSNMZnGGGZMSGIIFHHsZnZggnZnBHFRP<6tt<MScnngzzncgvafvzNZcnAMZFZZnvnbDbcZDBCCnbbNnDZcgnNcgcNjtndgdzdZxnggfzasq90909q0gnt5t",
++"a5rDKZZCCcnBCccctfgbgnMnZZMCCCxznnxgzzzsycNjjgzNCnCnzjbbqxcczx9angbaiguscnZnnnzggHn<tat,JJGNSxNxNSMmmNZMgMmcZxMCxxqNgydcZZczNMfnzddfnggZZASAuAZcGZAAFGPCDgMFFbZMZZZbFZPR<wtr1mxcNgznzMaCuxbfjzgMnnMCZ0CnCMcZzvrbbCCzjzaxaaug888cgcza9dzxzznfzf0augufza0azfgnIa6t",
++"a5wZGMMMCnfBfCnncxMbxtcxMbgnxZZZzbMbnrMs60cnMngxCCNMzxgtssjszzaagbCfsfusyixnBnBnBDn3rt6<PRPSSMccZSNAGNAGMcMACSGNGNNzSMNcAAccMMfccZxcGZAJFKGxAcMHGcFnKHIcGIZKFNPZBnGnGIII<6tt<xNcuuZnFZnCCnCfaudzxZzzuauccnZCntuaxfbaazazss9-a99sNhgNsfsNzxqxzzgsfsfsaCqanafCAa6t",
++"r5wfCMCCcBnCxzZBjjrxccfnxnCnZngcCZZnCzag9ytys-t<y-t999axxzxncxgfsDjayc0gnigbnClnnKn<tt6<IJPSJczxhNAGNHGGnxSJAxnZyfxcAPZxsNMyhNCjMGAGZZGZcgMNMAIZSMZGFGGSPFDGPGCInzFCGIRR<6tt<zMNnczNMcngjcfl8uyzdanvNZcvCnnxcscjszlbanzsa0qsdfd0tcxu0uxzzZnnnxf0zs90z9csgZzfSa5t",
++"a5rvtxMCCBBDzMCnjcurMcnbcbZnnnAZzMcDzxctxs0y6tMaxnNaaazsa1gngnansCs;ftfsjxnbbCBnSPn<rtt,WJYZhSSShNnMAmNhAANNmAxHNcgfqZxcMgxfPSAGZGMZFHGADcAGGHAZGPHKHKIDFGGZPZMDPCCDGGRP<6tt<zZznngzznZFcvysrfzzzbztgcbczcnMDnccxsttsgzzuqqsffnaNxugsafCCNnnCFnnxafaa8a*fzsnZt5t",
++"a5axsy2cBBnxCCxCcjgrznMxMjfCzxZZnCCnZMgfcgsxzt9zf6cgaMnzafnaznnzauzzfsxxjxizvlsjsMz3ta66WRKMSNGNAMmAACGSNNMNSAAcANsCznNNMNnZMSFZAGPCKMNNMMHZGZHKJGFSPIGnHPKFHDzCjZCbIIR^56tr<xZghMzcCcvnCnxsfCnzgsgsuZZnfznznnbnsCflnafNuuxzzqgxNgNns00fZNNZnZFZfzfganCf0z0gZt6t",
++"r5azatttnngMMcnZjncfxzZMZxbZxazZDCCnzzxCzfzjxyttuxnagszMCnjgnntCysfsfibDznjzaxjvZGz,aar,~JSSddxGJAASgGNNMNgCNJGCCzNBnZDCcZNGGGHAZFPFFFZGZMHKGDGFGPKGFIKSKKDGKFDDnDDDDPP^36tr<hncNCnMNZczaxCcfnzxZznsaNNcgjanCbvbznajnzgfgfxznCscnnufzn0gf0nzanCnnCzxzxfjwnjfFr5t",
++"a6annjqy=fcnCMMCCZnaabfCCZCnzxcsjZnzxzcayxCsxxsaxMgxntxrznnbZbaZssfnCnanCnlxvgvzZHz,ta,<^~GmNGZZn8cnGHSNGnxzASZJACGASZzAHGNGGGKKDPKKSGSSMcMGGKHKKPKDFFDGFFGFGPDCPFCFIIP^56tt5xAMZnZlsafcsvaNlxzncsfnga00fnzznnbnCCnxfzxsgdxccnN0zsNfNxzznnZnZznn0cnZsabnazxgnt6t",
++"traZzZf2669ccfZZZMMZzrnncMZbfCMCzcngzMnCNxCCznCzanzntjBCzbBCCCbazsnnCnsCnvnxstsjZNs;tt6<UHSGHHZffdNcgNSSNmZzJGJZGFGZngDJFGGABcCCjZDPSZGZHFFDMFZxDDFFZKZxZZDGKGDCnnxjIR(Q<6tt5zJAZZngMcnzbFnjCMCjNNfjcnncnNbzbCCnzbbzzjZzgzNZcFFNNzzzqAzsnnnnNcCZnnnFBznCsnCnzr6t",
++"ar5Kvdtd0g90NCZZCZccsnsnCCZgcZZCxnnncCCZZDnCDCnCMDZnnnCZCCZCbbnjfnxCZAnngtzzvbBlFNw6tat<NUSgNmmzNGSJGAGIGIUGZPPGGPKFGJcIGHnGGMIPPZISZIKSFKIPIKFMngdgMnMZFGCFGFGGPCZZfRYv<rat6aJSGZznNCFnZZZCcCZFCnZNZNbMnZDCzDDZbCfnznAczNccNZFZnNZNZnFZnNAAFACznZZFCCBbnZCCB5ra",
++"at6jxxcxct2ytZZcDMGZBZZxCCMcMZZZFFZFZDDDDDFBGZDnDFFZCnFFFCCFFFbFDZFFFBFZFZFBFnbvny5riit56EEQENSKJYPP!PGRPPRPPUPUUITKITTIIIIPPPIPUYIIRIR^PPRRIPTPPRIIZGRZDEIIPIGRPDzgdgn35taa65ZIPNFFGGFDFCGGCGKGGGGFFFGFDDFCDFZbFZDbsxgfNzAGNAFFZCFDGFFGZFFGFGFFFDBFFFFCCPFFa6ta",
++"aar5jJIYGKGCzMJHKYPRKKPGMCnGHPHSGGFGSDSDDFDDDFDDAFFFFFFFFPPFGFKPKPKKPKPKKPPKKFCDs5wtiiiw5tY(^!~Q~J~P~WJRRURYRRRRRRRRPQPRQPEWQ~EQQR^P^PPPP^^PPP~(PRP(^P^PRP(P(PP(P(~EUZ25raaaa66AJIJJPKGKPPPTPPPPIPIPIPPPPPIIIIIFZPFbsgnZnGIIPIGKGGGKGGGKKKKGGGKGGGGPPPKPIRGj5rta",
++"aatr5tcZZCZBxfsnBZZCZCCCxznCCCnnbnbccbbbbzbzbzbbbbnbbnnnCBnCCCnBCCCCBZBZCDBBFFbw=wtiiiiir*,zDSZZFZZCZBFZCCCCMnBnnBBBCCZZCZCCCZCZZCDDCDZCPDDCDCDZCZZZFZZCDFIKFGFFKGPGv<5rtaaaat65anCnnnBBbBBBBBBBCCnCCCCnnCnCCCZZBlar*280sCDZZCZCCnnnnnnbnnbbnncbbnnnbnnBCvr5rtaa",
++"aaatrw6533331<3<<<<3<5<5<5<55<5<5<<3<3<3<33<3<<35<5<<5<55<5<5<5<w,,,,,,,,,,,,6,wwiiiaiaiit6<<,,@,,+,,,,,,,+,,,,,,@@@@@@@@@@,,@@,,@@@@,,@<,@@@@@,@@@,,,,,@,,,,,,@@,,,<wraaaaaaatr655<<<<<3<<<<<<3<<<<<<<<<<<<<<<<<<5<5<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<556raaaa",
++"aaaaatttttrrtttttttrttrttrtttttrrttrtrtrttrtrtrrtrttrttrtrrtttrttrtrtwrtatrrttttiiiiiiiaiittwwwwwrr666r6wwwwwwrr6666w6ww6ww6www6rrwww6rrrr6rwrwwrrrrwrwr6wwwwwwwwwrrrttaaaasaaaatttrrtrtrrrrrtwrt6rtrtrrtrrrtrrtrrrrrrrtrtrtrrrtttrrrtrrrtrtrtrttrtrrttrtttaaaaa",
++"aataaaattttattttttttttttttttttttttattaaaataaaaaatttttttttattttataatttitttitititititiiiittittttttttttttttttttttttaaaaittttaatitaiatatatttttttttttttttttttttirtrirtttttattaataatattttattttaatttaataatatttataatttataaaaaaaaatataattattatttatttta0tttttttttttatttaaa",
++"w6w6wwwwrrr6rr9rrrrrrrrrr9rrrrrrwwrrtttaaaaaaaatt6666r6666666w66,t6w6666,w,w,trwrr666666666w66666666666666666626,t6666666wtttaaaaaaattrrrw66r6ww66rr6r6rw6wwwwwwwwwwrrw666666666wwwrrw9w6wwww6ww666666w696r66r9ttaaaaaaaaat0rr96666wrrrrrrrrwwr9rrrrrrrrrrrrrr6r",
++",<<,,,,,,,,<<<515656665655<<5<*<@@@,<6rtaaaaatr6<@++ooo@@@@@ooo@+++o+++@,,,,,,,w,,w,56,,,@@+++++@o@oo+o+oooooOX oooo+ooo+@<6taaaaaatr5<@@@@+@+++@++++@@@@,,<3<<,,<,<<56666363<335<<<,,,%@@@@@@@+@@@@,,,,,,,,,,<56taaaaattt65<,<,,@,,@@@,,,,<<<,<<<<<<,,,,,,,<,,,",
++"dutyutdqtxffcchzbFGPYPRYGFANZgd862==#+<rtaaaar5+$-$--$;8<<=-7=-=;;;====;;;9dfZP!/~~~RJNmhdq;;;-=&==$$=$=================== #6taaaat6<=-=%%=$$=$$$$&&==;;;8qagznghxhcZGRIUGAxgqdumShdyu00888-=2==$-$-$*;899--;;22<2taaaaa65ancgudt998;00ucnzdyq99uuzzdqygt9q9qygg",
++"dfhNGISIAnZNHZZZnzbZYJGFHKMAxAcgzMdut=#<rtaar5#;;8;88q8qq;--7887q;0q99;qqxcMzDGPQPEJJZmxqudmxcyq908---;==-==-=========-===;=@6taaa6<6q0897869;-;8-q28thyxNNgfdqcn0qaftsxZGNcdhhfzzchdymgzf08082ut;92;=-*;09;099y055ttaa65zIYJGANNNcMnNAGudyq8809-q9dqy98-9u9qx99",
++"yxdtuf=u9udguayzZzbzZDGZNFFGZzxsdnNx882@6tat6,0dfdfxgzuqq;q;;t9yduxhhfxczsDCnZnKDBDNNNMhd9d;q8hhcdqqyqu0q0qq0yd=y8quqyy9qq8q<<waar1rdddzya0suufzgraztrhNnZNcdMtddgcqaczjAMxfzhcfauyNnnMGn0008089My89tdu029zjgdz0ut<raat6aGxcANFZSGGZxcqua000q99908d98xgu90999qqh",
++"ZZcMuu01q9udfudtzZfgfZZMgAZxgMcNMfMyza9<3rat51hgMPZFZxqdqszt09ycsMxzhnxhnnjZnzbGDZDCNmcmncy9myyhcNhchxMcgShhxnxcgxuyugzgzy9su@6ta61cfdzcZccggMMfsBnvzxgCCCNCBdzgtdgghaBcaxcccnZMucgzNAccxfgxfduzungzuffMz0uqjsuzyjr5tat5ZJNg0tsC0gmczng088gu8cqzjgq999gcsffjua0A",
++"ancjyfzzgyMtuccbatcbaccZxMCngxCZZxtgNNay<rtt*qchZZMSgdycucAMgyftlzhZKHNbxaxgnnlKnSMAMNhmMMcMMMMMxSMSgAcZSASxnCSFZNCzcNcSvNssg<3tt69nhcnMZnxcMNZCGZBnZvBcsdxzxcCSNcCnBzzadZZSMDZnugxznzf0yNMzMfgMtfxNcCvbxzfNgsscfxa<tar5PJcZdn9fCncNu0;u0fsxzxjzcza0gf0NnsBxxZna",
++"ZCnxngnZnCZjxzzzagatt5nZMxnCccMMnuNxcNfa,rtr<dNAZZGnuxgMcszzHMzNzfAGGKGDNgjnBzvKAMMNMMMxMcxcSnNCnfNGFAZMPSFnAAJcSMSDZcNZZCnzv33tt50ZnmMADgxnMCnZZFCFnBvBfa8rdxsgGSCnngnnzZZFnSZgcMnnncznmfczgnzuZdncMZZCZcxnNzfvcza<rtr6JPZNczxxZDcfftxjuafuZCZCncNsauus9ZzxcANZ",
++"xZnnnngzncvjzBfCcjfjffCzcMZDzMMZzznnCCfa<6tr,ucNczFaqMSZZZncxnZczbDSGBDKZDnaxjnZnzcNgNhhNcGSNFSSxfcGSSnSZZCSJFZSSNZZGMGZCazgz<3tt69ZnMMFnnNCZFFFZCDBnbZnxcMdxdataggCBcvvsSDFZDZnCCnGAZNMAANgnMFcnCtNcbcznFagzNnsCza<ta65YSAZZFCnFZxuccccZZfzxnfbNxxzzgzffrgZCNzc",
++"zzgcFccCccznMcztcnBza0acMZZMncCZMNMFnzcs,rt9,dMNHMuugMgfGNcAcnfMnzMszfbDZZCvgfsfn9gmxAxxNGSSGMDZZMnNSZZFFCChCJCGSNHGFDZGDcfjj<3rr5qZnxFCZZCzFAFCCZZZBvCMNnnNxyyxxssxabZBbDDFZncDMcMZNCnNgffcZMZNccMMSCNncvNznvx0ana<rtr5PPZNSCcZc0ugggcgnfzZxfxfAZNZZjSjxjfazsaf",
++"cgsxnCCZCznvBvnnzvgttBvNMDNxMxMZnZnZMZca,rar,sNSScudccNxgZxSZCCnZbxMCcnsCAnjysthMMzcZmcmZZSAANSNSFSGNGCGxAZJFcFGHZFSGPFSFDnlj<5rt5qAMZNZMFZCnMFKZFDZMBxgZufzxgnnZxbzjCjnxnZGAcfnGNMFCFgzncNzgxngznCnZCbZgZSSZaxzsjt<rtw5IIGZZCnCccgxxgZCsMbnnZbgznbNMAnzMbatuFxz",
++"znCNNSZcBDjZnnZnvxBnng6tNNxggnsfxdxMMFca,rtr,uAGAcgxNNSFZSPCNcNCgfnxxsBvGxgntrsmnbMfZmCmMAZZASSSFZCZGZCnFnnZMZZKCCnnxfnAFDBzz<<tt5rGxMZNxnnbnZFCZCnZngFxcZZMMFnMnczlvsablbZCMnNZNnFCFCnNnMMMxMNnNNZzZCfzngttgsZzzva<tt65DUGZACMZgznZZcxgzZxcMCczsczxjnnznzcMcznb",
++"BZNZnZSScZnCZCznZvBasxvvDzfgZfxZnZzxBZza,rtr,sGGdq9gdnczuGGZbZnfMnMnnxaBsxzlxgxCMAzAANMMNAFGSAAAFZZGJfgcnGSFZFGZnAPZFMcnFKBbz<5rt5rAZMNMFNCbnFnZzCCBZZFZFAZnMMFaCczgCnlbgyvznnFnnZAFNNgcxnZxNZCCCcNAzCxncgcjxnlvcbj<rtw5zGFCZxcnccZMcnfNbgllcMMnsncCMxnnnZZbbbjn",
++"CBNzZZZZBZBncBnBjznZBzvvDggMcNNZZNMcnFzs,rtr,dHdxnmHxnNNcNcSKFFzMycNMHxvczjyf9ahZZzGANcNnMAJNSAGPGJNqCnZGxFFZPZDGHFGZFGFjKFzz,<tt5qIncMcCCCzCbZZCnCjgtddfxZZGMnZnsCncblnftynnZFnnAAAcxMAnFnAZGAFCgasgnncsMCZZcbslva<rar5BjcxcZZnnxZxZfxxzbnnbAZCnnnACnvZCCCnznzs",
++"ZBxxsggatxZSNZNSnbzZDnzsffnZu9cczzzxCbbs<wtr%gAmxASMMAGSFFGNFZFndyxHnnninNnnzg96zNZZmcMZMSSFNFAFZGZzcNJGZZGZBCFZPGFJPFnZFKCbx<<rt5tGMcMSFFZbgFDDDCg9sZznZgnfxBZnZnnvxnxasajzZZcZZNNnZMMNZAZNNCzunsznZazcZCcnZzcjnzt<rar6ZcsnnMZZnZZnZbNNbZbnZFbBznCzMFZFlCCClnbj",
++"vssxxgagstt6aNzZvCzbzgtzfgMznq9fzMcnZGbj,wtr,dmddxcASAGGFSGcnctsMfydZGnnzyDCngjrZzxfhMghASSNGSAFFcxcnSJnGSGMDDGGZSGFPFCZCZPnb<<tt1tGZNZAGFZvbClZCBsdx0czgZMDnxgFFFnzvzaxjxllZFFZZCcgncNZZAutsxgNZcZzggczdznZZgbjnbt<rtr5ZztsnZZZxCAMNNCnnZZGnZnnlnncZFZZZCZClnzn",
++"xdngngcCcgcyaataa1tjMxrgqxcgugg9aqcCZZvj,rtr,yhcSgNANGGSNcc9tNchMZAxxslfngxnnbjsZGbzxZmMNnASSJKCznxZAGFZFGGGZCGDZFSFCGPFZnIBb<<tt5qAZGnnCFnCbDCCBCxgdfyssgqxzMafCMggtxvzzlvzZCZZCxcnMNACCucgfnnNZZZcZnZncMz6CnsbDva<raw6SZZcccZCcNZNCNMZZDCDnDnZnnbDZgCCDZCCnBbb",
++"czNNZZnnnxxgcdztysaaxgxasMsugZggffqCFDBj<rt9,dmNSnNnSxMuusgxxuNxCnnCnggufynznzzzzGxfGmmnAAfZCKGcNnmGAFPFZZFFFFFGSGGFPFFCbDnBC55rt5qNJzgNDnCgnDnzbxajaxdMsgffqfg5zFnvlvnCcnnbuFFnycxZZCFMdgxnddnzZcnCMnAnCZZNzDBaMBa<rt65DzszczcnMnNnZSbZZZDFZDnbZnbZcMZFZZCCBBbl",
++"zzugnCZGCczzgdnvntgaznnngNuzMcggnZCgZCBz<rtr,unScNZGyhtNdcjZNczzAACxxCbnfnfsyz0ntzMAfNNNSSGZZCFnPZZGSGPFFZGGDFGGGZSSPPZPFCZnb6<tt5rAZMcxxbbxjFMnudqxdsBxZCjnxZCtcnZvjMaDCCvxgZNfcMncMzGyfxznNCcNZZZnBnvDZDZDCZblaZa<rtr6Zhga2uzgZcNMMnFZMAMnZZZFCCzZCnCZDDBCCbva",
++"zanfyqgzBNCzznjnnxvgzNnsaxqsxNMcnnaqsFDb<rtr,uNSNAnccxcnxNFxAnNNCDHAnzzFMunnn0t60NMxgcZASSFGGGCGGSFGSMSCPGGGCbZGFcGFFGGGFZZnn55rt5qAAGGMMgzngxMvZafcxDnMZMxbjcMzzNnnCFlzCCnngufZANMNMMzzfcnmzCAxcMZSvGDZCBDCZZZvbBa<ttw6ShggsqgsfgZNMZCZMCZCvZZZvCnFCFZClDBCDbsz",
++"gngcgzdgunnNDvzzcn6ztavzfxqggzcSgMFzssFB<rtr*dNANngnxhAcSGGNAccZAfxGnAzDCNzsszj06rNZxcACNSFGGDMFFPGFGPGGGFFSCGDGGGSSPJGGSKCbC6<tt5tAINZzBDFCgCMsuMMCMnMCxcngsansnbnbCClCbBgMgxsznczNncznNcNMFMFZNSDnBBZDCFZZCcZbvZj,rtw3NhxagNdct0jnnNMnMZFFCZnZDnZFCzCCnCCnZccn",
++"ZnnNvZxnCxdazcjgsaquzgjzsgfxzctcnznnjalZ<rtr&dSNdgggcNZxZGZsNcxuhxggDBngSZZnnznaq;gGNMzAAZNHCMSGZZGFFGGFZFFGZGGFPFFFFSGGGKFCZ65rt5aJHAZZFZDncZnsccZxZMMnMnDDZZvZnCZZCCnbs51u6gt9cnnMmZzzNSnnFMZnSZZnZDDZZZCZbZvnvDj<rtr<Mxf83tzcxcqggZZZMZZZZFZZnDCnCZZBnCjZCgZZ",
++"NNzDZZBCZzayat8aagaxfzzscfczxAMngnznzsac5rtr,sNhhcScznGNSxzxxccNZxxMyynyzSnxjgsgu0uNCMZSZAGGFZGGznzZGFAZZSFnzcgzdxzfxzxZSSGZF6<tt5yGncfMZCnnFnnFxZncNMZFDnFMZZBZZFbnMc9718&2d99tzcMNNgncnnFNuZZMDZnnNSZnZZSZDZBblnj<tar3MMdt18y9tgnuntcZZZZZCFnZZFBZZFFDCCzncnnZ",
++"znZNNDDDMNnxcxxzsggzgxzz9nxnNMNMxMZnfjlc<rtr,fxdghZNZZZZxNxcNxNNAAGMxZzxlNCxnfMgasrbSZZSASGGGGAFFZnSGcZnyMCfgdfqcuyfdgu8zydgn65rt5yNcfdy9tgMZCZMnZZMFFDnMFDFnFbDZZCn262&t2299utq0czNNMNMANFNCNnZnBDZZDDDCCBBDDCBnZa<rtr<mNxy96gd0fzcMM0znZZCFZZZZZZCCZCZZbvnug0g",
++"NzCZZSZBnNncfzNzNnngtcjrtscMnzsxCNZZcBzb5rtr,szhnNGSzSGZZdccZScNCZzxMnlMs9NAgscnuu09ZZSNZSGJGSSFGGGCAj=2807nzxGSnxfffqxzfgnbb5<tt5rMcucMzdd99cMaZZANDZBFgDBZDnBBMaz&26yy0utzd0tru0yzMnMZnNZAFFMCxGZSZnBBDCDBZZgCBMa<rtw<MxNg961cnugcnzzazanMCZZZbFCZFZZnZnMzfczj",
++"BZBBBZxDNNcnNaZaazxzdtrgsfccffgnguMCZCbB<rtr,accNGZAZnSFANAAncZxMZCnAbnfZNsDGCxGzf0y0CZGAGFFFZKGZDny8gMAnxnxNASnz8qyACCgsAbnx55rt5tNmxuMtutut1rgnZZNDFFFDDZFZZjas7888yuyugg6ud6ttgg08znNNmNFMnZFZZZxnZDNZZDbBZvBzZa<rtr<nNncadargagMgzcZnzauCZZZDZZCZCFDnbxgcZZM",
++"xDBgscNBZzZBnvnZnszaaZzazzggzMNczgZnznnD<6tr%dmmccJnGNxGcNZFZZKGCnSHnnnAxfazzMnsnnac9sMMZZGZZFGSDqfzddnMMnnzcqfdxzfdgMMzznggb5<tt5tMMxnnnfxxxs8tdgAAZZZFDZnBxfgq6u9du9agg0062xgs<BzdtzZZZZSZSZZNSnDSGDDnZZBZjZZvSZa<rtr5nnchxcr9xgzsf9q0q==*5qDZZCZZFFZDbncxZNZC",
++"ZnznZZZNDNNNZZzggzzbzcCzzbvngNahBZDZnjzn5wtr,dmmcSNZcAdZAPFnZZZzAGBnGGnMzfzgGCcnlZzzu2uucZGFSZMdzjdxGMAGMCMcufcnNNncfgMNzzGnb55rt50mZAnzfMZMztgu1Mdzfss82sjggs26qzMgMzgdadd0sabbsxdhz6zBZZDZZvBDDZZDSZDDZnDCzZCCDDa<rt6<xNnZCqttrZZgsaq6*a*%q6=zCZDZZZBnbzgcxMNA",
++"xnnggu=cxxzcnnxBZjzssZnMazccxfnZcSnvzbzZ56tr,sNmNGJAZZNxNSGAnnAnsHZZMCCADZxnnnnFCjduguq29;uGNASZNZZzMZzcMSNMMxxxnMAffnxZnzfGn55rt5wMmdfcZzftgutfgannnMgcMgxqqu28guMMMMgaauuzsgq9ttazfdngSZZCDNGDDZZvnDZZSDZDZnZcSZa,rtr5cNSZggxa0NcZfdcsqqsq29aaaNZZZZMnvaxcMNMv",
++"ZBnNvngtnzxxzzDZnzzvzMjCngZvnznZnDvzjzvZ56a6,dNNAGZZnGNJNfSKGZZADvGDGAZnnnxlnGnnZcsy2sz09t7xZZCJASnGFZHZNMNNcccZnNMJncNNNjbzb55tt50xmgczzsnZzNzu111sMFZZx9sqd0tfsscq29djggjfn9r16qsxgnfcsgDZDZDZDDzgBsBcSDZZDBBvGZa<ttr<hcdxNnxta=xccMDczja0tq06q6aZnZZzvf9MncNA",
++"nZzZDNvzZcnDDZDZDCCMCzbvzZcffNcZZgMNczZD56aw,uxcnNGGGGZZFZcZZGGGGnBnAFCHGZZanCnncAnczcaZluzjgFMxchMnSAAMNxAcMGcMnczNCnnbGFncn65rt59MNZZNFMnZnCf0aqrq299dztdqsgqt8u0ytzxsgczgtgus8tcnssgxds1CDZZZZBNZnSNZZZxZZZvBGna<ra6<zhMngcszz6sNNngcnzMgsfsq6sgfMZMbfgNvvMNZ",
++"ZxzngBDNZZZnZZDzcvbnjnnCnNzgNcvctznfttNB<6tw%uhdddGZNAGAcSGzAPGAGZAGnZAZDFFDxxcnMzAbzccgaynq8CMNGMAAZAZZMAMxxSGJNMHxnCDnFxCZn5<tt5rMNcNACZZzNMbnfgquyaqgdsnggcyasffZZnjgMnngMgjgfjznxzgBzafaZZDBZCZNNDnCgzgrjvZxGGa<ra6<hNZcxzxtaa2gNNcfnMngstztu6cusFNxMMMnMxNZ",
++"cnZZNzutzZBNCnggvZjavZnbsngcncnzxfnNsajZ5wa6%amccd88zddZGKKKnGGFDGDGGGCZGBFGCxzZzGSCZzNjyzyufuSGGGFAAZAMAZACMMMSGNJGGFnGGCCnC55rt20ZnNxCZAZNnbxMMcjt9aZzMc9fcnZfgffuGNsMMnssjggbstcdgjsdaznagSnNZZcDNCxnvxzndzgtZPa<ra65hNZcgzxvsaauafZnfzbvbsatvaqaa6&cnMZZCMCM",
++"nBNZDDZngnDNZnDZbzgzbzjbncnZgzNMfxBzzagZ56ar$dmhzNgxcAftuagFGCFZZGCngvGGGZFGxGCgnnZMZcnMnafzusynAZGcAFnFSSGSAZFZCFZFKKFZGCnZD6<tt60SANnMMFFnFFnCZMngMxxxxcMcgfhMfNzsgzzlxbzugcxvgtcngZzcNCCgazcZZnNSNSnZnvCZcaqfuza<rtr<cZhnnxnzjqqxzvvfzZMbcjjt6zs9f0sdcMADZMMZ",
++"ZzBnnZZFnnZvZZZDBbnzCnnvnNnnvBZncnZaBgjz6rar<sNmNZMZcaAGqz9q909n%ggfuulGKFZGFBZbZZDzznnlbnzfllfgcZGGGGFDNAGGAAZGCPPDFDGKGDFIZw5tt6aSNNNNbBntfbCZNvnlcfabuusfMxcgbZZZxnnjsajbnaClxsnCZvczNZDnjaxcMxNZnnCDZzBjs2qxnca5rar5cNcZbCvBcgaBbsazbabbZnbjffftffaq59ZcNMMZ",
++"McFZFZBbnzZNxnDSCZCCCCBCZcMZnCZnnZDZGBzz<rtt<aANGPGGPAnZcGNNZGaxnnnnAzxnbBSPKPCZngcbAZCnFFGGZZZgngcGKDDGMGGGGGGGPPDFFFGFPFKPG66tt6tJHSAFGFZFFfZFNZcfNMgcnxgxFMnSCbZFZnFZzvFbDDDCzjvDZbZnBBgnvtqtNBSxZZnZZCZZvfBDGBt5ttr3cANnCFbzMMzBvvxfDlnnvlblMxqaqsMfassMADZZ",
++"CDFGFFZCbFvFZGnZFFZCZFCBnzZSSnBBZSGDCZBa5tat66AHGGIHAKFGJIGGIGJAKGPPHFZKIKCFZPPKJGCGKKGGPPnnfuzucccnnPKPFGGGIPGIPPPPPGGGGFPPZ<wtaw<FUGFAZZZGnZFZGNGCMFGGnZZMFSFFDDDFFCGZDBFDDFCCCcCGZZFBNBGBzqtuZZnSGGZGKGBBBZZHPC56tat6sSPDFFFZFZnzMDGGDBFDFvlznZgasgczfazcSNZD",
++"SSGKZKGKFDSPGKFGKFPPKGZZGxKGPKPGHKGKIGv5wtat6<sHJJJPPGPPIIIKKIGPKPPIJPPPIPIIIIPPIIIKIIRRPPPPRPUIAAAHGMnRHJURIIRRPPPPRGRRPPPIr5taat6aIRIJGGPPKGKIGGJGGGGGKGGGGGGGGDGGGGGGGFDDKPGKKKPGFPIFGBDNfxNhhNKPKPPPKGIGKPUPIa56aatr2mJIKGFKPGPCGGHGKKPGGPZBnFNbxNGzNxqdfZDG",
++"fHIJRRYEPRRRRRERRYEEPKHnzZAHIRRIIPIPKl66taaaa6<sGJYJIIIIIIIIIIIJIIIIIIIIYITTPP~PPPPPP!!PP/~PP~~~~^~RP(PGZnR^~~~!PP(P/P/P(PPa<waaatw6tGYRPPPTIIIIIJJIPKGKPPHPKGGGGGPKGGGKKPPPPPIPIRIRIRRGJSxyfAAcxfAJEERRIRRRYYRGs56aaaar66xGPPPPPIPRIHPPPPPPIIIRDIIFFcJGGnxxguqd",
++",<rajaaataaaajjasjaassaatasjjjaaaaaa666taaaaat6<5taatttttttttttttatttttaaitaaasalslajjjljjjjvajjfassfavjatttassfjjbjljljba56waaaaaaw65afssljaaaaaaaaaaaatttataaatattaatttttaaaajjssaajjsaaatt696<22taajjsjaajaa666aaaaaat666aaaaaaaasaaaaaaaaassjjsjsaaau6666,,%",
++"6562556555566555555555555555555565666raaaaaaaatt66<<<<<<<<<<<<5<<,,,,,<<<<<<<,6,6,<33<33<,5,55<5<<3<3333333333333<3<653356rttaaaaaattw6655555655555555555655555555553556656555555555555555552555555535556555566rttaaaaaaatr6666565555565555566555555566<66565566",
++"ttttttttttrtttttartarattttttttttttttaataaaaataatattttttrtttttrtttaataatrtttttttttatrttttttitrttrtttrrtrt9trtrrtrrtrtttrtttiaaaaaaaaaaattttttrtrttttttttrttrtttttttttttttrtttttttttttttttararrartartttttttttttttttaaaaaaaaaaatttttttttttttttttttttttartttttttqttt"
++};
+diff --git a/textures/test.xpm b/textures/test.xpm
+new file mode 100644
+index 0000000..0c84324
+--- /dev/null
++++ b/textures/test.xpm
+@@ -0,0 +1,8 @@
++! XPM2
++48 4 2 1
++a c #FFFFFF
++b c #000000
++abaabaababaaabaabababaabaabaababaabaaababaabaaab
++abaabaababaaabaabababaabaabaababaabaaababaabaaab
++abaabaababaaabaabababaabaabaababaabaaababaabaaab
++abaabaababaaabaabababaabaabaababaabaaababaabaaab
+\ No newline at end of file

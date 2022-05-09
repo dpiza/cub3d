@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
+/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/06 16:41:42 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/05/09 13:59:50 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,10 @@
 #  define BUFFER_SIZE 32
 # endif
 
-typedef struct s_map	t_map;
-typedef struct s_strmap	t_strmap;
-typedef struct s_mlx	t_mlx;
+typedef struct s_map		t_map;
+typedef struct s_strmap		t_strmap;
+typedef struct s_mlx		t_mlx;
+typedef struct s_mlx_img	t_mlx_img;
 
 enum e_map_status{
 	OK = 0,
@@ -68,6 +69,17 @@ struct	s_mlx
 	int		end;
 	int		img_width;
 	int		img_height;
+};
+
+struct s_mlx_img
+{
+	void	*addr;
+	void	*data;
+	int		width;
+	int		height;
+	int		bpp;
+	int		line_size;
+	int		endian;
 };
 
 char		*get_next_line(int fd);

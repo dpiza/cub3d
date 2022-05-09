@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_line_checkers.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
+/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 12:06:16 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/05 19:52:49 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/05/09 13:48:57 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	is_valid_texture_line(char *line)
 {
 	char		*path;
 	int			i;
-	static char	*side[4] = {"NO", "SO", "WE", "EA"};
+	static char	*side[5] = {"NO", "SO", "WE", "EA", 0};
 
 	i = 0;
 	while (side[i] && ft_strncmp(line, side[i], 2) != 0)
@@ -89,7 +89,7 @@ int	is_valid_map_line(char *line)
 
 int	is_empty_line(char *line)
 {
-	while (line)
+	while (*line)
 	{
 		if (!ft_isspace((char) *line))
 			return (0);

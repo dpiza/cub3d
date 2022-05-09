@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 21:49:33 by dpiza             #+#    #+#             */
-/*   Updated: 2022/05/05 19:52:32 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/05/06 16:06:07 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,5 @@ void	eval_assets(t_map *map)
 		}
 		map_lines++;
 	}
-	print_struct(map);
+	// print_struct(map);
 }

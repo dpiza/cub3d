@@ -19,7 +19,8 @@ RAW_C		=	main.c \
 				parser_eval_assets.c \
 				parser_create_strmap.c \
 				parser_map_pointers.c \
-				parser_line_checkers.c
+				parser_line_checkers.c \
+				hooks.c
 
 SRC			=	$(addprefix $(SRC_D)/,$(RAW_C))
 OBJ			=	$(addprefix $(OBJ_D)/,$(RAW_C:.c=.o))

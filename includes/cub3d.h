@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/05 19:52:09 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/05/06 16:41:42 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 
 typedef struct s_map	t_map;
 typedef struct s_strmap	t_strmap;
+typedef struct s_mlx	t_mlx;
 
 enum e_map_status{
 	OK = 0,
@@ -56,6 +57,19 @@ struct s_strmap{
 	int		lines;
 };
 
+struct	s_mlx
+{
+	void	*connection;
+	void	*window;
+	void	*img;
+	int		*addr;
+	int		bpp;
+	int		ll;
+	int		end;
+	int		img_width;
+	int		img_height;
+};
+
 char		*get_next_line(int fd);
 t_map		*load_map(const char *path);
 void		eval_map(t_map	*map);
@@ -76,6 +90,7 @@ int			is_valid_color_line(char *line);
 int			is_empty_line(char *line);
 void		free_t_map(t_map *map);
 char		*get_path(char *line);
+int		key_hook(int k, t_mlx *mlx);
 
 # define OPEN_MAX 256
 

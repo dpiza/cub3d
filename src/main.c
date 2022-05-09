@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:48:44 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/05 18:06:52 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/06 17:27:38 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,26 @@
 
 void	mlx_test(void)
 {
-	void	*mlx_connection;
-	void	*mlx_window;
+	t_mlx	*mlx;
+	int		img_width = 0;
+	int		img_height = 0;
+	char	*path = "./textures/test.xpm";
 
-	mlx_connection = mlx_init();
-	if (mlx_connection)
+	mlx = ft_calloc(1, sizeof(t_mlx));
+	mlx->connection = mlx_init();
+	if (mlx->connection)
 	{
-		mlx_window = mlx_new_window(mlx_connection, 256, 256, "Test Connection");
-		sleep(2);
-		mlx_clear_window(mlx_connection, mlx_window);
-		mlx_destroy_window(mlx_connection, mlx_window);
-		mlx_destroy_display(mlx_connection);
+		mlx->window = mlx_new_window(mlx->connection, 256, 256, "Test Connection");
+
+		// mlx->img = mlx_new_image(mlx->connection, 256, 256);
+		mlx->addr = (int *)mlx_get_data_addr(mlx->img, &mlx->bpp, &mlx->ll, &mlx->end);
+		// mlx->addr[256*128+128] = 0x00ffffff;
+		
+		mlx->img = mlx_xpm_file_to_image(mlx->connection, path, &img_width, &img_height);
+		
+		mlx_put_image_to_window(mlx->connection, mlx->window, mlx->img, 0, 0);
+		mlx_hook(mlx->window, 2, 1L << 0, key_hook, mlx);
+		mlx_loop(mlx->connection);
 	}
 }
 

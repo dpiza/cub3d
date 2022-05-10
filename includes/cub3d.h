@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/10 13:05:54 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/10 17:07:07 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,15 @@
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 32
 # endif
+# ifndef OPEN_MAX
+#  define OPEN_MAX 256
+# endif
 
 typedef struct s_map		t_map;
 typedef struct s_strmap		t_strmap;
 typedef struct s_mlx		t_mlx;
 typedef struct s_mlx_img	t_mlx_img;
+typedef struct s_cub3d		t_cub3d;
 
 enum e_map_status{
 	OK = 0,
@@ -39,6 +43,13 @@ enum e_map_status{
 	MAP_NOT_WALLED = 0b00100000,
 	DUPLICATED_PARAMETER = 0b01000000
 };
+
+struct s_cub3d
+{
+	t_strmap	*map;
+	t_mlx		*mlx;
+};
+
 
 struct	s_map
 {
@@ -99,8 +110,8 @@ int			is_valid_color_line(char *line);
 int			is_empty_line(char *line);
 void		free_t_map(t_map *map);
 char		*get_path(char *line);
-int		key_hook(int k, t_mlx *mlx);
+int			key_hook(int k, t_cub3d *game);
+void	gracefull_shutdown(t_cub3d	*game);
 
-# define OPEN_MAX 256
 
 #endif

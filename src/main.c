@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:48:44 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/10 14:22:35 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/10 17:06:55 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,37 +42,72 @@ void	mlx_disconnect(t_mlx *mlx)
 	free(mlx->mlx_ptr);
 }
 
-void	gracefull_shutdown(t_mlx *mlx)
+void	gracefull_shutdown(t_cub3d	*game)
 {
+	t_mlx	*mlx;
+
+	mlx = game->mlx;
 	destroy_img(mlx->img);
 	mlx_disconnect(mlx);
 	free(mlx);
+	destroy_strmap(game->map);
+	free(game);
 }
 
-void	mlx_test(void)
+int		init_state(t_cub3d *game)
 {
-	t_mlx		*mlx;
+	game->mlx = ft_calloc(1, sizeof(t_mlx));
+	game->mlx->mlx_ptr = mlx_init();
+	if (game->mlx->mlx_ptr)
+		return (1);
+	return (0);
+}
+
+int		get_pixels_per_square(t_strmap	*map, int max_width, int max_height)
+{
+	int	n;
+	int	l;
+
+	n = map->columns;
+	if (map->lines > n)
+		n = map->lines;
+	l = max_width;
+	if (max_height > l)
+		l = max_height;
+	return (l / n);
+}
+
+//void	print_map(t_cub3d *game)
+//{
+//	int	pps; //pixel per square
+//
+//	pps = get_pixels_per_square(game->map, w_width / 2 , w_height / 2);
+//	
+//}
+
+void	mlx_test(t_cub3d	*game)
+{
+	//t_mlx		*mlx;
 	t_mlx_img	*mlx_img;
 
-	mlx = ft_calloc(1, sizeof(t_mlx));
-	mlx->mlx_ptr = mlx_init();
-	if (mlx->mlx_ptr)
+	//mlx = ft_calloc(1, sizeof(t_mlx));
+	//mlx->mlx_ptr = mlx_init();
+	//if (mlx->mlx_ptr)
+	if (init_state(game))
 	{
-		mlx->win_ptr = mlx_new_window(mlx->mlx_ptr, w_width, w_height, "Test Window");
-		mlx_img = new_blank_img(mlx, 100, 100);
-		mlx_put_image_to_window(mlx->mlx_ptr, mlx->win_ptr, mlx_img->img_ptr, 0, 0);
-		mlx_hook(mlx->win_ptr, 2, 1L << 0, key_hook, mlx);
-		//mlx_loop(mlx->mlx_ptr);
-		printf("Before\n");
-		sleep(1);
-		printf("After\n");
-		gracefull_shutdown(mlx);
+		game->mlx->win_ptr = mlx_new_window(game->mlx->mlx_ptr, w_width, w_height, "Test Window");
+		mlx_img = new_blank_img(game->mlx, 100, 100);
+		mlx_put_image_to_window(game->mlx->mlx_ptr, game->mlx->win_ptr, mlx_img->img_ptr, 0, 0);
+		mlx_hook(game->mlx->win_ptr, 2, 1L << 0, key_hook, game);
+		mlx_loop(game->mlx->mlx_ptr);
+		gracefull_shutdown(game);
 	}
 }
 
 int	main(int argc, char *argv[])
 {
 	t_map	*map;
+	t_cub3d	*game;
 
 	(void)argc;
 	(void)argv;
@@ -80,8 +115,10 @@ int	main(int argc, char *argv[])
 	eval_map(map);
 	if (map->status == OK)
 	{
-		printf("Map is ok\n");
-		mlx_test();
+		game = ft_calloc(1, sizeof(t_cub3d));
+		game->map = new_strmap();
+		load_strmap(game->map, map);
+		mlx_test(game);
 	}
 	free_t_map(map);
 	return (0);

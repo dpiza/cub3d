@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 16:01:01 by dpiza             #+#    #+#             */
-/*   Updated: 2022/05/09 22:45:00 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/10 13:25:28 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	winclose(t_mlx *mlx)
 {
-	mlx_clear_window(mlx->connection, mlx->window);
-	mlx_destroy_window(mlx->connection, mlx->window);
-	mlx_destroy_display(mlx->connection);
+	mlx_clear_window(mlx->mlx_ptr, mlx->win_ptr);
+	mlx_destroy_window(mlx->mlx_ptr, mlx->win_ptr);
+	mlx_destroy_display(mlx->mlx_ptr);
 	exit (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/10 11:19:36 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/10 13:05:54 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,21 +60,18 @@ struct s_strmap{
 
 struct	s_mlx
 {
-	void	*connection;
-	void	*window;
-	void	*img;
-	int		*addr;
-	int		bpp;
-	int		ll;
-	int		end;
-	int		img_width;
-	int		img_height;
+	void		*mlx_ptr;
+	void		*win_ptr;
+	t_mlx_img	*img;
+	int			width;
+	int			height;
 };
 
 struct s_mlx_img
 {
-	void	*addr;
-	void	*data_addr;
+	t_mlx	*mlx;
+	void	*img_ptr;
+	void	*data;
 	int		width;
 	int		height;
 	int		bpp;

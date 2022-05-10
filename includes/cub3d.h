@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/09 13:59:50 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/10 11:19:36 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ struct	s_mlx
 struct s_mlx_img
 {
 	void	*addr;
-	void	*data;
+	void	*data_addr;
 	int		width;
 	int		height;
 	int		bpp;

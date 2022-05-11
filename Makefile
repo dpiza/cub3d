@@ -20,7 +20,9 @@ RAW_C		=	main.c \
 				parser_create_strmap.c \
 				parser_map_pointers.c \
 				parser_line_checkers.c \
-				hooks.c
+				hooks.c \
+				print_map.c \
+				get_img_offset.c
 
 SRC			=	$(addprefix $(SRC_D)/,$(RAW_C))
 OBJ			=	$(addprefix $(OBJ_D)/,$(RAW_C:.c=.o))

@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/10 17:40:10 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/11 16:25:45 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@
 # ifndef OPEN_MAX
 #  define OPEN_MAX 256
 # endif
+
+#define	w_height 1024
+#define	w_width 1024
 
 typedef struct s_map		t_map;
 typedef struct s_strmap		t_strmap;
@@ -111,7 +114,9 @@ int			is_empty_line(char *line);
 void		free_t_map(t_map *map);
 char		*get_path(char *line);
 int			key_hook(int k, t_cub3d *game);
-void	gracefull_shutdown(t_cub3d	*game);
-
+void		gracefull_shutdown(t_cub3d	*game);
+void		print_map(t_cub3d *game);
+int			get_byte_offset(t_mlx_img	*img, int x, int y);
+void		*get_pixel_addres(t_mlx_img	*img, int x, int y);
 
 #endif

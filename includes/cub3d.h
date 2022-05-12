@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/11 16:25:45 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/11 21:04:37 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@
 #  define OPEN_MAX 256
 # endif
 
-#define	w_height 1024
-#define	w_width 1024
+#define	w_height 540
+#define	w_width 1728
 
 typedef struct s_map		t_map;
 typedef struct s_strmap		t_strmap;

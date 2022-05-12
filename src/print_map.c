@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:46:00 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/11 16:26:02 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/11 21:36:36 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,12 @@ void	print_map(t_cub3d *game)
 	int	square;
 	int	pos;
 	int	data_pos;
+	int	offsets[3]; //horizontal / vertical / total em bytes
 
-	pps = get_pixels_per_square(game->map, w_width / 2 , w_height / 2);
+	pps = get_pixels_per_square(game->map, w_width / 2 , w_height);
+	offsets[0] = ((w_width / 2) - pps * game->map->columns) / 2;
+	offsets[1] = (w_height - pps * game->map->lines) / 2;
+	offsets[2] = get_byte_offset(game->mlx->img, offsets[0], offsets[1]);
 	if (pps)
 	{
 		line = 0;
@@ -33,7 +37,7 @@ void	print_map(t_cub3d *game)
 			while (square < game->map->columns)
 			{
 				pos = line * game->map->columns + square;
-				data_pos = square * pps + (pps * game->mlx->img->width * line);
+				data_pos = square * pps + (pps * game->mlx->img->width * line) + offsets[2]/4;
 				if ((char)game->map->map[pos] == ' ')
 					print_square(game->mlx->img, &((unsigned int *)game->mlx->img->data)[data_pos], pps, 0x00ffffff);
 				else if((char)game->map->map[pos] == '1')
@@ -61,7 +65,10 @@ static void	print_square(t_mlx_img	*img, unsigned int *dest_origin, int sqr_size
 		i[1] = 0;
 		while (i[1] < sqr_size)
 		{
-			*dest = color;
+			if (i[0] && i[1])
+				*dest = color;
+			else
+				*dest = 0x00ffffff;
 			dest++;
 			i[1]++;
 		}
@@ -73,14 +80,11 @@ static void	print_square(t_mlx_img	*img, unsigned int *dest_origin, int sqr_size
 
 static int	get_pixels_per_square(t_strmap	*map, int max_w, int max_h)
 {
-	int	n;
-	int	l;
+	int	max_size[2];
 
-	n = map->columns;
-	if (map->lines > n)
-		n = map->lines;
-	l = max_w;
-	if (max_h > l)
-		l = max_h;
-	return (l / n);
+	max_size[0] = max_w / map->columns;
+	max_size[1] = max_h / map->lines;
+	if (max_size[0] > max_size[1])
+		return (max_size[1]);
+	return (max_size[0]);
 }

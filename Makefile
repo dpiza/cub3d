@@ -22,7 +22,8 @@ RAW_C		=	main.c \
 				parser_line_checkers.c \
 				hooks.c \
 				print_map.c \
-				get_img_offset.c
+				get_img_offset.c \
+				print_square.c
 
 SRC			=	$(addprefix $(SRC_D)/,$(RAW_C))
 OBJ			=	$(addprefix $(OBJ_D)/,$(RAW_C:.c=.o))

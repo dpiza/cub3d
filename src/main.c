@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:48:44 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/11 11:50:17 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/12 23:15:12 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,68 @@ void	mlx_test(t_cub3d	*game)
 	}
 }
 
+void	set_player_dir(t_player *player, char dir)
+{
+	if (dir == 'N')
+	{
+		player->dir.x = 0;
+		player->dir.y = -1;
+	}
+	else if (dir == 'S')
+	{
+		player->dir.x = 0;
+		player->dir.y = 1;
+	}
+	else if (dir == 'W')
+	{
+		player->dir.x = -1;
+		player->dir.y = 0;
+	}
+	else if (dir == 'E')
+	{
+		player->dir.x = 1;
+		player->dir.y = 0;
+	}
+}
+
+void	load_player(t_strmap	*map, t_player	*player)
+{
+	int		y_max;
+	int		x_max;
+	int		count;
+	char	*map_v;
+
+	y_max = map->lines;
+	x_max = map->columns;
+	count = 0;
+	while (count < y_max * x_max)
+	{
+		map_v = ft_strchr("NSEW", (int)map->map[count]);
+		if (map_v)
+		{
+			player->pos.x = (count % x_max);
+			player->pos.y = (count / y_max);
+			set_player_dir(player, (char)map->map[count]);
+			break;
+		}
+		count++;
+	}
+}
+
+t_cub3d	*load_game(t_map	*map)
+{
+	t_cub3d		*game;
+
+	game = NULL;
+	game = ft_calloc(1, sizeof(t_cub3d));
+	if (!game)
+		return (NULL);
+	game->map = new_strmap();
+	load_strmap(game->map, map);
+	load_player(game->map, &game->player);
+	return (game);
+}
+
 int	main(int argc, char *argv[])
 {
 	t_map	*map;
@@ -83,13 +145,14 @@ int	main(int argc, char *argv[])
 
 	(void)argc;
 	(void)argv;
-	map = load_map("./maps/subject_map.cub");
+	map = load_map("./maps/huge_map.cub");
 	eval_map(map);
 	if (map->status == OK)
 	{
-		game = ft_calloc(1, sizeof(t_cub3d));
-		game->map = new_strmap();
-		load_strmap(game->map, map);
+		game = load_game(map);
+		//game = ft_calloc(1, sizeof(t_cub3d));
+		//game->map = new_strmap();
+		//load_strmap(game->map, map);
 		mlx_test(game);
 	}
 	free_t_map(map);

@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/11 21:04:37 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/12 23:08:49 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ typedef struct s_strmap		t_strmap;
 typedef struct s_mlx		t_mlx;
 typedef struct s_mlx_img	t_mlx_img;
 typedef struct s_cub3d		t_cub3d;
+typedef	struct s_point		t_point;
+typedef struct s_player		t_player;
 
 enum e_map_status{
 	OK = 0,
@@ -47,12 +49,24 @@ enum e_map_status{
 	DUPLICATED_PARAMETER = 0b01000000
 };
 
-struct s_cub3d
+struct s_point
 {
-	t_strmap	*map;
-	t_mlx		*mlx;
+	float	x;
+	float	y;
 };
 
+struct s_player
+{
+	t_point	pos;
+	t_point	dir;
+};
+
+struct s_cub3d
+{
+	t_strmap		*map;
+	t_mlx			*mlx;
+	struct s_player	player;
+};
 
 struct	s_map
 {
@@ -118,5 +132,6 @@ void		gracefull_shutdown(t_cub3d	*game);
 void		print_map(t_cub3d *game);
 int			get_byte_offset(t_mlx_img	*img, int x, int y);
 void		*get_pixel_addres(t_mlx_img	*img, int x, int y);
+void		print_square(t_mlx_img	*img, unsigned int *dest_origin, int sqr_size, unsigned int color);
 
 #endif

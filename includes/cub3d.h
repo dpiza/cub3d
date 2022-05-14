@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/12 23:08:49 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/13 18:38:00 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef struct s_mlx_img	t_mlx_img;
 typedef struct s_cub3d		t_cub3d;
 typedef	struct s_point		t_point;
 typedef struct s_player		t_player;
+typedef struct s_int_point	t_int_point;
 
 enum e_map_status{
 	OK = 0,
@@ -80,10 +81,19 @@ struct	s_map
 	enum e_map_status	status;
 };
 
-struct s_strmap{
-	char	*map;
-	int		columns;
-	int		lines;
+struct s_int_point
+{
+		int	x;
+		int	y;
+};
+
+struct s_strmap
+{
+	char		*map;
+	int			columns;
+	int			lines;
+	int			minimap_pps;
+	t_int_point	pos;
 };
 
 struct	s_mlx
@@ -133,5 +143,10 @@ void		print_map(t_cub3d *game);
 int			get_byte_offset(t_mlx_img	*img, int x, int y);
 void		*get_pixel_addres(t_mlx_img	*img, int x, int y);
 void		print_square(t_mlx_img	*img, unsigned int *dest_origin, int sqr_size, unsigned int color);
+void		load_player(t_strmap	*map, t_player	*player);
+t_cub3d		*load_game(t_map	*map);
+int			init_game_state(t_cub3d *game);
+t_mlx_img	*new_blank_img(t_mlx	*mlx, int width, int height);
+void		print_player_int_map(t_cub3d *game);
 
 #endif

@@ -23,7 +23,12 @@ RAW_C		=	main.c \
 				hooks.c \
 				print_map.c \
 				get_img_offset.c \
-				print_square.c
+				print_square.c \
+				load_game.c \
+				load_player.c \
+				init_game_state.c \
+				print_player_in_map.c \
+				new_blank_image.c
 
 SRC			=	$(addprefix $(SRC_D)/,$(RAW_C))
 OBJ			=	$(addprefix $(OBJ_D)/,$(RAW_C:.c=.o))

@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/13 18:38:00 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/18 18:49:50 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ struct s_strmap
 	char		*map;
 	int			columns;
 	int			lines;
+	t_mlx_img	*minimap;
 	int			minimap_pps;
 	t_int_point	pos;
 };
@@ -117,36 +118,37 @@ struct s_mlx_img
 	int		endian;
 };
 
-char		*get_next_line(int fd);
-t_map		*load_map(const char *path);
-void		eval_map(t_map	*map);
-void		map_integrity(t_map *map);
-int			is_map_allowed_character(char c);
-int			is_map_first_char(char c);
-void		eval_map_rules(t_map *map, t_strmap *strmap);
-void		eval_assets(t_map *map);
-t_strmap	*new_strmap(void);
-void		load_strmap(t_strmap *strmap, t_map *map);
-char		**get_map_first_line(t_map	*map);
-char		**get_map_last_line(char **first_line);
-void		print_map_error(t_map *map);
-void		destroy_strmap(t_strmap *strmap);
-int			is_valid_map_line(char *line);
-int			is_valid_texture_line(char *line);
-int			is_valid_color_line(char *line);
-int			is_empty_line(char *line);
-void		free_t_map(t_map *map);
-char		*get_path(char *line);
-int			key_hook(int k, t_cub3d *game);
-void		gracefull_shutdown(t_cub3d	*game);
-void		print_map(t_cub3d *game);
-int			get_byte_offset(t_mlx_img	*img, int x, int y);
-void		*get_pixel_addres(t_mlx_img	*img, int x, int y);
-void		print_square(t_mlx_img	*img, unsigned int *dest_origin, int sqr_size, unsigned int color);
-void		load_player(t_strmap	*map, t_player	*player);
-t_cub3d		*load_game(t_map	*map);
-int			init_game_state(t_cub3d *game);
-t_mlx_img	*new_blank_img(t_mlx	*mlx, int width, int height);
-void		print_player_int_map(t_cub3d *game);
-
+char			*get_next_line(int fd);
+t_map			*load_map(const char *path);
+void			eval_map(t_map	*map);
+void			map_integrity(t_map *map);
+int				is_map_allowed_character(char c);
+int				is_map_first_char(char c);
+void			eval_map_rules(t_map *map, t_strmap *strmap);
+void			eval_assets(t_map *map);
+t_strmap		*new_strmap(void);
+void			load_strmap(t_strmap *strmap, t_map *map);
+char			**get_map_first_line(t_map	*map);
+char			**get_map_last_line(char **first_line);
+void			print_map_error(t_map *map);
+void			destroy_strmap(t_strmap *strmap);
+int				is_valid_map_line(char *line);
+int				is_valid_texture_line(char *line);
+int				is_valid_color_line(char *line);
+int				is_empty_line(char *line);
+void			free_t_map(t_map *map);
+char			*get_path(char *line);
+int				key_hook(int k, t_cub3d *game);
+void			gracefull_shutdown(t_cub3d	*game);
+void			print_map(t_cub3d *game);
+int				get_byte_offset(t_mlx_img	*img, int x, int y);
+void			*get_pixel_addres(t_mlx_img	*img, int x, int y);
+void			print_square(t_mlx_img	*img, unsigned int *dest_origin, int sqr_size, unsigned int color);
+void			load_player(t_strmap	*map, t_player	*player);
+t_cub3d			*load_game(t_map	*map);
+int				init_game_state(t_cub3d *game);
+t_mlx_img		*new_blank_img(t_mlx	*mlx, int width, int height);
+void			build_map_img(t_cub3d *game);
+void			print_player_int_map(t_cub3d *game);
+void			override_images(t_mlx_img *dst, t_mlx_img *src, int x, int y);
 #endif

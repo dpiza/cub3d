@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:48:44 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/13 18:48:41 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/18 17:28:43 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	mlx_test(t_cub3d	*game)
 	{
 		game->mlx->win_ptr = mlx_new_window(game->mlx->mlx_ptr, w_width, w_height, "Test Window");
 		mlx_img = new_blank_img(game->mlx, w_width, w_height);
+		game->mlx->img = mlx_img;
 		print_map(game);
 		mlx_put_image_to_window(game->mlx->mlx_ptr, game->mlx->win_ptr, mlx_img->img_ptr, 0, 0);
 		print_player_int_map(game);

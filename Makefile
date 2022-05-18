@@ -28,7 +28,9 @@ RAW_C		=	main.c \
 				load_player.c \
 				init_game_state.c \
 				print_player_in_map.c \
-				new_blank_image.c
+				new_blank_image.c \
+				build_minimap_img.c \
+				override_images.c
 
 SRC			=	$(addprefix $(SRC_D)/,$(RAW_C))
 OBJ			=	$(addprefix $(OBJ_D)/,$(RAW_C:.c=.o))

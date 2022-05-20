@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
+/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/31 18:50:52 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/04/25 17:41:37 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/05/20 20:41:14 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void		ft_lstclear(t_list **lst, void (*del)(void*));
 void		ft_lstiter(t_list *lst, void (*f)(void *));
 t_list		*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 /**
- * @brief create a new double linked list item.
+ * @brief create a new float linked list item.
  * 
  * @param content (void *) Any structure or content
  * @return t_dl_list* returns the item.
@@ -106,13 +106,13 @@ t_dl_list	*ft_dl_getfirst(t_dl_list *item);
  */
 void		ft_dl_lstdestroy(t_dl_list *item, void (*del)(void*));
 /**
- * @brief Add an item to the start of a double linked list.
+ * @brief Add an item to the start of a float linked list.
  * @param item A pointer to any item of the list.
  * @param new Item to be added.
  */
 void		ft_dl_addfirst(t_dl_list *item, t_dl_list *new);
 /**
- * @brief Add an item to the end of a double linked list.
+ * @brief Add an item to the end of a float linked list.
  * @param item A pointer to any item of the list.
  * @param new Item to be added.
  */

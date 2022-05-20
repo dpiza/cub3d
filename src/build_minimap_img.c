@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 18:28:08 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/18 18:49:34 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/19 11:31:09 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,13 @@ void	build_map_img(t_cub3d *game)
 	unsigned int	*map_vector;
 	t_mlx_img		*minimap;
 
-	
-	minimap = new_blank_img(game->mlx, game->map->columns * game->map->minimap_pps, game->map->lines * game->map->minimap_pps);
-	game->map->minimap = minimap;
+	if (!game->map->minimap)
+	{
+		minimap = new_blank_img(game->mlx, game->map->columns * game->map->minimap_pps, game->map->lines * game->map->minimap_pps);
+		game->map->minimap = minimap;
+	}
+	else
+		minimap = game->map->minimap;
 	map_vector = (unsigned int *)minimap->data;
 	y = 0;
 	while (y < game->map->lines)

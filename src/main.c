@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:48:44 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/18 17:28:43 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/20 14:32:34 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,15 @@ void	gracefull_shutdown(t_cub3d	*game)
 	free(game);
 }
 
+int		game_loop(t_cub3d *game)
+{
+	build_map_img(game);
+	print_player_int_map(game);
+	print_map(game);
+	mlx_put_image_to_window(game->mlx->mlx_ptr, game->mlx->win_ptr, game->mlx->img->img_ptr, 0, 0);
+	return (0);
+}
+
 void	mlx_test(t_cub3d	*game)
 {
 	t_mlx_img	*mlx_img;
@@ -46,11 +55,8 @@ void	mlx_test(t_cub3d	*game)
 		game->mlx->win_ptr = mlx_new_window(game->mlx->mlx_ptr, w_width, w_height, "Test Window");
 		mlx_img = new_blank_img(game->mlx, w_width, w_height);
 		game->mlx->img = mlx_img;
-		print_map(game);
-		mlx_put_image_to_window(game->mlx->mlx_ptr, game->mlx->win_ptr, mlx_img->img_ptr, 0, 0);
-		print_player_int_map(game);
-		mlx_put_image_to_window(game->mlx->mlx_ptr, game->mlx->win_ptr, mlx_img->img_ptr, 0, 0);
 		mlx_hook(game->mlx->win_ptr, 2, 1L << 0, key_hook, game);
+		mlx_loop_hook(game->mlx->mlx_ptr, game_loop, game);
 		mlx_loop(game->mlx->mlx_ptr);
 		gracefull_shutdown(game);
 	}

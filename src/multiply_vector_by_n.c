@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_map.c                                        :+:      :+:    :+:   */
+/*   multiply_vector_by_n.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/11 11:46:00 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/19 11:13:07 by hde-camp         ###   ########.fr       */
+/*   Created: 2022/05/20 15:00:26 by hde-camp          #+#    #+#             */
+/*   Updated: 2022/05/20 20:41:18 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-void	print_map(t_cub3d *game)
+void	multiply_vector_by_n(float	n, t_point	*vector)
 {
-	override_images(game->mlx->img, game->map->minimap, game->map->pos.x, game->map->pos.y);
+	(*vector).x = n * (*vector).x;
+	(*vector).y = n * (*vector).y;
 }

@@ -7,7 +7,7 @@ SRC_D		=	src
 OBJ_D		=	obj
 INCLUDES	=	-I ./includes
 
-LIBS		=	-L./libft -lft -lmlx -lXext -lX11
+LIBS		=	-L./libft -lft -lmlx -lXext -lX11 -lm
 
 RAW_C		=	main.c \
 				get_next_line.c \
@@ -30,7 +30,11 @@ RAW_C		=	main.c \
 				print_player_in_map.c \
 				new_blank_image.c \
 				build_minimap_img.c \
-				override_images.c
+				override_images.c \
+				rotate_vector.c \
+				multiply_vector_by_n.c \
+				sum_vectors.c \
+				bresenham_plot.c
 
 SRC			=	$(addprefix $(SRC_D)/,$(RAW_C))
 OBJ			=	$(addprefix $(OBJ_D)/,$(RAW_C:.c=.o))

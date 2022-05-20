@@ -6,13 +6,14 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/18 18:49:50 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/20 20:41:37 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
+# include <math.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <stdio.h>
@@ -151,4 +152,8 @@ t_mlx_img		*new_blank_img(t_mlx	*mlx, int width, int height);
 void			build_map_img(t_cub3d *game);
 void			print_player_int_map(t_cub3d *game);
 void			override_images(t_mlx_img *dst, t_mlx_img *src, int x, int y);
+void			rotate_vector(float	angle, t_point *vector);
+t_point			*sum_vectors(t_point *v_one, t_point *v_two);
+void			bresenham_line(t_mlx_img *img, int x0, int y0, int x1, int y1, unsigned int color);
+void			multiply_vector_by_n(float	n, t_point	*vector);
 #endif

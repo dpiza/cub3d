@@ -6,11 +6,39 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 16:01:01 by dpiza             #+#    #+#             */
-/*   Updated: 2022/05/14 01:01:52 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/20 20:41:17 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
+
+void	move_left(t_cub3d *game)
+{
+	t_point	pos;
+	float	increment;
+
+	pos = game->player.pos;
+	increment = 0.1;
+if (pos.x - increment < 1)
+		return ;
+	game->player.pos.x -= increment;
+	print_map(game);
+	print_player_int_map(game);
+}
+
+void	move_right(t_cub3d *game)
+{
+	t_point	pos;
+	float	increment;
+
+	pos = game->player.pos;
+	increment = 0.1;
+if (pos.x + increment >= game->map->columns - 1)
+		return ;
+	game->player.pos.x += increment;
+	print_map(game);
+	print_player_int_map(game);
+}
 
 void	move_down(t_cub3d *game)
 {
@@ -18,8 +46,8 @@ void	move_down(t_cub3d *game)
 	float	increment;
 
 	pos = game->player.pos;
-	increment = 0.5;
-	if (pos.y + increment > game->map->lines - 2)
+	increment = 0.1;
+if (pos.y + increment >= game->map->lines - 1)
 		return ;
 	game->player.pos.y += increment;
 	print_map(game);
@@ -32,7 +60,7 @@ void	move_up(t_cub3d *game)
 	float	increment;
 
 	pos = game->player.pos;
-	increment = 0.5;
+	increment = 0.1;
 	if (pos.y - increment < 1)
 		return ;
 	game->player.pos.y -= increment;
@@ -46,21 +74,22 @@ int	key_hook(int k, t_cub3d *game)
 		mlx_loop_end(game->mlx->mlx_ptr);
 	if (k == 0x0061 || k == 0x0041)
 	{
-		mlx_put_image_to_window(game->mlx->mlx_ptr, game->mlx->win_ptr, game->mlx->img->img_ptr, 0, 0);
+		move_left(game);
 		printf("a pressed\n");
 	}
 	if (k == 0x0073 || k == 0x0053)
 	{
 		move_down(game);
-		mlx_put_image_to_window(game->mlx->mlx_ptr, game->mlx->win_ptr, game->mlx->img->img_ptr, 0, 0);
 		printf("s pressed\n");
 	}
 	if (k == 0x0064 || k == 0x0044)
+	{
+		move_right(game);
 		printf("d pressed\n");
+	}
 	if (k == 0x0077 || k == 0x0057)
 	{
 		move_up(game);
-		mlx_put_image_to_window(game->mlx->mlx_ptr, game->mlx->win_ptr, game->mlx->img->img_ptr, 0, 0);
 		printf("w pressed\n");
 	}
 	if (k == 0x0070 || k == 0x0050)

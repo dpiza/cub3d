@@ -6,11 +6,22 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 16:01:01 by dpiza             #+#    #+#             */
-/*   Updated: 2022/05/20 20:41:17 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/23 18:01:56 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
+
+void	rotate_player(t_cub3d *game, int direction)
+{
+	float	angle;
+
+	angle = M_PI / 180 * 10;
+	rotate_vector(angle * direction, &game->player.dir);
+	//if (direction > 0)
+	//else
+	//	counterclockwise_rotate_vector(angle, &game->player.dir);
+}
 
 void	move_left(t_cub3d *game)
 {
@@ -96,6 +107,16 @@ int	key_hook(int k, t_cub3d *game)
 		printf("p pressed\n");
 	if (k == 0xff0d)
 		printf("return pressed\n");
+	if (k == 0xff51)
+	{
+		rotate_player(game, -1);
+		printf("← pressed\n");
+	}
+	if (k == 0xff53)
+	{
+		rotate_player(game, 1);
+		printf("→ pressed\n");
+	}
 	/*
 	teclas de interesse:
 				normal		UPPERCASE

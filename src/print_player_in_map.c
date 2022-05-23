@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 00:07:08 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/20 20:50:43 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/23 16:15:28 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 void	print_player_dir(t_cub3d *game)
 {
 	t_point	src_xy;
-	t_point	*dst_xy;
+	t_point	dst_xy;
 
 	src_xy = game->player.pos;
 	dst_xy = sum_vectors(&src_xy, &game->player.dir);
 	multiply_vector_by_n((float)game->map->minimap_pps, &src_xy);
-	multiply_vector_by_n((float)game->map->minimap_pps, dst_xy);
-	bresenham_line(game->map->minimap, src_xy.x, src_xy.y, dst_xy->x, dst_xy->y, 0xffffff );
+	multiply_vector_by_n((float)game->map->minimap_pps, &dst_xy);
+	bresenham_line(game->map->minimap, src_xy.x, src_xy.y, dst_xy.x, dst_xy.y, 0xffffff );
 }
 
 void	print_player_int_map(t_cub3d *game)

@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 14:33:20 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/23 18:01:59 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/24 19:16:39 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,11 @@ void	rotate_vector(float	angle, t_point *vector)
 	x_y.x = (*vector).x;
 	x_y.y = (*vector).y;
 	cos = cosf(angle);
+	if (cos*cos < 0.00000001) //this ensures cos >= 0.0001 is rounded to zero
+		cos = 0;
 	sin = sinf(angle);
+	if (sin*sin < 0.00000001)
+		sin = 0;
 	(*vector).x = x_y.x * cos - x_y.y * sin;
 	(*vector).y = x_y.x * sin + x_y.y * cos;
 }

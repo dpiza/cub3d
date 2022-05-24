@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/23 18:02:06 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/24 19:35:43 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,9 @@ struct s_player
 {
 	t_point	pos;
 	t_point	dir;
+	t_point	rays[w_width/2];
+	int		fov;
+	t_cub3d	*game;
 };
 
 struct s_cub3d
@@ -145,7 +148,7 @@ void			print_map(t_cub3d *game);
 int				get_byte_offset(t_mlx_img	*img, int x, int y);
 void			*get_pixel_addres(t_mlx_img	*img, int x, int y);
 void			print_square(t_mlx_img	*img, unsigned int *dest_origin, int sqr_size, unsigned int color);
-void			load_player(t_strmap	*map, t_player	*player);
+void			load_player(t_cub3d	*game, t_player	*player);
 t_cub3d			*load_game(t_map	*map);
 int				init_game_state(t_cub3d *game);
 t_mlx_img		*new_blank_img(t_mlx	*mlx, int width, int height);
@@ -156,4 +159,5 @@ void			rotate_vector(float	angle, t_point *vector);
 t_point			sum_vectors(t_point *v_one, t_point *v_two);
 void			bresenham_line(t_mlx_img *img, int x0, int y0, int x1, int y1, unsigned int color);
 void			multiply_vector_by_n(float	n, t_point	*vector);
+void			set_ray_directions(t_cub3d *game);
 #endif

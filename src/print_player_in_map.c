@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 00:07:08 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/24 19:35:16 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/05 15:06:53 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,20 @@ void	print_player_dir(t_cub3d *game)
 	t_point	dst_xy;
 	t_point	fov[3];
 
-	set_ray_directions(game);
+	//set_fov_vectors(game);
 	src_xy = game->player.pos;
 	dst_xy = sum_vectors(&src_xy, &game->player.dir);
 	fov[0] = dst_xy;
-	fov[1] = sum_vectors(&fov[0], &game->player.rays[0]);
-	fov[2] = sum_vectors(&fov[0], &game->player.rays[w_width / 2 - 1]);
+	fov[1] = sum_vectors(&fov[0], &game->player.fov_vec[0]);
+	fov[2] = sum_vectors(&fov[0], &game->player.fov_vec[1]);
 	multiply_vector_by_n((float)game->map->minimap_pps, &src_xy);
 	multiply_vector_by_n((float)game->map->minimap_pps, &dst_xy);
 	multiply_vector_by_n((float)game->map->minimap_pps, &fov[0]);
 	multiply_vector_by_n((float)game->map->minimap_pps, &fov[1]);
 	multiply_vector_by_n((float)game->map->minimap_pps, &fov[2]);
 	bresenham_line(game->map->minimap, src_xy.x, src_xy.y, dst_xy.x, dst_xy.y, 0xffffff );
-	bresenham_line(game->map->minimap, src_xy.x, src_xy.y, fov[1].x, fov[1].y, 0xffffff );
-	bresenham_line(game->map->minimap, src_xy.x, src_xy.y, fov[2].x, fov[2].y, 0xffffff );
+	bresenham_line(game->map->minimap, dst_xy.x, dst_xy.y, fov[1].x, fov[1].y, 0xffffff );
+	bresenham_line(game->map->minimap, dst_xy.x, dst_xy.y, fov[2].x, fov[2].y, 0xffffff );
 }
 
 

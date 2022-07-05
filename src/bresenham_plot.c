@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:26:00 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/23 16:12:40 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/05 15:11:54 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,11 @@ void	put_image_pixel(t_mlx_img *img, int x, int y, unsigned int color)
 {
 	unsigned int *pixel;
 
-	pixel = get_pixel_addres(img, x, y);
-	*pixel = color;
+	if (x < img->width && y < img->height && x >= 0 && y >= 0)
+	{
+		pixel = get_pixel_addres(img, x, y);
+		*pixel = color;
+	}
 }
 
 void	bresenham_line(t_mlx_img *img, int x0, int y0, int x1, int y1, unsigned int color)

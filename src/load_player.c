@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 23:39:07 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/24 19:36:21 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/05/26 21:11:06 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	load_player(t_cub3d	*game, t_player	*player)
 	ft_bzero(player, sizeof(t_player));
 	y_max = map->lines;
 	x_max = map->columns;
+	player->fov = 90;
 	count = 0;
 	player->game = game;
 	while (count < y_max * x_max)
@@ -36,22 +37,24 @@ void	load_player(t_cub3d	*game, t_player	*player)
 			player->pos.x = (count % x_max) + 0.5;
 			player->pos.y = (count / x_max) + 0.5;
 			set_player_dir(player, (char)map->map[count]);
-			set_ray_directions(game);
+			set_fov_vectors(game);
 			break;
 		}
 		count++;
 	}
 }
 
-void	set_ray_directions(t_cub3d *game)
+void	set_fov_vectors(t_cub3d *game)
 {
 	t_player	*player;
 
 	player = &game->player;
-	player->rays[0] = player->dir;
-	player->rays[ w_width / 2 - 1] = player->dir;
-	rotate_vector(- M_PI / 2, &player->rays[0]);
-	rotate_vector(M_PI / 2, &player->rays[ w_width / 2 - 1]);
+	player->fov_vec[0] = player->dir;
+	player->fov_vec[1] = player->dir;
+	multiply_vector_by_n((float)player->fov / 90, &player->fov_vec[0]);
+	multiply_vector_by_n((float)player->fov / 90, &player->fov_vec[1]);
+	rotate_vector(- M_PI / 2, &player->fov_vec[0]);
+	rotate_vector(M_PI / 2, &player->fov_vec[1]);
 }
 
 static void	set_player_dir(t_player *player, char dir)

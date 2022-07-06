@@ -6,13 +6,14 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 23:39:07 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/26 21:11:06 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/06 18:06:05 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
 static void	set_player_dir(t_player *player, char dir);
+static void	build_player_rays(t_player *player);
 
 void	load_player(t_cub3d	*game, t_player	*player)
 {
@@ -38,8 +39,34 @@ void	load_player(t_cub3d	*game, t_player	*player)
 			player->pos.y = (count / x_max) + 0.5;
 			set_player_dir(player, (char)map->map[count]);
 			set_fov_vectors(game);
+			build_player_rays(&game->player);
 			break;
 		}
+		count++;
+	}
+}
+
+void	build_player_rays(t_player *player)
+{
+	t_point	dst;
+	t_point	fov_fraction[w_width / 2];
+	int	count;
+
+	count = 0;
+	while (count < w_width / 4)
+	{
+		fov_fraction[count] = player->fov_vec[0];
+		multiply_vector_by_n((float)count / ((float)w_width / 4), &fov_fraction[count]);
+		fov_fraction[ (w_width / 2 - 1) - count] = player->fov_vec[1];
+		multiply_vector_by_n((float)count / ((float)w_width / 4), &fov_fraction[(w_width / 2 - 1) - count]);
+		count++;
+	}
+	count = 0;
+	while (count < w_width / 2)
+	{
+		dst = sum_vectors(&player->dir, &fov_fraction[count]);
+		dst = normalize_vector(dst);
+		player->rays[count] = dst;
 		count++;
 	}
 }

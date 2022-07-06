@@ -34,7 +34,8 @@ RAW_C		=	main.c \
 				rotate_vector.c \
 				multiply_vector_by_n.c \
 				sum_vectors.c \
-				bresenham_plot.c
+				bresenham_plot.c \
+				normalize_vector.c
 
 SRC			=	$(addprefix $(SRC_D)/,$(RAW_C))
 OBJ			=	$(addprefix $(OBJ_D)/,$(RAW_C:.c=.o))

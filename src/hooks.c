@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 16:01:01 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/05 14:55:04 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/06 18:01:53 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,18 @@
 void	rotate_player(t_cub3d *game, int direction)
 {
 	float	angle;
+	int		n_rays;
 
 	angle = M_PI / 180 * 10;
+	n_rays = 0;
 	rotate_vector(angle * direction, &game->player.dir);
 	rotate_vector(angle * direction, &game->player.fov_vec[0]);
 	rotate_vector(angle * direction, &game->player.fov_vec[1]);
+	while (n_rays < w_width / 2)
+	{
+		rotate_vector(angle * direction, &game->player.rays[n_rays]);
+		n_rays++;
+	}
 }
 
 void	move_left(t_cub3d *game)

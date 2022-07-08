@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_player_in_map.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 00:07:08 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/06 18:08:01 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/07 23:11:08 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ void	print_rays(t_cub3d	*game)
 	{
 		dst = sum_vectors(&game->player.pos, &game->player.rays[n_rays]);
 		multiply_vector_by_n(game->map->minimap_pps, &dst);
-		bresenham_line(game->map->minimap, src.x, src.y, dst.x, dst.y, 0xffffff);
+		// bresenham_line(game->map->minimap, src.x, src.y, dst.x, dst.y, 0xffffff);
+		bresenham_checked_line(game, src.x, src.y, dst.x, dst.y, 0xffff00); // adicionada uma versão que checa o objeto do obstáculo e retorna a posicão dele
 		n_rays++;
 	}
 }

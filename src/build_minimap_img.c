@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_minimap_img.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 18:28:08 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/19 11:31:09 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/07 21:39:42 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,5 @@ static unsigned int	get_map_color(char c)
 	else if(c == '0')
 		return (0x00ff924f);
 	else
-		return (0x009c000d);
+		return (0x008a4f00);
 }

@@ -3,14 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 16:01:01 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/06 18:01:53 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/07 23:00:04 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
+
+char	square_check(t_cub3d *game, float x, float y)
+{
+	int		pos_array;
+	char	map_obj;
+	
+	pos_array = (int)game->map->columns * (int)y + (int)x;
+	map_obj = game->map->map[pos_array];
+	// printf("Map obj %c\n", map_obj); // printa o objeto do mapa no terminal
+	return (map_obj);
+}
+
+void	player_pos(t_cub3d *game)
+{
+	printf("Player.x: %f Player.y: %f\n", game->player.pos.x, game->player.pos.y);
+}
 
 void	rotate_player(t_cub3d *game, int direction)
 {
@@ -36,8 +52,10 @@ void	move_left(t_cub3d *game)
 
 	pos = game->player.pos;
 	increment = 0.1;
-if (pos.x - increment < 1)
+	if (pos.x - increment < 1)
 		return ;
+	if (square_check(game, pos.x - increment, pos.y) == '1')
+		return ;	
 	game->player.pos.x -= increment;
 	print_map(game);
 	print_player_int_map(game);
@@ -50,7 +68,9 @@ void	move_right(t_cub3d *game)
 
 	pos = game->player.pos;
 	increment = 0.1;
-if (pos.x + increment >= game->map->columns - 1)
+	if (pos.x + increment >= game->map->columns - 1)
+		return ;
+	if (square_check(game, pos.x + increment, pos.y) == '1')
 		return ;
 	game->player.pos.x += increment;
 	print_map(game);
@@ -64,7 +84,9 @@ void	move_down(t_cub3d *game)
 
 	pos = game->player.pos;
 	increment = 0.1;
-if (pos.y + increment >= game->map->lines - 1)
+	if (pos.y + increment >= game->map->lines - 1)
+		return ;
+	if (square_check(game, pos.x, pos.y + increment) == '1')
 		return ;
 	game->player.pos.y += increment;
 	print_map(game);
@@ -79,6 +101,8 @@ void	move_up(t_cub3d *game)
 	pos = game->player.pos;
 	increment = 0.1;
 	if (pos.y - increment < 1)
+		return ;
+	if (square_check(game, pos.x, pos.y - increment) == '1')
 		return ;
 	game->player.pos.y -= increment;
 	print_map(game);
@@ -138,5 +162,9 @@ int	key_hook(int k, t_cub3d *game)
 	leftarrow	0xff51
 	rightarrow	0xff53
 	*/
+
+	player_pos(game); // printa a posição do player no terminal
+	game_loop(game); // chama a função que printa o jogo na tela apenas quando há movimento
+	
 	return (0);
 }

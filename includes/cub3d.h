@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/06 16:28:22 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/07 22:50:28 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,4 +162,11 @@ void			bresenham_line(t_mlx_img *img, int x0, int y0, int x1, int y1, unsigned i
 void			multiply_vector_by_n(float	n, t_point	*vector);
 void			set_fov_vectors(t_cub3d *game);
 t_point			normalize_vector(t_point	vector);
+
+
+
+t_point	bresenham_checked_line(t_cub3d *game, int x0, int y0, int x1, int y1, unsigned int color);
+char	square_check(t_cub3d *game, float x, float y);
+int		game_loop(t_cub3d *game);
+
 #endif

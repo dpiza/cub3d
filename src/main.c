@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:48:44 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/05 20:04:45 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/07 22:59:58 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ void	mlx_test(t_cub3d	*game)
 		mlx_img = new_blank_img(game->mlx, w_width, w_height);
 		game->mlx->img = mlx_img;
 		mlx_hook(game->mlx->win_ptr, 2, 1L << 0, key_hook, game);
-		mlx_loop_hook(game->mlx->mlx_ptr, game_loop, game);
+		// mlx_loop_hook(game->mlx->mlx_ptr, game_loop, game); 
+		game_loop(game); // usado no lugar do loop pra ver o ponto de colisão individualmente
 		mlx_loop(game->mlx->mlx_ptr);
 		gracefull_shutdown(game);
 	}

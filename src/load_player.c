@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 23:39:07 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/12 20:39:16 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/12 20:42:34 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,16 @@ void	build_player_rays(t_player *player)
 	{
 		fov_fraction[count] = player->fov_vec[0];
 		multiply_vector_by_n((float)count / ((float)w_width / 4), &fov_fraction[count]);
+		fov_fraction[ (w_width / 2 - 1) - count] = player->fov_vec[1];
+		multiply_vector_by_n((float)count / ((float)w_width / 4), &fov_fraction[(w_width / 2 - 1) - count]);
+		count++;
+	}
+	count = 0;
+	while (count < w_width /2)
+	{
 		dst = sum_vectors(&player->dir, &fov_fraction[count]);
 		dst = normalize_vector(dst);
 		player->rays[count] = dst;
-		fov_fraction[ (w_width / 2 - 1) - count] = player->fov_vec[1];
-		multiply_vector_by_n((float)count / ((float)w_width / 4), &fov_fraction[(w_width / 2 - 1) - count]);
-		dst = sum_vectors(&player->dir, &fov_fraction[(w_width / 2 - 1) - count]);
-		dst = normalize_vector(dst);
-		player->rays[(w_width / 2 - 1) - count] = dst;
 		count++;
 	}
 	//while (count == 0) // diminuí para apenas 1 raio para avaliar o ponto de colisão

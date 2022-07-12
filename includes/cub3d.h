@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/11 21:23:38 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/12 19:14:26 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,9 +167,10 @@ t_point			normalize_vector(t_point	vector);
 t_point			first_axis_collision_y(t_point  position, t_point	norm_dir);
 t_point			first_axis_collision_x(t_point  position, t_point	norm_dir);
 t_point			get_first_collision(t_cub3d	*game, t_point	norm_dir);
+char			square_dir_check(t_cub3d *game, t_point *collision, t_point *dir);
 
 t_point	bresenham_checked_line(t_cub3d *game, int x0, int y0, int x1, int y1, unsigned int color);
-char	square_check(t_cub3d *game, float x, float y);
-int		game_loop(t_cub3d *game);
+char			square_check(t_cub3d *game, float x, float y);
+int				game_loop(t_cub3d *game);
 
 #endif

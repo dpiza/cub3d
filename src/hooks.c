@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
+/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 16:01:01 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/07 23:00:04 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/12 19:31:40 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,35 @@ char	square_check(t_cub3d *game, float x, float y)
 	pos_array = (int)game->map->columns * (int)y + (int)x;
 	map_obj = game->map->map[pos_array];
 	// printf("Map obj %c\n", map_obj); // printa o objeto do mapa no terminal
+	return (map_obj);
+}
+
+char	square_dir_check(t_cub3d *game, t_point *collision, t_point *dir)
+{
+	int		pos_array;
+	char	map_obj;
+	int		round_factor;
+	int		xy[2];
+
+	round_factor = 100000000;
+	if ( ((int)(collision->x * round_factor)) % round_factor == 0 ) //colisao em x
+	{
+		if (dir->x > 0)
+			xy[0] = (int)collision->x;
+		else
+			xy[0] = ((int)collision->x) - 1;
+		xy[1] = (int)collision->y;
+	}
+	else//colisao em y
+	{
+		if (dir->y > 0)
+			xy[1] = (int)collision->y;
+		else
+			xy[1] = ((int)collision->y) - 1;
+		xy[0] = (int)collision->x;
+	}
+	pos_array = (int)game->map->columns * xy[1] + xy[0];
+	map_obj = game->map->map[pos_array];
 	return (map_obj);
 }
 

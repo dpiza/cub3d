@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 23:39:07 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/11 19:28:39 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/12 20:01:58 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,21 @@ void	build_player_rays(t_player *player)
 	t_point	fov_fraction[w_width / 2];
 	int	count;
 
-	// count = 0;
-	// while (count < w_width / 4)
-	// {
-	// 	fov_fraction[count] = player->fov_vec[0];
-	// 	multiply_vector_by_n((float)count / ((float)w_width / 4), &fov_fraction[count]);
-	// 	fov_fraction[ (w_width / 2 - 1) - count] = player->fov_vec[1];
-	// 	multiply_vector_by_n((float)count / ((float)w_width / 4), &fov_fraction[(w_width / 2 - 1) - count]);
-	// 	count++;
-	// }
+	count = 0;
+	while (count < w_width / 4)
+	{
+		fov_fraction[count] = player->fov_vec[0];
+		multiply_vector_by_n((float)count / ((float)w_width / 4), &fov_fraction[count]);
+		dst = sum_vectors(&player->dir, &fov_fraction[count]);
+		dst = normalize_vector(dst);
+		player->rays[count] = dst;
+		fov_fraction[ (w_width / 2 - 1) - count] = player->fov_vec[1];
+		multiply_vector_by_n((float)count / ((float)w_width / 4), &fov_fraction[(w_width / 2 - 1) - count]);
+		dst = sum_vectors(&player->dir, &fov_fraction[(w_width / 2 - 1) - count]);
+		dst = normalize_vector(dst);
+		player->rays[(w_width / 2 - 1) - count] = dst;
+		count++;
+	}
 	//while (count == 0) // diminuí para apenas 1 raio para avaliar o ponto de colisão
 	//{
 	//	dst = sum_vectors(&player->dir, &fov_fraction[count]);
@@ -69,21 +75,23 @@ void	build_player_rays(t_player *player)
 	//	player->rays[count] = dst;
 	//	count++;
 	//}
-	count = 0;
-	while (count < 1)
-		count ++;
-	// while (count < w_width / 2)
-	fov_fraction[0] = player->fov_vec[0];
-	dst = sum_vectors(&player->dir, &fov_fraction[0]);
-	dst = normalize_vector(dst);
-	multiply_vector_by_n(10, &dst);
-	player->rays[0] = dst;
-
-	fov_fraction[1] = player->fov_vec[0];
-	multiply_vector_by_n(0.5, &fov_fraction[1]);
-	dst = sum_vectors(&player->dir, &fov_fraction[1]);
-	dst = normalize_vector(dst);
-	player->rays[1] = dst;	
+//
+	//
+	//count = 0;
+	//while (count < 1)
+	//	count ++;
+	//// while (count < w_width / 2)
+	//fov_fraction[0] = player->fov_vec[0];
+	//dst = sum_vectors(&player->dir, &fov_fraction[0]);
+	//dst = normalize_vector(dst);
+	//multiply_vector_by_n(10, &dst);
+	//player->rays[0] = dst;
+//
+	//fov_fraction[1] = player->fov_vec[0];
+	//multiply_vector_by_n(0.5, &fov_fraction[1]);
+	//dst = sum_vectors(&player->dir, &fov_fraction[1]);
+	//dst = normalize_vector(dst);
+	//player->rays[1] = dst;	
 }
 
 void	set_fov_vectors(t_cub3d *game)

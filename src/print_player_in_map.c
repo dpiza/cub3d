@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 00:07:08 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/11 22:00:28 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/12 20:04:18 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,16 @@ void	print_rays(t_cub3d	*game)
 	n_rays = 0;
 	src = game->player.pos;
 	multiply_vector_by_n(game->map->minimap_pps, &src);
-	//while (n_rays < w_width / 2)
-	while (n_rays < 2)
+	while (n_rays < w_width / 2)
 	{
 		if (n_rays == 0)
 		{
 			dst = sum_vectors(&game->player.pos, &game->player.rays[n_rays]);
 			multiply_vector_by_n(game->map->minimap_pps, &dst);
-			if (n_rays == 0)
-				bresenham_checked_line(game, src.x, src.y, dst.x, dst.y, 0xffff00); // adicionada uma versão que checa o objeto do obstáculo e retorna a posicão dele
-			else
-				bresenham_line(game->map->minimap, src.x, src.y, dst.x, dst.y, 0xffffff);
+			//if (n_rays == 0)
+			//	bresenham_checked_line(game, src.x, src.y, dst.x, dst.y, 0xffff00); // adicionada uma versão que checa o objeto do obstáculo e retorna a posicão dele
+			//else
+			//	bresenham_line(game->map->minimap, src.x, src.y, dst.x, dst.y, 0xffffff);
 			n_rays++;
 		}
 		else

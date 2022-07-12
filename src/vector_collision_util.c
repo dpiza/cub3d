@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vector_colision_util.c                             :+:      :+:    :+:   */
+/*   vector_collision_util.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 19:30:30 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/11 21:59:28 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/12 19:54:43 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,34 +63,49 @@ t_point	get_first_collision(t_cub3d	*game, t_point	norm_dir)
 
 	x_vectors = ft_calloc(game->map->columns ,sizeof(t_point));
 	y_vectors = ft_calloc(game->map->lines ,sizeof(t_point));
-	x_vectors[0] = first_axis_collision_x(game->player.pos, norm_dir);
 	y_vectors[0] = first_axis_collision_y(game->player.pos, norm_dir);
+	x_vectors[0] = first_axis_collision_x(game->player.pos, norm_dir);
 	count = 1;
-	while (count < game->map->columns -1)
+	//if (square_check(game, x_vectors[0].x, x_vectors[0].y) != '1')
+	if (square_dir_check(game, &x_vectors[0], &norm_dir) != '1')
 	{
-		x_vectors[count] = first_axis_collision_x(x_vectors[count - 1], norm_dir);
-		if (x_vectors[count].x < 0 || x_vectors[count].y < 0)
-			break;
-		if (square_check(game, x_vectors[count].x, x_vectors[count].y) == '1')
+		while (count < game->map->columns -1)
 		{
-			first_x_wall = x_vectors[count];
-			break;
+			x_vectors[count] = first_axis_collision_x(x_vectors[count - 1], norm_dir);
+			if (x_vectors[count].x < 0 || x_vectors[count].y < 0)
+				break;
+			//if (square_check(game, x_vectors[count].x, x_vectors[count].y) == '1')
+			if (square_dir_check(game, &x_vectors[count], &norm_dir) == '1')
+			{
+				first_x_wall = x_vectors[count];
+				break;
+			}
+			count++;
 		}
-		count++;
 	}
-	count = 1;
-	while (count < game->map->lines -1)
+	else
+		first_x_wall = x_vectors[0];
+
+	//if (square_check(game, y_vectors[0].x, y_vectors[0].y) != '1')
+	if (square_dir_check(game, &y_vectors[0], &norm_dir) != '1')
 	{
-		y_vectors[count] = first_axis_collision_y(y_vectors[count - 1], norm_dir);
-		if (y_vectors[count].x < 0 || y_vectors[count].y < 0)
-			break;
-		if (square_check(game, y_vectors[count].x, y_vectors[count].y) == '1')
+		count = 1;
+		while (count < game->map->lines -1)
 		{
-			first_y_wall = y_vectors[count];
-			break;
+			y_vectors[count] = first_axis_collision_y(y_vectors[count - 1], norm_dir);
+			if (y_vectors[count].x < 0 || y_vectors[count].y < 0)
+				break;
+			//if (square_check(game, y_vectors[count].x, y_vectors[count].y) == '1')
+			if (square_dir_check(game, &y_vectors[count], &norm_dir) == '1')
+			{
+				first_y_wall = y_vectors[count];
+				break;
+			}
+			count++;
 		}
-		count++;
 	}
+	else
+		first_y_wall = y_vectors[0];
 	free(x_vectors);
 	free(y_vectors);
 	

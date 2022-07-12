@@ -1,26 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   normalize_vector.c                                 :+:      :+:    :+:   */
+/*   subtract_vectors.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/06 16:03:50 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/06 18:10:06 by hde-camp         ###   ########.fr       */
+/*   Created: 2022/05/20 15:07:16 by hde-camp          #+#    #+#             */
+/*   Updated: 2022/07/11 20:54:48 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-t_point	normalize_vector(t_point	vector)
+t_point	subtract_vector(t_point *v_one, t_point *v_two)
 {
-	t_point	normalized;
-	float	hipotenuse;
-	float	factor;
+	t_point	new_vector;
 
-	hipotenuse = sqrtf(vector.x * vector.x + vector.y * vector.y);
-	factor = 1 / hipotenuse;
-	normalized.x = vector.x * factor;
-	normalized.y = vector.y * factor;
-	return (normalized);
+	new_vector.x = v_one->x - v_two->x;
+	new_vector.y = v_one->y - v_two->y;
+	return (new_vector);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_player_in_map.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
+/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 00:07:08 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/07 23:11:08 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/11 22:00:28 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,27 @@ void	print_rays(t_cub3d	*game)
 	n_rays = 0;
 	src = game->player.pos;
 	multiply_vector_by_n(game->map->minimap_pps, &src);
-	while (n_rays < w_width / 2)
+	//while (n_rays < w_width / 2)
+	while (n_rays < 2)
 	{
-		dst = sum_vectors(&game->player.pos, &game->player.rays[n_rays]);
-		multiply_vector_by_n(game->map->minimap_pps, &dst);
-		// bresenham_line(game->map->minimap, src.x, src.y, dst.x, dst.y, 0xffffff);
-		bresenham_checked_line(game, src.x, src.y, dst.x, dst.y, 0xffff00); // adicionada uma versão que checa o objeto do obstáculo e retorna a posicão dele
-		n_rays++;
+		if (n_rays == 0)
+		{
+			dst = sum_vectors(&game->player.pos, &game->player.rays[n_rays]);
+			multiply_vector_by_n(game->map->minimap_pps, &dst);
+			if (n_rays == 0)
+				bresenham_checked_line(game, src.x, src.y, dst.x, dst.y, 0xffff00); // adicionada uma versão que checa o objeto do obstáculo e retorna a posicão dele
+			else
+				bresenham_line(game->map->minimap, src.x, src.y, dst.x, dst.y, 0xffffff);
+			n_rays++;
+		}
+		else
+		{
+			dst = get_first_collision(game, game->player.rays[1]);
+			//dst = first_axis_collision_y(game->player.pos, game->player.rays[1]);
+			multiply_vector_by_n(game->map->minimap_pps, &dst);
+			bresenham_line(game->map->minimap, src.x, src.y, dst.x, dst.y, 0xffffff);
+			n_rays++;
+		}
 	}
 }
 void	print_player_dir(t_cub3d *game)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
+/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/07 22:50:28 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/11 21:23:38 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,12 +158,15 @@ void			print_player_int_map(t_cub3d *game);
 void			override_images(t_mlx_img *dst, t_mlx_img *src, int x, int y);
 void			rotate_vector(float	angle, t_point *vector);
 t_point			sum_vectors(t_point *v_one, t_point *v_two);
+t_point			subtract_vector(t_point *v_one, t_point *v_two);
+float			vector_size(t_point *vector);
 void			bresenham_line(t_mlx_img *img, int x0, int y0, int x1, int y1, unsigned int color);
 void			multiply_vector_by_n(float	n, t_point	*vector);
 void			set_fov_vectors(t_cub3d *game);
 t_point			normalize_vector(t_point	vector);
-
-
+t_point			first_axis_collision_y(t_point  position, t_point	norm_dir);
+t_point			first_axis_collision_x(t_point  position, t_point	norm_dir);
+t_point			get_first_collision(t_cub3d	*game, t_point	norm_dir);
 
 t_point	bresenham_checked_line(t_cub3d *game, int x0, int y0, int x1, int y1, unsigned int color);
 char	square_check(t_cub3d *game, float x, float y);

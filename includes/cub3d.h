@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/12 21:32:45 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/13 18:49:34 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ struct s_player
 {
 	t_point	pos;
 	t_point	dir;
-	t_point	rays[w_width/2];
+	int		n_rays;
+	t_point	*rays;
 	t_point	fov_vec[2];
 	int		fov;
 	t_cub3d	*game;

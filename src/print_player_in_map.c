@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 00:07:08 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/12 20:47:03 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/13 18:52:50 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	print_rays(t_cub3d	*game)
 	n_rays = 0;
 	src = game->player.pos;
 	multiply_vector_by_n(game->map->minimap_pps, &src);
-	while (n_rays < w_width / 2)
+	while (n_rays < game->player.n_rays / 2)
 	{
 		dst = get_first_collision(game, game->player.rays[n_rays]);
 		//dst = first_axis_collision_y(game->player.pos, game->player.rays[1]);

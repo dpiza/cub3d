@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
+/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:48:44 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/07 22:59:58 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/13 18:52:02 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	gracefull_shutdown(t_cub3d	*game)
 	t_mlx	*mlx;
 
 	mlx = game->mlx;
+	free(game->player.rays);
 	destroy_img(mlx->img);
 	destroy_img(game->map->minimap);
 	mlx_disconnect(mlx);

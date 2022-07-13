@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 23:39:07 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/12 21:38:37 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/13 18:54:32 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	load_player(t_cub3d	*game, t_player	*player)
 	player->fov = 90;
 	count = 0;
 	player->game = game;
+	player->n_rays = 10;
+	player->rays = ft_calloc(player->n_rays + 1, sizeof(t_point));
 	while (count < y_max * x_max)
 	{
 		map_v = ft_strchr("NSEW", (int)map->map[count]);
@@ -69,31 +71,6 @@ void	build_player_rays(t_player *player)
 		player->rays[count] = dst;
 		count++;
 	}
-	//while (count == 0) // diminuí para apenas 1 raio para avaliar o ponto de colisão
-	//{
-	//	dst = sum_vectors(&player->dir, &fov_fraction[count]);
-	//	dst = normalize_vector(dst);
-	//	multiply_vector_by_n(10, &dst);
-	//	player->rays[count] = dst;
-	//	count++;
-	//}
-//
-	//
-	//count = 0;
-	//while (count < 1)
-	//	count ++;
-	//// while (count < w_width / 2)
-	//fov_fraction[0] = player->fov_vec[0];
-	//dst = sum_vectors(&player->dir, &fov_fraction[0]);
-	//dst = normalize_vector(dst);
-	//multiply_vector_by_n(10, &dst);
-	//player->rays[0] = dst;
-//
-	//fov_fraction[1] = player->fov_vec[0];
-	//multiply_vector_by_n(0.5, &fov_fraction[1]);
-	//dst = sum_vectors(&player->dir, &fov_fraction[1]);
-	//dst = normalize_vector(dst);
-	//player->rays[1] = dst;	
 }
 
 void	set_fov_vectors(t_cub3d *game)
@@ -107,11 +84,11 @@ void	set_fov_vectors(t_cub3d *game)
 	multiply_vector_by_n((float)player->fov / 90, &player->fov_vec[0]);
 	multiply_vector_by_n((float)player->fov / 90, &player->fov_vec[1]);
 	sin_cos[0] = sinf(- M_PI /2);
-	sin_cos[0] = cosf(- M_PI /2);
-	rotate_vector_old(sin_cos[0], sin_cos[1], &player->fov_vec[0]);
+	sin_cos[1] = cosf(- M_PI /2);
+	rotate_vector_new(sin_cos[0], sin_cos[1], &player->fov_vec[0]);
 	sin_cos[0] = sinf(M_PI / 2);
-	sin_cos[0] = cosf(M_PI / 2);
-	rotate_vector_old(sin_cos[0], sin_cos[1], &player->fov_vec[1]);
+	sin_cos[1] = cosf(M_PI / 2);
+	rotate_vector_new(sin_cos[0], sin_cos[1], &player->fov_vec[1]);
 }
 
 static void	set_player_dir(t_player *player, char dir)

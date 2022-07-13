@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 23:39:07 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/13 19:16:04 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/13 19:26:02 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	load_player(t_cub3d	*game, t_player	*player)
 	player->fov = 90;
 	count = 0;
 	player->game = game;
-	player->n_rays = 10;
+	player->n_rays = 11;
 	player->rays = ft_calloc(player->n_rays + 1, sizeof(t_point));
 	while (count < y_max * x_max)
 	{
@@ -55,19 +55,30 @@ void	build_player_rays(t_player *player)
 	float	frac_num[3]; // [0]/[1] = [2]
 	int		count;
 
-	count = 0;
 	frac_num[1] = (float)(player->n_rays / 2);
 	fov_fraction = ft_calloc(player->n_rays + 1, sizeof(t_point));
-	while (count < player->n_rays / 2)
+	count = player->n_rays / 2 - 1;
+	while (count > -1)
 	{
-		frac_num[0] = (float)count;
+		frac_num[0] = (float)count + 1;
 		frac_num[2] = frac_num[0] / frac_num[1];
 		fov_fraction[count] = player->fov_vec[0];
 		multiply_vector_by_n(frac_num[2], &fov_fraction[count]);
 		fov_fraction[ (player->n_rays - 1) - count] = player->fov_vec[1];
 		multiply_vector_by_n(frac_num[2], &fov_fraction[(player->n_rays - 1) - count]);
-		count++;
+		count--;
 	}
+	//count = 0;
+	//while (count < player->n_rays / 2)
+	//{
+	//	frac_num[0] = (float)count;
+	//	frac_num[2] = frac_num[0] / frac_num[1];
+	//	fov_fraction[count] = player->fov_vec[0];
+	//	multiply_vector_by_n(frac_num[2], &fov_fraction[count]);
+	//	fov_fraction[ (player->n_rays - 1) - count] = player->fov_vec[1];
+	//	multiply_vector_by_n(frac_num[2], &fov_fraction[(player->n_rays - 1) - count]);
+	//	count++;
+	//}
 	count = 0;
 	while (count < player->n_rays)
 	{

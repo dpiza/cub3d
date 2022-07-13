@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 23:39:07 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/12 20:42:34 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/12 21:31:28 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,8 +105,8 @@ void	set_fov_vectors(t_cub3d *game)
 	player->fov_vec[1] = player->dir;
 	multiply_vector_by_n((float)player->fov / 90, &player->fov_vec[0]);
 	multiply_vector_by_n((float)player->fov / 90, &player->fov_vec[1]);
-	rotate_vector(- M_PI / 2, &player->fov_vec[0]);
-	rotate_vector(M_PI / 2, &player->fov_vec[1]);
+	rotate_vector_old(- M_PI / 2, &player->fov_vec[0]);
+	rotate_vector_old(M_PI / 2, &player->fov_vec[1]);
 }
 
 static void	set_player_dir(t_player *player, char dir)

@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 19:30:30 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/12 21:15:30 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/12 21:27:30 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ t_point	get_first_collision(t_cub3d	*game, t_point	norm_dir)
 	y_vectors = ft_calloc(game->map->lines ,sizeof(t_point));
 	y_vectors[0] = first_axis_collision_y(game->player.pos, norm_dir);
 	count = 1;
-	
 	x_vectors[0] = first_axis_collision_x(game->player.pos, norm_dir);
 	//if (square_check(game, x_vectors[0].x, x_vectors[0].y) != '1')
 	if (square_dir_check(game, &x_vectors[0], &norm_dir) != '1')

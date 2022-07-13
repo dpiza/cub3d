@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/12 19:14:26 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/12 21:32:45 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,8 @@ t_mlx_img		*new_blank_img(t_mlx	*mlx, int width, int height);
 void			build_map_img(t_cub3d *game);
 void			print_player_int_map(t_cub3d *game);
 void			override_images(t_mlx_img *dst, t_mlx_img *src, int x, int y);
-void			rotate_vector(float	angle, t_point *vector);
+void			rotate_vector_old(float	angle, t_point *vector);
+void			rotate_vector_new(float sin, float cos, t_point *vector);
 t_point			sum_vectors(t_point *v_one, t_point *v_two);
 t_point			subtract_vector(t_point *v_one, t_point *v_two);
 float			vector_size(t_point *vector);

@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 23:39:07 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/12 21:31:28 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/12 21:38:37 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,14 +99,19 @@ void	build_player_rays(t_player *player)
 void	set_fov_vectors(t_cub3d *game)
 {
 	t_player	*player;
+	float		sin_cos[2];
 
 	player = &game->player;
 	player->fov_vec[0] = player->dir;
 	player->fov_vec[1] = player->dir;
 	multiply_vector_by_n((float)player->fov / 90, &player->fov_vec[0]);
 	multiply_vector_by_n((float)player->fov / 90, &player->fov_vec[1]);
-	rotate_vector_old(- M_PI / 2, &player->fov_vec[0]);
-	rotate_vector_old(M_PI / 2, &player->fov_vec[1]);
+	sin_cos[0] = sinf(- M_PI /2);
+	sin_cos[0] = cosf(- M_PI /2);
+	rotate_vector_old(sin_cos[0], sin_cos[1], &player->fov_vec[0]);
+	sin_cos[0] = sinf(M_PI / 2);
+	sin_cos[0] = cosf(M_PI / 2);
+	rotate_vector_old(sin_cos[0], sin_cos[1], &player->fov_vec[1]);
 }
 
 static void	set_player_dir(t_player *player, char dir)

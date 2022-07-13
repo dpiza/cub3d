@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 16:01:01 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/12 19:31:40 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/12 21:13:55 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ char	square_dir_check(t_cub3d *game, t_point *collision, t_point *dir)
 	char	map_obj;
 	int		round_factor;
 	int		xy[2];
+	int		map_len;
 
 	round_factor = 100000000;
 	if ( ((int)(collision->x * round_factor)) % round_factor == 0 ) //colisao em x
@@ -48,7 +49,12 @@ char	square_dir_check(t_cub3d *game, t_point *collision, t_point *dir)
 		xy[0] = (int)collision->x;
 	}
 	pos_array = (int)game->map->columns * xy[1] + xy[0];
-	map_obj = game->map->map[pos_array];
+	map_obj = '1';
+	map_len = ft_strlen(game->map->map);
+	if (pos_array >= 0 && pos_array < map_len)
+	{
+		map_obj = game->map->map[pos_array];
+	}
 	return (map_obj);
 }
 

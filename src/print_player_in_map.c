@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 00:07:08 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/12 20:38:54 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/12 20:47:03 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,24 +23,12 @@ void	print_rays(t_cub3d	*game)
 	multiply_vector_by_n(game->map->minimap_pps, &src);
 	while (n_rays < w_width / 2)
 	{
-		if (n_rays == 0)
-		{
-			dst = sum_vectors(&game->player.pos, &game->player.rays[n_rays]);
-			multiply_vector_by_n(game->map->minimap_pps, &dst);
-			//if (n_rays == 0)
-			//	bresenham_checked_line(game, src.x, src.y, dst.x, dst.y, 0xffff00); // adicionada uma versão que checa o objeto do obstáculo e retorna a posicão dele
-			//else
-			//	bresenham_line(game->map->minimap, src.x, src.y, dst.x, dst.y, 0xffffff);
-			n_rays++;
-		}
-		else
-		{
-			dst = get_first_collision(game, game->player.rays[1]);
-			//dst = first_axis_collision_y(game->player.pos, game->player.rays[1]);
-			multiply_vector_by_n(game->map->minimap_pps, &dst);
-			bresenham_line(game->map->minimap, src.x, src.y, dst.x, dst.y, 0xffffff);
-			n_rays++;
-		}
+		dst = get_first_collision(game, game->player.rays[n_rays]);
+		//dst = first_axis_collision_y(game->player.pos, game->player.rays[1]);
+		multiply_vector_by_n(game->map->minimap_pps, &dst);
+		bresenham_line(game->map->minimap, src.x, src.y, dst.x, dst.y, 0xffffff);
+		mlx_put_image_to_window(game->mlx->mlx_ptr, game->mlx->win_ptr, game->mlx->img->img_ptr, 0, 0);
+		n_rays++;
 	}
 }
 void	print_player_dir(t_cub3d *game)

@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 00:07:08 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/13 18:52:50 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/13 19:17:06 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,12 @@ void	print_rays(t_cub3d	*game)
 	n_rays = 0;
 	src = game->player.pos;
 	multiply_vector_by_n(game->map->minimap_pps, &src);
-	while (n_rays < game->player.n_rays / 2)
+	while (n_rays < game->player.n_rays)
 	{
 		dst = get_first_collision(game, game->player.rays[n_rays]);
 		//dst = first_axis_collision_y(game->player.pos, game->player.rays[1]);
 		multiply_vector_by_n(game->map->minimap_pps, &dst);
 		bresenham_line(game->map->minimap, src.x, src.y, dst.x, dst.y, 0xffffff);
-		mlx_put_image_to_window(game->mlx->mlx_ptr, game->mlx->win_ptr, game->mlx->img->img_ptr, 0, 0);
 		n_rays++;
 	}
 }
@@ -49,9 +48,9 @@ void	print_player_dir(t_cub3d *game)
 	multiply_vector_by_n((float)game->map->minimap_pps, &fov[1]);
 	multiply_vector_by_n((float)game->map->minimap_pps, &fov[2]);
 	print_rays(game);
-	//bresenham_line(game->map->minimap, src_xy.x, src_xy.y, dst_xy.x, dst_xy.y, 0xffffff );
-	//bresenham_line(game->map->minimap, dst_xy.x, dst_xy.y, fov[1].x, fov[1].y, 0xffffff );
-	//bresenham_line(game->map->minimap, dst_xy.x, dst_xy.y, fov[2].x, fov[2].y, 0xffffff );
+	bresenham_line(game->map->minimap, src_xy.x, src_xy.y, dst_xy.x, dst_xy.y, 0xffffff );
+	bresenham_line(game->map->minimap, dst_xy.x, dst_xy.y, fov[1].x, fov[1].y, 0xffffff );
+	bresenham_line(game->map->minimap, dst_xy.x, dst_xy.y, fov[2].x, fov[2].y, 0xffffff );
 }
 
 

@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 23:39:07 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/13 18:54:32 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/13 19:16:04 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,26 +51,32 @@ void	load_player(t_cub3d	*game, t_player	*player)
 void	build_player_rays(t_player *player)
 {
 	t_point	dst;
-	t_point	fov_fraction[w_width / 2];
-	int	count;
+	t_point	*fov_fraction;
+	float	frac_num[3]; // [0]/[1] = [2]
+	int		count;
 
 	count = 0;
-	while (count < w_width / 4)
+	frac_num[1] = (float)(player->n_rays / 2);
+	fov_fraction = ft_calloc(player->n_rays + 1, sizeof(t_point));
+	while (count < player->n_rays / 2)
 	{
+		frac_num[0] = (float)count;
+		frac_num[2] = frac_num[0] / frac_num[1];
 		fov_fraction[count] = player->fov_vec[0];
-		multiply_vector_by_n((float)count / ((float)w_width / 4), &fov_fraction[count]);
-		fov_fraction[ (w_width / 2 - 1) - count] = player->fov_vec[1];
-		multiply_vector_by_n((float)count / ((float)w_width / 4), &fov_fraction[(w_width / 2 - 1) - count]);
+		multiply_vector_by_n(frac_num[2], &fov_fraction[count]);
+		fov_fraction[ (player->n_rays - 1) - count] = player->fov_vec[1];
+		multiply_vector_by_n(frac_num[2], &fov_fraction[(player->n_rays - 1) - count]);
 		count++;
 	}
 	count = 0;
-	while (count < w_width /2)
+	while (count < player->n_rays)
 	{
 		dst = sum_vectors(&player->dir, &fov_fraction[count]);
 		dst = normalize_vector(dst);
 		player->rays[count] = dst;
 		count++;
 	}
+	free(fov_fraction);
 }
 
 void	set_fov_vectors(t_cub3d *game)

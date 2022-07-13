@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 16:01:01 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/12 21:36:17 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/13 18:56:36 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	rotate_player(t_cub3d *game, int direction)
 	rotate_vector_new(sin_cos[0], sin_cos[1], &game->player.dir);
 	rotate_vector_new(sin_cos[0], sin_cos[1], &game->player.fov_vec[0]);
 	rotate_vector_new(sin_cos[0], sin_cos[1], &game->player.fov_vec[1]);
-	while (n_rays < w_width / 2)
+	while (n_rays < game->player.n_rays)
 	{
 		rotate_vector_new(sin_cos[0], sin_cos[1], &game->player.rays[n_rays]);
 		n_rays++;

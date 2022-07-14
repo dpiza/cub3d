@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 19:30:30 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/12 21:27:30 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/13 21:11:56 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,23 +64,20 @@ t_point	get_first_collision(t_cub3d	*game, t_point	norm_dir)
 	x_vectors = ft_calloc(game->map->columns ,sizeof(t_point));
 	y_vectors = ft_calloc(game->map->lines ,sizeof(t_point));
 	y_vectors[0] = first_axis_collision_y(game->player.pos, norm_dir);
-	count = 1;
 	x_vectors[0] = first_axis_collision_x(game->player.pos, norm_dir);
+	count = 1;
 	//if (square_check(game, x_vectors[0].x, x_vectors[0].y) != '1')
 	if (square_dir_check(game, &x_vectors[0], &norm_dir) != '1')
 	{
 		count = 1;
-		first_x_wall = x_vectors[0];
 		while (count < game->map->columns -1)
 		{
 			x_vectors[count] = first_axis_collision_x(x_vectors[count - 1], norm_dir);
+			first_x_wall = x_vectors[count];
 			if (x_vectors[count].x < 0 || x_vectors[count].y < 0)
 				break;
 			if (square_dir_check(game, &x_vectors[count], &norm_dir) == '1')
-			{
-				first_x_wall = x_vectors[count];
 				break;
-			}
 			count++;
 		}
 	}
@@ -89,17 +86,14 @@ t_point	get_first_collision(t_cub3d	*game, t_point	norm_dir)
 	if (square_dir_check(game, &y_vectors[0], &norm_dir) != '1')
 	{
 		count = 1;
-		first_y_wall = y_vectors[0];
 		while (count < game->map->lines -1)
 		{
 			y_vectors[count] = first_axis_collision_y(y_vectors[count - 1], norm_dir);
+			first_y_wall = y_vectors[count];
 			if (y_vectors[count].x < 0 || y_vectors[count].y < 0)
 				break;
 			if (square_dir_check(game, &y_vectors[count], &norm_dir) == '1')
-			{
-				first_y_wall = y_vectors[count];
 				break;
-			}
 			count++;
 		}
 	}
@@ -110,7 +104,7 @@ t_point	get_first_collision(t_cub3d	*game, t_point	norm_dir)
 	
 	diffs[0] = subtract_vector(&first_x_wall, &game->player.pos);
 	diffs[1] = subtract_vector(&first_y_wall, &game->player.pos);
-	if (vector_size(&diffs[0]) > vector_size(&diffs[1]))
+	if (diffs[0].x*diffs[0].x + diffs[0].y*diffs[0].y > diffs[1].x*diffs[1].x + diffs[1].y*diffs[1].y)
 		return (first_y_wall);
 	return (first_x_wall);
 }

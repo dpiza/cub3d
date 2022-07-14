@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 16:01:01 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/13 18:56:36 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/13 21:43:07 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	square_dir_check(t_cub3d *game, t_point *collision, t_point *dir)
 	int		xy[2];
 	int		map_len;
 
-	round_factor = 100000000;
+	round_factor = 100000;
 	if ( ((int)(collision->x * round_factor)) % round_factor == 0 ) //colisao em x
 	{
 		if (dir->x > 0)
@@ -39,6 +39,11 @@ char	square_dir_check(t_cub3d *game, t_point *collision, t_point *dir)
 		else
 			xy[0] = ((int)collision->x) - 1;
 		xy[1] = (int)collision->y;
+		if (dir->y < 0)
+		{
+			if (floorf(collision->y) == collision->y)
+				xy[1]--;
+		}
 	}
 	else//colisao em y
 	{
@@ -69,7 +74,7 @@ void	rotate_player(t_cub3d *game, int direction)
 	int		n_rays;
 	float	sin_cos[2];
 
-	angle = M_PI / 180 * 10;
+	angle = M_PI / 180 * 4 ;
 	n_rays = 0;
 	sin_cos[0] = sinf(angle * direction);
 	sin_cos[1] = cosf(angle * direction);

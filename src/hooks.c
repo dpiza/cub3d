@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 16:01:01 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/13 21:43:07 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/19 17:44:44 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	rotate_player(t_cub3d *game, int direction)
 	int		n_rays;
 	float	sin_cos[2];
 
-	angle = M_PI / 180 * 4 ;
+	angle = M_PI / (180 * 1);
 	n_rays = 0;
 	sin_cos[0] = sinf(angle * direction);
 	sin_cos[1] = cosf(angle * direction);

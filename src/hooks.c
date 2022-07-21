@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 16:01:01 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/19 17:44:44 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/21 13:32:55 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void	rotate_player(t_cub3d *game, int direction)
 		rotate_vector_new(sin_cos[0], sin_cos[1], &game->player.rays[n_rays]);
 		n_rays++;
 	}
+	set_collisions(game);
 }
 
 void	move_left(t_cub3d *game)
@@ -100,6 +101,7 @@ void	move_left(t_cub3d *game)
 	if (square_check(game, pos.x - increment, pos.y) == '1')
 		return ;	
 	game->player.pos.x -= increment;
+	set_collisions(game);
 	print_map(game);
 	print_player_int_map(game);
 }
@@ -116,6 +118,7 @@ void	move_right(t_cub3d *game)
 	if (square_check(game, pos.x + increment, pos.y) == '1')
 		return ;
 	game->player.pos.x += increment;
+	set_collisions(game);
 	print_map(game);
 	print_player_int_map(game);
 }
@@ -132,6 +135,7 @@ void	move_down(t_cub3d *game)
 	if (square_check(game, pos.x, pos.y + increment) == '1')
 		return ;
 	game->player.pos.y += increment;
+	set_collisions(game);
 	print_map(game);
 	print_player_int_map(game);
 }
@@ -148,6 +152,7 @@ void	move_up(t_cub3d *game)
 	if (square_check(game, pos.x, pos.y - increment) == '1')
 		return ;
 	game->player.pos.y -= increment;
+	set_collisions(game);
 	print_map(game);
 	print_player_int_map(game);
 }

@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 23:39:07 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/19 17:44:29 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/21 17:03:27 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,12 @@ void	load_player(t_cub3d	*game, t_player	*player)
 	ft_bzero(player, sizeof(t_player));
 	y_max = map->lines;
 	x_max = map->columns;
-	player->fov = 90;
+	player->fov = 45;
 	count = 0;
 	player->game = game;
 	player->n_rays = 900;
 	player->rays = ft_calloc(player->n_rays + 1, sizeof(t_point));
+	player->collisions = ft_calloc(player->n_rays + 1, sizeof(t_collision));
 	while (count < y_max * x_max)
 	{
 		map_v = ft_strchr("NSEW", (int)map->map[count]);
@@ -42,53 +43,68 @@ void	load_player(t_cub3d	*game, t_player	*player)
 			set_player_dir(player, (char)map->map[count]);
 			set_fov_vectors(game);
 			build_player_rays(&game->player);
+			set_collisions(game);
 			break;
 		}
 		count++;
 	}
 }
 
-void	build_player_rays(t_player *player)
+void	build_player_rays(t_player *player) //new
 {
 	t_point	dst;
+	t_point	increment;
+	t_point	increment2;
 	t_point	*fov_fraction;
-	float	frac_num[3]; // [0]/[1] = [2]
 	int		count;
 
-	frac_num[1] = (float)(player->n_rays / 2);
-	fov_fraction = ft_calloc(player->n_rays + 1, sizeof(t_point));
-	count = player->n_rays / 2 - 1;
-	while (count > -1)
-	{
-		frac_num[0] = (float)count + 1;
-		frac_num[2] = frac_num[0] / frac_num[1];
-		fov_fraction[count] = player->fov_vec[0];
-		multiply_vector_by_n(frac_num[2], &fov_fraction[count]);
-		fov_fraction[ (player->n_rays - 1) - count] = player->fov_vec[1];
-		multiply_vector_by_n(frac_num[2], &fov_fraction[(player->n_rays - 1) - count]);
-		count--;
-	}
-	//count = 0;
-	//while (count < player->n_rays / 2)
-	//{
-	//	frac_num[0] = (float)count;
-	//	frac_num[2] = frac_num[0] / frac_num[1];
-	//	fov_fraction[count] = player->fov_vec[0];
-	//	multiply_vector_by_n(frac_num[2], &fov_fraction[count]);
-	//	fov_fraction[ (player->n_rays - 1) - count] = player->fov_vec[1];
-	//	multiply_vector_by_n(frac_num[2], &fov_fraction[(player->n_rays - 1) - count]);
-	//	count++;
-	//}
+	fov_fraction = ft_calloc(player->n_rays, sizeof(t_point));
+	increment = player->fov_vec[1];
+	multiply_vector_by_n((1/((float)player->n_rays - 1)*2),&increment);
 	count = 0;
 	while (count < player->n_rays)
 	{
+		increment2 = increment;
+		multiply_vector_by_n((float)count, &increment2);
+		fov_fraction[count] = sum_vectors(&player->fov_vec[0], &increment2);
 		dst = sum_vectors(&player->dir, &fov_fraction[count]);
 		dst = normalize_vector(dst);
 		player->rays[count] = dst;
-		count++;
+		count++;	
 	}
 	free(fov_fraction);
 }
+
+// void	build_player_rays(t_player *player) //old
+// {
+// 	t_point	dst;
+// 	t_point	*fov_fraction;
+// 	float	frac_num[3]; // [0]/[1] = [2]
+// 	int		count;
+
+// 	frac_num[1] = (float)(player->n_rays / 2);
+// 	fov_fraction = ft_calloc(player->n_rays + 1, sizeof(t_point));
+// 	count = player->n_rays / 2 - 1;
+// 	while (count > -1)
+// 	{
+// 		frac_num[0] = (float)count + 1;
+// 		frac_num[2] = frac_num[0] / frac_num[1];
+// 		fov_fraction[count] = player->fov_vec[0];
+// 		multiply_vector_by_n(frac_num[2], &fov_fraction[count]);
+// 		fov_fraction[ (player->n_rays - 1) - count] = player->fov_vec[1];
+// 		multiply_vector_by_n(frac_num[2], &fov_fraction[(player->n_rays - 1) - count]);
+// 		count--;
+// 	}
+// 	count = 0;
+// 	while (count < player->n_rays)
+// 	{
+// 		dst = sum_vectors(&player->dir, &fov_fraction[count]);
+// 		dst = normalize_vector(dst);
+// 		player->rays[count] = dst;
+// 		count++;
+// 	}
+// 	free(fov_fraction);
+// }
 
 void	set_fov_vectors(t_cub3d *game)
 {

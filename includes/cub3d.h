@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/18 21:00:21 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/21 13:30:57 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct s_cub3d		t_cub3d;
 typedef	struct s_point		t_point;
 typedef struct s_player		t_player;
 typedef struct s_int_point	t_int_point;
+typedef struct s_collision	t_collision;
 
 enum e_map_status{
 	OK = 0,
@@ -57,15 +58,24 @@ struct s_point
 	float	y;
 };
 
+struct s_collision
+{
+	t_point	point;
+	float	distance;
+	float	perpDistance;
+	int		side;
+};
+
 struct s_player
 {
-	t_point	pos;
-	t_point	dir;
-	int		n_rays;
-	t_point	*rays;
-	t_point	fov_vec[2];
-	int		fov;
-	t_cub3d	*game;
+	t_point		pos;
+	t_point		dir;
+	int			n_rays;
+	t_point		*rays;
+	t_collision	*collisions;
+	t_point		fov_vec[2];
+	int			fov;
+	t_cub3d		*game;
 };
 
 struct s_cub3d
@@ -170,6 +180,8 @@ t_point			first_axis_collision_y(t_point  position, t_point	norm_dir);
 t_point			first_axis_collision_x(t_point  position, t_point	norm_dir);
 t_point			get_first_collision(t_cub3d	*game, t_point	norm_dir);
 char			square_dir_check(t_cub3d *game, t_point *collision, t_point *dir);
+t_collision		get_collision(t_cub3d *game, t_point norm_dir);
+void			set_collisions(t_cub3d	*game);
 
 t_point			get_first_collision_dda(t_cub3d *game, t_point norm_dir);
 t_point			bresenham_checked_line(t_cub3d *game, int x0, int y0, int x1, int y1, unsigned int color);

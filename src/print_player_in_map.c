@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 00:07:08 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/19 15:44:55 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/21 16:49:45 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,11 @@ void	print_rays(t_cub3d	*game)
 	multiply_vector_by_n(game->map->minimap_pps, &src);
 	while (n_rays < game->player.n_rays)
 	{
-		// if (n_rays == 4 )
-		// {
-			//dst = get_first_collision(game, game->player.rays[n_rays]);
-			dst = get_first_collision_dda(game, game->player.rays[n_rays]);
-			multiply_vector_by_n(game->map->minimap_pps, &dst);
-			bresenham_line(game->map->minimap, src.x, src.y, dst.x, dst.y, 0xffffff);
-		// }
+		//dst = get_first_collision(game, game->player.rays[n_rays]);
+		//dst = get_first_collision_dda(game, game->player.rays[n_rays]);
+		dst = game->player.collisions[n_rays].point;
+		multiply_vector_by_n(game->map->minimap_pps, &dst);
+		bresenham_line(game->map->minimap, src.x, src.y, dst.x, dst.y, 0xffffff);
 		n_rays++;
 	}
 }

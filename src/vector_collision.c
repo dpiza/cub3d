@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 19:30:30 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/21 17:09:12 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/21 19:43:05 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,7 @@ t_collision	get_collision(t_cub3d *game, t_point norm_dir)
 		{
 			collision.point = axis_collision(game->player.pos, norm_dir, wallDist);
 			collision.distance = wallDist;
-			collision.perpDistance = wallDist;
+			collision.perpDistance = wallDist * (norm_dir.x * game->player.dir.x + norm_dir.y * game->player.dir.y);
 			hit = 1;
 		}
 		//if (square_dir_check(game, &collision, &norm_dir) == '1')

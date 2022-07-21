@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 23:39:07 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/21 17:03:27 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/21 19:57:56 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ void	load_player(t_cub3d	*game, t_player	*player)
 	ft_bzero(player, sizeof(t_player));
 	y_max = map->lines;
 	x_max = map->columns;
-	player->fov = 45;
+	player->fov = 90;
 	count = 0;
 	player->game = game;
-	player->n_rays = 900;
+	player->n_rays = 9;
 	player->rays = ft_calloc(player->n_rays + 1, sizeof(t_point));
 	player->collisions = ft_calloc(player->n_rays + 1, sizeof(t_collision));
 	while (count < y_max * x_max)

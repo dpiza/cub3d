@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
+/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/22 13:55:37 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/22 14:46:48 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ struct s_strmap
 	char		*map;
 	int			columns;
 	int			lines;
+	float		XYfactor[2];
 	t_mlx_img	*minimap;
 	int			minimap_pps;
 	t_int_point	pos;

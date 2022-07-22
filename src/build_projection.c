@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_projection.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
+/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 11:11:45 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/22 13:55:27 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/22 14:48:43 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ void	build_projection(t_cub3d *game)
 	t_mlx_img	*projection;
 	
 	
-	projection = new_blank_img(game->mlx, w_width, w_height * 0.8);
+	projection = new_blank_img(game->mlx, w_width,(int)(w_height * (1.0 - game->map->XYfactor[1])));
 	game->projection = projection;
-	printf("Width: %i\nHeight: %i\n", projection->width, projection->height);
+	//printf("Width: %i\nHeight: %i\n", projection->width, projection->height * (1.0 - game->map->XYfactor[1]));
 	lines = 0;
 	while(lines < game->projection->height)
 	{

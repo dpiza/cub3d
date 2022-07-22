@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   load_game.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 23:38:26 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/13 18:50:08 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/22 12:35:00 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ t_cub3d	*load_game(t_map	*map)
 		return (NULL);
 	game->map = new_strmap();
 	load_strmap(game->map, map);
-	pps = get_pixels_per_square(game->map, w_width / 2 , w_height);
+	pps = get_pixels_per_square(game->map, w_width / 4 , w_height);
 	game->map->minimap_pps = pps;
-	game->map->pos.x = ((w_width / 2) - pps * game->map->columns) / 2;
-	game->map->pos.y = (w_height - pps * game->map->lines) / 2;
+	game->map->pos.x = (((w_width / 4) - pps * game->map->columns) / 2) + 10;
+	game->map->pos.y = ((w_height - pps * game->map->lines) / 1) - 10;
 	load_player(game, &game->player);
 	return (game);
 }

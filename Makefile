@@ -39,7 +39,8 @@ RAW_C		=	main.c \
 				bresenham_plot.c \
 				normalize_vector.c \
 				vector_collision.c \
-				set_collisions.c
+				set_collisions.c \
+				build_projection.c
 
 SRC			=	$(addprefix $(SRC_D)/,$(RAW_C))
 OBJ			=	$(addprefix $(OBJ_D)/,$(RAW_C:.c=.o))

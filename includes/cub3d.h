@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/21 13:30:57 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/22 13:55:37 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@
 #  define OPEN_MAX 256
 # endif
 
-#define	w_height 540
-#define	w_width 1728
+#define	w_width 800
+#define	w_height 600
 
 typedef struct s_map		t_map;
 typedef struct s_strmap		t_strmap;
@@ -82,6 +82,7 @@ struct s_cub3d
 {
 	t_strmap		*map;
 	t_mlx			*mlx;
+	t_mlx_img		*projection;
 	struct s_player	player;
 };
 
@@ -187,5 +188,7 @@ t_point			get_first_collision_dda(t_cub3d *game, t_point norm_dir);
 t_point			bresenham_checked_line(t_cub3d *game, int x0, int y0, int x1, int y1, unsigned int color);
 char			square_check(t_cub3d *game, float x, float y);
 int				game_loop(t_cub3d *game);
+void	build_projection(t_cub3d *game);
+void	print_projection(t_cub3d *game);
 
 #endif

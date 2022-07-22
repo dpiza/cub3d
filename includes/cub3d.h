@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/22 14:46:48 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/22 15:06:27 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,7 @@ char			square_dir_check(t_cub3d *game, t_point *collision, t_point *dir);
 t_collision		get_collision(t_cub3d *game, t_point norm_dir);
 void			set_collisions(t_cub3d	*game);
 
-t_point			get_first_collision_dda(t_cub3d *game, t_point norm_dir);
+t_collision		get_first_collision_dda(t_cub3d *game, t_point norm_dir);
 t_point			bresenham_checked_line(t_cub3d *game, int x0, int y0, int x1, int y1, unsigned int color);
 char			square_check(t_cub3d *game, float x, float y);
 int				game_loop(t_cub3d *game);

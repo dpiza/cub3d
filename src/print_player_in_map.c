@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 00:07:08 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/21 16:49:45 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/22 14:59:52 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	print_player_dir(t_cub3d *game)
 	multiply_vector_by_n((float)game->map->minimap_pps, &fov[0]);
 	multiply_vector_by_n((float)game->map->minimap_pps, &fov[1]);
 	multiply_vector_by_n((float)game->map->minimap_pps, &fov[2]);
-	print_rays(game);
 	//bresenham_line(game->map->minimap, src_xy.x, src_xy.y, dst_xy.x, dst_xy.y, 0xffffff );
 	//bresenham_line(game->map->minimap, dst_xy.x, dst_xy.y, fov[1].x, fov[1].y, 0xffffff );
 	//bresenham_line(game->map->minimap, dst_xy.x, dst_xy.y, fov[2].x, fov[2].y, 0xffffff );
@@ -65,5 +64,6 @@ void	print_player_int_map(t_cub3d *game)
 	//scaled_pos.y = game->player.pos.y * game->map->minimap_pps;
 	//player_offset = get_byte_offset(game->map->minimap, scaled_pos.x, scaled_pos.y);
 	//print_square(game->map->minimap, (unsigned int *)(game->map->minimap->data + player_offset), 4, 0xff66ff33);
+	print_rays(game);
 	print_player_dir(game);
 }

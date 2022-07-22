@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 19:30:30 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/21 19:43:05 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/22 15:06:33 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,18 +64,16 @@ t_point	axis_collision(t_point position, t_point norm_dir, float x_factor)
 	return (result);
 }
 
-t_point	get_first_collision_dda(t_cub3d *game, t_point norm_dir)
+t_collision	get_first_collision_dda(t_cub3d *game, t_point norm_dir)
 {
-	float	sideDistX;
-	float	sideDistY;
-	float	deltaDistX;
-	float	deltaDistY;
-	int		hit;
-	int		XYsteps[2];
-	int		mapXY[2];
-	t_point	collision;
-	float	wallDist;
-	//int		side;
+	float		sideDistX;
+	float		sideDistY;
+	float		deltaDistX;
+	float		deltaDistY;
+	int			XYsteps[2];
+	int			mapXY[2];
+	t_collision	collision;
+	float		wallDist;
 
 	// Initialize default values;
 	deltaDistX = __FLT_MAX__;
@@ -106,8 +104,8 @@ t_point	get_first_collision_dda(t_cub3d *game, t_point norm_dir)
 		sideDistY = ((int)game->player.pos.y + 1.0 - game->player.pos.y) * deltaDistY;
 
 	////perform DDA
-	hit = 0;
-	while (hit == 0)
+	collision.side = 0;
+	while (collision.side == 0)
 	{
 		//jump to next map square, either in x-direction, or in y-direction
 		if (sideDistX < sideDistY)
@@ -115,25 +113,26 @@ t_point	get_first_collision_dda(t_cub3d *game, t_point norm_dir)
 			wallDist = sideDistX;
 			sideDistX += deltaDistX;
 			mapXY[0] += XYsteps[0];
-			//side = 1;
+			collision.side = WEST;
 		}
 		else
 		{
 			wallDist = sideDistY;
 			sideDistY += deltaDistY;
 			mapXY[1] += XYsteps[1];
-			//side = 0;
+			collision.side = NORTH;
 		}
 		//Check if ray has hit a wall
 		if (square_check(game, (float)mapXY[0], (float)mapXY[1]) == '1')
 		{
-			collision = axis_collision(game->player.pos, norm_dir, wallDist);
-			hit = 1;
+			collision.point = axis_collision(game->player.pos, norm_dir, wallDist);
+			if (collision.side == WEST && norm_dir.x < 0)
+				collision.side = EAST;
+			if (collision.side == NORTH && norm_dir.y < 0)
+				collision.side = SOUTH;
 		}
-		//if (square_dir_check(game, &collision, &norm_dir) == '1')
-		//	hit = 1;
 	}
-	printf("Collision xy: %.2f\t%.2f\n", collision.x, collision.y);
+	printf("Collision xy: %.2f\t%.2f\n", collision.point.x, collision.point.y);
 	// printf("Side hit: %i\n", side);
 	// printf("Wall Distance: %.4f\n", wallDist);
 	return (collision);

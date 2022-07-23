@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:48:44 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/23 15:17:08 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/23 15:45:15 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,10 @@ void	gracefull_shutdown(t_cub3d	*game)
 	mlx = game->mlx;
 	free(game->player.rays);
 	free(game->player.collisions);
+	destroy_img(game->texture_no);
+	destroy_img(game->texture_so);
+	destroy_img(game->texture_we);
+	destroy_img(game->texture_ea);
 	destroy_img(mlx->img);
 	destroy_img(game->map->minimap);
 	mlx_disconnect(mlx);
@@ -80,6 +84,7 @@ void	mlx_test(t_cub3d	*game)
 		game->texture_so = load_texture(game, game->s_map->so_path);
 		game->texture_ea = load_texture(game, game->s_map->ea_path);
 		game->texture_we = load_texture(game, game->s_map->we_path);
+		mlx_hook(game->mlx->win_ptr, 17, 0L, mlx_loop_end, game->mlx->mlx_ptr); // fecha no X
 		mlx_hook(game->mlx->win_ptr, 2, 1L << 0, key_hook, game);
 		// mlx_loop_hook(game->mlx->mlx_ptr, game_loop, game); 
 		game_loop(game); // usado no lugar do loop pra ver o ponto de colisão individualmente

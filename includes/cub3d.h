@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/22 22:44:08 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/23 15:16:31 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,9 +80,14 @@ struct s_player
 
 struct s_cub3d
 {
-	t_strmap		*map;
 	t_mlx			*mlx;
+	t_strmap		*map;
+	t_map			*s_map;
 	t_mlx_img		*projection;
+	t_mlx_img		*texture_no;
+	t_mlx_img		*texture_so;
+	t_mlx_img		*texture_we;
+	t_mlx_img		*texture_ea;
 	struct s_player	player;
 };
 

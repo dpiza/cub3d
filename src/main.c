@@ -6,11 +6,26 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:48:44 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/22 22:43:35 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/23 15:17:08 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
+
+t_mlx_img	*load_texture(t_cub3d *game, char *filename)
+{
+	t_mlx_img		*img;
+	int				width;
+	int				height;
+
+	width = 64;
+	height = 64;
+	img = ft_calloc(1, sizeof(t_mlx_img));
+	img->mlx = game->mlx;
+	img->img_ptr = mlx_xpm_file_to_image(game->mlx->mlx_ptr, filename, &width, &height);
+	img->data = mlx_get_data_addr(img->img_ptr, &(img->bpp), &(img->line_size), &(img->endian));
+	return (img);
+}
 
 void	destroy_img(t_mlx_img *mlx_img)
 {
@@ -61,6 +76,10 @@ void	mlx_test(t_cub3d	*game)
 		game->mlx->win_ptr = mlx_new_window(game->mlx->mlx_ptr, w_width, w_height, "Test Window");
 		mlx_img = new_blank_img(game->mlx, w_width, w_height);
 		game->mlx->img = mlx_img;
+		game->texture_no = load_texture(game, game->s_map->no_path);
+		game->texture_so = load_texture(game, game->s_map->so_path);
+		game->texture_ea = load_texture(game, game->s_map->ea_path);
+		game->texture_we = load_texture(game, game->s_map->we_path);
 		mlx_hook(game->mlx->win_ptr, 2, 1L << 0, key_hook, game);
 		// mlx_loop_hook(game->mlx->mlx_ptr, game_loop, game); 
 		game_loop(game); // usado no lugar do loop pra ver o ponto de colisão individualmente
@@ -76,6 +95,7 @@ int	main(int argc, char *argv[])
 
 	(void)argc;
 	(void)argv;
+	// map = load_map("./maps/huge_map.cub");
 	map = load_map("./maps/subject_map.cub");
 	eval_map(map);
 	if (map->status == OK)

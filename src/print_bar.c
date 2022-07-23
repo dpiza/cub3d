@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 22:42:40 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/22 22:44:43 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/23 00:01:56 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,11 @@
 void	print_bar(t_cub3d *game)
 {
 	t_mlx_img	*img;
-	int			width = 800;
-	int			height = 126;
+	int			width;
+	int			height;
 	
+	width = 800;
+	height = 126;
 	img = ft_calloc(1, sizeof(t_mlx_img));
 	img->mlx = game->mlx;
 	img->img_ptr = mlx_xpm_file_to_image(game->mlx->mlx_ptr, "./textures/fo_bar.xpm", &width, &height);

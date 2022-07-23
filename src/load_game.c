@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 23:38:26 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/22 22:58:48 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/23 15:22:13 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ t_cub3d	*load_game(t_map	*map)
 	strMap->pos.x = (((w_width / 4) - pps * strMap->columns) / 2) + 30;
 	strMap->pos.y = ((w_height - pps * strMap->lines) / 1) - 30;
 	game->map = strMap;
+	game->s_map = map;
 	load_player(game, &game->player);
 	return (game);
 }

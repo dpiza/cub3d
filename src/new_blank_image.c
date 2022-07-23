@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   new_blank_image.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 00:08:00 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/18 17:28:11 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/23 16:31:24 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-t_mlx_img	*new_blank_img(t_mlx	*mlx, int width, int height)
+t_mlx_img	*new_blank_img(t_mlx *mlx, int width, int height)
 {
 	t_mlx_img	*img;
 

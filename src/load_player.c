@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 23:39:07 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/22 23:42:01 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/23 16:11:00 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	load_player(t_cub3d	*game, t_player	*player)
 	map = game->map;
 	y_max = map->lines;
 	x_max = map->columns;
-	player->fov = 75;
+	player->fov = FOV;
 	count = 0;
 	player->game = game;
 	player->rays = ft_calloc(player->n_rays + 1, sizeof(t_point));
@@ -68,7 +68,7 @@ void	build_player_rays(t_player *player) //new
 		dst = sum_vectors(&player->dir, &fov_fraction[count]);
 		dst = normalize_vector(dst);
 		player->rays[count] = dst;
-		count++;	
+		count++;
 	}
 	free(fov_fraction);
 }

@@ -1,37 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_square.c                                     :+:      :+:    :+:   */
+/*   square_check.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/12 15:40:28 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/23 16:38:02 by dpiza            ###   ########.fr       */
+/*   Created: 2022/07/23 16:15:20 by dpiza             #+#    #+#             */
+/*   Updated: 2022/07/23 16:15:33 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-void	print_square(t_mlx_img *img, unsigned int *dest_origin, int sqr_size, unsigned int color)
+char	square_check(t_cub3d *game, float x, float y)
 {
-	unsigned int	*dest;
-	int	i[2];
-
-	dest = dest_origin;
-	i[0] = 0;
-	while (i[0] < sqr_size)
-	{
-		i[1] = 0;
-		while (i[1] < sqr_size)
-		{
-			if (i[0] && i[1])
-				*dest = color;
-			else
-				*dest = 0x00000000;
-			dest++;
-			i[1]++;
-		}
-		dest += img->width - sqr_size;
-		i[0]++;
-	}
+	int		pos_array;
+	char	map_obj;
+	
+	pos_array = (int)game->map->columns * (int)y + (int)x;
+	map_obj = game->map->map[pos_array];
+	// printf("Map obj %c\n", map_obj); // printa o objeto do mapa no terminal
+	return (map_obj);
 }

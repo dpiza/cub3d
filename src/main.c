@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:48:44 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/23 15:45:15 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/23 17:16:07 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,9 @@ void	gracefull_shutdown(t_cub3d	*game)
 int		game_loop(t_cub3d *game)
 {
 	build_map_img(game);
+	print_player_int_map(game);
 	build_projection(game);
 	print_projection(game);
-	print_player_int_map(game);
 	print_bar(game);
 	print_map(game);
 	mlx_put_image_to_window(game->mlx->mlx_ptr, game->mlx->win_ptr, game->mlx->img->img_ptr, 0, 0);
@@ -77,7 +77,7 @@ void	mlx_test(t_cub3d	*game)
 
 	if (init_game_state(game))
 	{
-		game->mlx->win_ptr = mlx_new_window(game->mlx->mlx_ptr, w_width, w_height, "Test Window");
+		game->mlx->win_ptr = mlx_new_window(game->mlx->mlx_ptr, w_width, w_height, "Nuk3d");
 		mlx_img = new_blank_img(game->mlx, w_width, w_height);
 		game->mlx->img = mlx_img;
 		game->texture_no = load_texture(game, game->s_map->no_path);
@@ -106,7 +106,8 @@ int	main(int argc, char *argv[])
 	if (map->status == OK)
 	{
 		game = load_game(map);
-		mlx_test(game);
+		if (game)
+			mlx_test(game);
 	}
 	free_t_map(map);
 	return (0);

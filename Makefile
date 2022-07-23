@@ -40,6 +40,7 @@ RAW_C		=	main.c \
 				normalize_vector.c \
 				vector_collision.c \
 				set_collisions.c \
+				square_check.c \
 				build_projection.c \
 				print_bar.c
 

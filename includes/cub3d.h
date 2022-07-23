@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/23 15:16:31 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/23 17:16:12 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,9 @@
 #  define OPEN_MAX 256
 # endif
 
-#define	w_width 800
-#define	w_height 600
+#define	w_width 	800
+#define	w_height 	600
+#define	FOV			75
 
 typedef struct s_map		t_map;
 typedef struct s_strmap		t_strmap;
@@ -183,19 +184,12 @@ void			bresenham_line(t_mlx_img *img, int x0, int y0, int x1, int y1, unsigned i
 void			multiply_vector_by_n(float	n, t_point	*vector);
 void			set_fov_vectors(t_cub3d *game);
 t_point			normalize_vector(t_point	vector);
-t_point			first_axis_collision_y(t_point  position, t_point	norm_dir);
-t_point			first_axis_collision_x(t_point  position, t_point	norm_dir);
-t_point			get_first_collision(t_cub3d	*game, t_point	norm_dir);
-char			square_dir_check(t_cub3d *game, t_point *collision, t_point *dir);
 t_collision		get_collision(t_cub3d *game, t_point norm_dir);
 void			set_collisions(t_cub3d	*game);
-
-t_collision		get_first_collision_dda(t_cub3d *game, t_point norm_dir);
-t_point			bresenham_checked_line(t_cub3d *game, int x0, int y0, int x1, int y1, unsigned int color);
 char			square_check(t_cub3d *game, float x, float y);
 int				game_loop(t_cub3d *game);
-void	build_projection(t_cub3d *game);
-void	print_projection(t_cub3d *game);
-void	print_bar(t_cub3d *game);
+void			build_projection(t_cub3d *game);
+void			print_projection(t_cub3d *game);
+void			print_bar(t_cub3d *game);
 
 #endif

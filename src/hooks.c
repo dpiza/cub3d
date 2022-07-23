@@ -6,62 +6,11 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 16:01:01 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/22 23:02:53 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/23 16:16:37 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
-
-char	square_check(t_cub3d *game, float x, float y)
-{
-	int		pos_array;
-	char	map_obj;
-	
-	pos_array = (int)game->map->columns * (int)y + (int)x;
-	map_obj = game->map->map[pos_array];
-	// printf("Map obj %c\n", map_obj); // printa o objeto do mapa no terminal
-	return (map_obj);
-}
-
-char	square_dir_check(t_cub3d *game, t_point *collision, t_point *dir)
-{
-	int		pos_array;
-	char	map_obj;
-	int		round_factor;
-	int		xy[2];
-	int		map_len;
-
-	round_factor = 100000;
-	if ( ((int)(collision->x * round_factor)) % round_factor == 0 ) //colisao em x
-	{
-		if (dir->x > 0)
-			xy[0] = (int)collision->x;
-		else
-			xy[0] = ((int)collision->x) - 1;
-		xy[1] = (int)collision->y;
-		if (dir->y < 0)
-		{
-			if (floorf(collision->y) == collision->y)
-				xy[1]--;
-		}
-	}
-	else//colisao em y
-	{
-		if (dir->y > 0)
-			xy[1] = (int)collision->y;
-		else
-			xy[1] = ((int)collision->y) - 1;
-		xy[0] = (int)collision->x;
-	}
-	pos_array = (int)game->map->columns * xy[1] + xy[0];
-	map_obj = '1';
-	map_len = ft_strlen(game->map->map);
-	if (pos_array >= 0 && pos_array < map_len)
-	{
-		map_obj = game->map->map[pos_array];
-	}
-	return (map_obj);
-}
 
 void	player_pos(t_cub3d *game)
 {
@@ -122,40 +71,6 @@ void	move_right(t_cub3d *game)
 	print_map(game);
 	print_player_int_map(game);
 }
-
-// void	move_down(t_cub3d *game)
-// {
-// 	t_point	pos;
-// 	float	increment;
-
-// 	pos = game->player.pos;
-// 	increment = 0.25;
-// 	if (pos.y + increment >= game->map->lines - 1)
-// 		return ;
-// 	if (square_check(game, pos.x, pos.y + increment) == '1')
-// 		return ;
-// 	game->player.pos.y += increment;
-// 	set_collisions(game);
-// 	print_map(game);
-// 	print_player_int_map(game);
-// }
-
-// void	move_up(t_cub3d *game)
-// {
-// 	t_point	pos;
-// 	float	increment;
-
-// 	pos = game->player.pos;
-// 	increment = 0.25;
-// 	if (pos.y - increment < 1)
-// 		return ;
-// 	if (square_check(game, pos.x, pos.y - increment) == '1')
-// 		return ;
-// 	game->player.pos.y -= increment;
-// 	set_collisions(game);
-// 	print_map(game);
-// 	print_player_int_map(game);
-// }
 
 void	move_forward(t_cub3d *game)
 {

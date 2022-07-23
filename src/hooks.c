@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 16:01:01 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/22 21:40:32 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/22 23:02:53 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,8 +170,8 @@ void	move_forward(t_cub3d *game)
 	increment = 0.25;
 	increment_x = increment * dir.x;
 	increment_y = increment * dir.y;
-	if (pos.y - increment_y < 1 || pos.x - increment_x < 1)
-		return ;
+	// if (pos.y - increment_y < 1 || pos.x - increment_x < 1)
+	// 	return ;
 	if (square_check(game, pos.x + increment_x, pos.y + increment_y) == '1')
 		return ;
 	game->player.pos.x += increment_x;
@@ -194,8 +194,8 @@ void	move_backward(t_cub3d *game)
 	increment = 0.25;
 	increment_x = increment * dir.x;
 	increment_y = increment * dir.y;
-	if (pos.y - increment_y < 1 || pos.x - increment_x < 1)
-		return ;
+	// if (pos.y - increment_y < 1 || pos.x - increment_x < 1)
+	// 	return ;
 	if (square_check(game, pos.x - increment_x, pos.y - increment_y) == '1')
 		return ;
 	game->player.pos.x -= increment_x;

@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 18:28:08 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/22 22:28:28 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/22 23:19:36 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,9 @@ static unsigned int	get_map_color(char c)
 	if (c == ' ')
 		return (0x00000000);
 	else if(c == '1')
-		return (0x00302820);
+		return (0x003cf800);
 	else if(c == '0')
 		return (0x00000000);
 	else
-		return (0x008a4f00);
+		return (0x00000000); // 8a4f00
 }

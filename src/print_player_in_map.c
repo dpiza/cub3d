@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_player_in_map.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 00:07:08 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/22 14:59:52 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/22 23:21:44 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	print_rays(t_cub3d	*game)
 		//dst = get_first_collision_dda(game, game->player.rays[n_rays]);
 		dst = game->player.collisions[n_rays].point;
 		multiply_vector_by_n(game->map->minimap_pps, &dst);
-		bresenham_line(game->map->minimap, src.x, src.y, dst.x, dst.y, 0xffffff);
+		bresenham_line(game->map->minimap, src.x, src.y, dst.x, dst.y, 0x00006c00);
 		n_rays++;
 	}
 }
@@ -57,13 +57,13 @@ void	print_player_dir(t_cub3d *game)
 
 void	print_player_int_map(t_cub3d *game)
 {
-	//int		player_offset;
-	//t_point	scaled_pos;
+	int		player_offset;
+	t_point	scaled_pos;
 
-	//scaled_pos.x = game->player.pos.x * game->map->minimap_pps;
-	//scaled_pos.y = game->player.pos.y * game->map->minimap_pps;
-	//player_offset = get_byte_offset(game->map->minimap, scaled_pos.x, scaled_pos.y);
-	//print_square(game->map->minimap, (unsigned int *)(game->map->minimap->data + player_offset), 4, 0xff66ff33);
+	scaled_pos.x = (game->player.pos.x - 0.5) * game->map->minimap_pps;
+	scaled_pos.y = (game->player.pos.y - 0.5) * game->map->minimap_pps;
+	player_offset = get_byte_offset(game->map->minimap, scaled_pos.x, scaled_pos.y);
+	print_square(game->map->minimap, (unsigned int *)(game->map->minimap->data + player_offset), 4, 0x00fc0000);
 	print_rays(game);
 	print_player_dir(game);
 }

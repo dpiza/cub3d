@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 18:28:08 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/22 23:19:36 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/22 23:39:03 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,11 @@ void	build_map_img(t_cub3d *game)
 static unsigned int	get_map_color(char c)
 {
 	if (c == ' ')
-		return (0x00000000);
+		return (0x001c1c1c);
 	else if(c == '1')
 		return (0x003cf800);
 	else if(c == '0')
-		return (0x00000000);
+		return (0x001c1c1c);
 	else
-		return (0x00000000); // 8a4f00
+		return (0x001c1c1c); // 8a4f00
 }

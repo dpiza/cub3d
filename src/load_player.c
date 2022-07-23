@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   load_player.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 23:39:07 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/22 14:21:45 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/22 23:42:01 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	load_player(t_cub3d	*game, t_player	*player)
 	map = game->map;
 	y_max = map->lines;
 	x_max = map->columns;
-	player->fov = 90;
+	player->fov = 75;
 	count = 0;
 	player->game = game;
 	player->rays = ft_calloc(player->n_rays + 1, sizeof(t_point));

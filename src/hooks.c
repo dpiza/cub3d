@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 16:01:01 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/21 13:32:55 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/22 20:53:32 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,22 +164,22 @@ int	key_hook(int k, t_cub3d *game)
 	if (k == 0x0061 || k == 0x0041)
 	{
 		move_left(game);
-		printf("a pressed\n");
+		// printf("a pressed\n");
 	}
 	if (k == 0x0073 || k == 0x0053)
 	{
 		move_down(game);
-		printf("s pressed\n");
+		// printf("s pressed\n");
 	}
 	if (k == 0x0064 || k == 0x0044)
 	{
 		move_right(game);
-		printf("d pressed\n");
+		// printf("d pressed\n");
 	}
 	if (k == 0x0077 || k == 0x0057)
 	{
 		move_up(game);
-		printf("w pressed\n");
+		// printf("w pressed\n");
 	}
 	if (k == 0x0070 || k == 0x0050)
 		printf("p pressed\n");
@@ -188,12 +188,12 @@ int	key_hook(int k, t_cub3d *game)
 	if (k == 0xff51)
 	{
 		rotate_player(game, -1);
-		printf("← pressed\n");
+		// printf("← pressed\n");
 	}
 	if (k == 0xff53)
 	{
 		rotate_player(game, 1);
-		printf("→ pressed\n");
+		// printf("→ pressed\n");
 	}
 	/*
 	teclas de interesse:
@@ -210,8 +210,9 @@ int	key_hook(int k, t_cub3d *game)
 	leftarrow	0xff51
 	rightarrow	0xff53
 	*/
-
-	player_pos(game); // printa a posição do player no terminal
+	build_projection(game);
+	print_projection(game);
+	// player_pos(game); // printa a posição do player no terminal
 	game_loop(game); // chama a função que printa o jogo na tela apenas quando há movimento
 	
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_square.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:40:28 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/12 15:42:05 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/22 17:04:45 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	print_square(t_mlx_img	*img, unsigned int *dest_origin, int sqr_size, unsig
 			if (i[0] && i[1])
 				*dest = color;
 			else
-				*dest = 0x00ffffff;
+				*dest = 0x00000000;
 			dest++;
 			i[1]++;
 		}

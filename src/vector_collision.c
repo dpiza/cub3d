@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   vector_collision.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 19:30:30 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/22 15:06:33 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/22 20:53:36 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ t_collision	get_collision(t_cub3d *game, t_point norm_dir)
 	int		mapXY[2];
 	t_collision	collision;
 	float	wallDist;
-	//int		side;
+	int		side;
 
 	// Initialize default values;
 	deltaDistX = __FLT_MAX__;
@@ -189,14 +189,14 @@ t_collision	get_collision(t_cub3d *game, t_point norm_dir)
 			wallDist = sideDistX;
 			sideDistX += deltaDistX;
 			mapXY[0] += XYsteps[0];
-			//side = 1;
+			side = 1;
 		}
 		else
 		{
 			wallDist = sideDistY;
 			sideDistY += deltaDistY;
 			mapXY[1] += XYsteps[1];
-			//side = 0;
+			side = 0;
 		}
 		//Check if ray has hit a wall
 		if (square_check(game, (float)mapXY[0], (float)mapXY[1]) == '1')
@@ -205,11 +205,12 @@ t_collision	get_collision(t_cub3d *game, t_point norm_dir)
 			collision.distance = wallDist;
 			collision.perpDistance = wallDist * (norm_dir.x * game->player.dir.x + norm_dir.y * game->player.dir.y);
 			hit = 1;
+			collision.side = side;
 		}
 		//if (square_dir_check(game, &collision, &norm_dir) == '1')
 		//	hit = 1;
 	}
-	printf("Collision xy: %.2f\t%.2f\n", collision.point.x, collision.point.y);
+	// printf("Collision xy: %.2f\t%.2f\t%.2f\t%i\n", collision.point.x, collision.point.y, collision.perpDistance, collision.side);
 	// printf("Side hit: %i\n", side);
 	// printf("Wall Distance: %.4f\n", wallDist);
 	return (collision);

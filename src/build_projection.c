@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 11:11:45 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/22 21:00:30 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/22 21:07:16 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,15 @@ void	build_projection(t_cub3d *game)
 	game->projection = projection;
 	width_relation = (float)game->player.n_rays / (float)w_width;
 	height_relation = (w_height * (1.0 - game->map->XYfactor[1])) / 2;
-	line = 0;
-	while(line < game->projection->height)
+	column = 0;
+	while(column < game->projection->width)
 	{
-		column = 0;
-		while(column < game->projection->width)
+		line = 0;
+		ray = column * width_relation;
+		wall_height = height_relation / game->player.collisions[ray].perpDistance;
+		while(line < game->projection->height)
 		{
 			pixel = get_pixel_addres(game->projection, column, line);
-			ray = column * width_relation;
-			wall_height = height_relation / game->player.collisions[ray].perpDistance;
 			if (line < height_relation && line < height_relation - wall_height)
 				*pixel = 0x00383838;
 			else if (line > height_relation && line > wall_height + height_relation)
@@ -46,9 +46,9 @@ void	build_projection(t_cub3d *game)
 				if(game->player.collisions[ray].side)
 					*pixel = 0x000000a8;
 			}
-			column++;
+			line++;
 		}
-		line++;
+		column++;
 	}
 }
 

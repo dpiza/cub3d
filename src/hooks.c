@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 16:01:01 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/22 20:53:32 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/22 21:40:32 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	rotate_player(t_cub3d *game, int direction)
 	int		n_rays;
 	float	sin_cos[2];
 
-	angle = M_PI / (180 * 1);
+	angle = M_PI / (180 / 2);
 	n_rays = 0;
 	sin_cos[0] = sinf(angle * direction);
 	sin_cos[1] = cosf(angle * direction);
@@ -95,7 +95,7 @@ void	move_left(t_cub3d *game)
 	float	increment;
 
 	pos = game->player.pos;
-	increment = 0.1;
+	increment = 0.25;
 	if (pos.x - increment < 1)
 		return ;
 	if (square_check(game, pos.x - increment, pos.y) == '1')
@@ -112,7 +112,7 @@ void	move_right(t_cub3d *game)
 	float	increment;
 
 	pos = game->player.pos;
-	increment = 0.1;
+	increment = 0.25;
 	if (pos.x + increment >= game->map->columns - 1)
 		return ;
 	if (square_check(game, pos.x + increment, pos.y) == '1')
@@ -123,35 +123,83 @@ void	move_right(t_cub3d *game)
 	print_player_int_map(game);
 }
 
-void	move_down(t_cub3d *game)
+// void	move_down(t_cub3d *game)
+// {
+// 	t_point	pos;
+// 	float	increment;
+
+// 	pos = game->player.pos;
+// 	increment = 0.25;
+// 	if (pos.y + increment >= game->map->lines - 1)
+// 		return ;
+// 	if (square_check(game, pos.x, pos.y + increment) == '1')
+// 		return ;
+// 	game->player.pos.y += increment;
+// 	set_collisions(game);
+// 	print_map(game);
+// 	print_player_int_map(game);
+// }
+
+// void	move_up(t_cub3d *game)
+// {
+// 	t_point	pos;
+// 	float	increment;
+
+// 	pos = game->player.pos;
+// 	increment = 0.25;
+// 	if (pos.y - increment < 1)
+// 		return ;
+// 	if (square_check(game, pos.x, pos.y - increment) == '1')
+// 		return ;
+// 	game->player.pos.y -= increment;
+// 	set_collisions(game);
+// 	print_map(game);
+// 	print_player_int_map(game);
+// }
+
+void	move_forward(t_cub3d *game)
 {
 	t_point	pos;
+	t_point	dir;
 	float	increment;
+	float	increment_x;
+	float	increment_y;
 
 	pos = game->player.pos;
-	increment = 0.1;
-	if (pos.y + increment >= game->map->lines - 1)
+	dir = game->player.dir;
+	increment = 0.25;
+	increment_x = increment * dir.x;
+	increment_y = increment * dir.y;
+	if (pos.y - increment_y < 1 || pos.x - increment_x < 1)
 		return ;
-	if (square_check(game, pos.x, pos.y + increment) == '1')
+	if (square_check(game, pos.x + increment_x, pos.y + increment_y) == '1')
 		return ;
-	game->player.pos.y += increment;
+	game->player.pos.x += increment_x;
+	game->player.pos.y += increment_y;
 	set_collisions(game);
 	print_map(game);
 	print_player_int_map(game);
 }
 
-void	move_up(t_cub3d *game)
+void	move_backward(t_cub3d *game)
 {
 	t_point	pos;
+	t_point	dir;
 	float	increment;
+	float	increment_x;
+	float	increment_y;
 
 	pos = game->player.pos;
-	increment = 0.1;
-	if (pos.y - increment < 1)
+	dir = game->player.dir;
+	increment = 0.25;
+	increment_x = increment * dir.x;
+	increment_y = increment * dir.y;
+	if (pos.y - increment_y < 1 || pos.x - increment_x < 1)
 		return ;
-	if (square_check(game, pos.x, pos.y - increment) == '1')
+	if (square_check(game, pos.x - increment_x, pos.y - increment_y) == '1')
 		return ;
-	game->player.pos.y -= increment;
+	game->player.pos.x -= increment_x;
+	game->player.pos.y -= increment_y;
 	set_collisions(game);
 	print_map(game);
 	print_player_int_map(game);
@@ -168,7 +216,8 @@ int	key_hook(int k, t_cub3d *game)
 	}
 	if (k == 0x0073 || k == 0x0053)
 	{
-		move_down(game);
+		move_backward(game);
+		// move_down(game);
 		// printf("s pressed\n");
 	}
 	if (k == 0x0064 || k == 0x0044)
@@ -178,7 +227,8 @@ int	key_hook(int k, t_cub3d *game)
 	}
 	if (k == 0x0077 || k == 0x0057)
 	{
-		move_up(game);
+		move_forward(game);
+		// move_up(game);
 		// printf("w pressed\n");
 	}
 	if (k == 0x0070 || k == 0x0050)

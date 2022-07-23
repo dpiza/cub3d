@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 11:11:45 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/22 21:07:16 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/22 22:52:41 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,12 @@ void	build_projection(t_cub3d *game)
 	float			height_relation;
 	float			wall_height;
 	
-	projection = new_blank_img(game->mlx, w_width,(int)(w_height * (1.0 - game->map->XYfactor[1])));
+	projection = new_blank_img(game->mlx, w_width,(int)(w_height * (1.0 - 0.2))); // 0.2 = strMap->XYfactor[1]
+	// removi o strMap->XYfactor[1] porque ele está sendo usado pra definir o
+	// tamanho do minimap e acaba afetando o tamanho da tela de projeção
 	game->projection = projection;
 	width_relation = (float)game->player.n_rays / (float)w_width;
-	height_relation = (w_height * (1.0 - game->map->XYfactor[1])) / 2;
+	height_relation = (w_height * (1.0 - 0.2)) / 2; // 0.2 = strMap->XYfactor[1]
 	column = 0;
 	while(column < game->projection->width)
 	{

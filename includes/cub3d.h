@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/22 15:06:27 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/22 22:44:08 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,5 +191,6 @@ char			square_check(t_cub3d *game, float x, float y);
 int				game_loop(t_cub3d *game);
 void	build_projection(t_cub3d *game);
 void	print_projection(t_cub3d *game);
+void	print_bar(t_cub3d *game);
 
 #endif

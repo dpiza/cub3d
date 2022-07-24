@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/24 09:49:12 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/24 11:16:37 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,23 @@
 #define	w_height 		600
 #define	FOV				75
 #define	TRANSPARENCY	4278190080
+
+#define	shadow				0x001C1C1D
+
+#define mm_wall				0x003cf800
+#define mm_wall_shadow		0x00154b03
+
+#define mm_empty			0x001c1c1c
+#define mm_empty_shadow		0x001c1c1c
+
+#define mm_floor			0x001c1c1c
+#define mm_floor_shadow		0x000e0e0e
+
+#define mm_others			0x001c1c1c
+#define mm_others_shadow	0x001c1c1c
+
+#define player_rays			0x00006c00
+#define player_rays_shadow	0x00002100
 
 typedef struct s_map		t_map;
 typedef struct s_strmap		t_strmap;
@@ -176,6 +193,7 @@ void			build_map_img(t_cub3d *game);
 void			print_player_int_map(t_cub3d *game);
 void			override_images(t_mlx_img *dst, t_mlx_img *src, int x, int y);
 void			override_images_bg(t_mlx_img *dst, t_mlx_img *src, int x, int y, unsigned int bg);
+void			override_minimap(t_mlx_img *dst, t_mlx_img *src, int x, int y);
 void			rotate_vector_old(float	angle, t_point *vector);
 void			rotate_vector_new(float sin, float cos, t_point *vector);
 t_point			sum_vectors(t_point *v_one, t_point *v_two);

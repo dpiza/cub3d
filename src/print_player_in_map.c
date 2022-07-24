@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 00:07:08 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/22 23:21:44 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/24 11:10:48 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	print_rays(t_cub3d	*game)
 		//dst = get_first_collision_dda(game, game->player.rays[n_rays]);
 		dst = game->player.collisions[n_rays].point;
 		multiply_vector_by_n(game->map->minimap_pps, &dst);
-		bresenham_line(game->map->minimap, src.x, src.y, dst.x, dst.y, 0x00006c00);
+		bresenham_line(game->map->minimap, src.x, src.y, dst.x, dst.y, player_rays);
 		n_rays++;
 	}
 }

@@ -5,7 +5,11 @@ NAME 		= cub3D
 
 SRC_D		=	src
 OBJ_D		=	obj
-INCLUDES	=	-I ./includes
+INC_D		=	includes
+
+RAW_H		=	cub3d.h \
+				libft.h
+
 
 LIBS		=	-L./libft -lft -lmlx -lXext -lX11 -lm
 
@@ -47,15 +51,16 @@ RAW_C		=	main.c \
 
 SRC			=	$(addprefix $(SRC_D)/,$(RAW_C))
 OBJ			=	$(addprefix $(OBJ_D)/,$(RAW_C:.c=.o))
+INCLUDES	=	$(addprefix $(INC_D)/,$(RAW_H))
 
 
 .PHONY: clean fclean
 
-$(NAME): $(OBJ) 
+$(NAME): $(OBJ) $(INCLUDES) 
 	$(CC) $(OBJ) $(LIBS) -o $(NAME)
 
 $(OBJ_D)/%.o : $(SRC_D)/%.c ./libft/libft.a
-	$(CC) $(CFLAGS) -c $< $(INCLUDES) -o $@
+	$(CC) $(CFLAGS) -c $< -I $(INC_D) -o $@
 
 all:	$(NAME)
 

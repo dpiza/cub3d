@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/23 23:40:34 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/24 00:20:07 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,5 +191,6 @@ void			build_projection(t_cub3d *game);
 void			print_projection(t_cub3d *game);
 void			print_bar(t_cub3d *game);
 void			clear_map(t_cub3d *game);
+void	print_weapon(t_cub3d *game);
 
 #endif

@@ -42,7 +42,8 @@ RAW_C		=	main.c \
 				set_collisions.c \
 				square_check.c \
 				build_projection.c \
-				print_bar.c
+				print_bar.c \
+				print_weapon.c
 
 SRC			=	$(addprefix $(SRC_D)/,$(RAW_C))
 OBJ			=	$(addprefix $(OBJ_D)/,$(RAW_C:.c=.o))

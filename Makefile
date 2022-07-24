@@ -7,11 +7,10 @@ SRC_D		=	src
 OBJ_D		=	obj
 INC_D		=	includes
 
+LIBS		=	-L./libft -lft -lmlx -lXext -lX11 -lm
+
 RAW_H		=	cub3d.h \
 				libft.h
-
-
-LIBS		=	-L./libft -lft -lmlx -lXext -lX11 -lm
 
 RAW_C		=	main.c \
 				get_next_line.c \

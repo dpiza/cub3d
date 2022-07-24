@@ -6,28 +6,11 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 11:11:45 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/23 15:29:07 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/24 11:38:37 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
-
-// void	print_texture(t_cub3d *game)
-// {
-// 	t_mlx_img	*img;
-// 	int			width;
-// 	int			height;
-	
-// 	width = 64;
-// 	height = 64;
-// 	img = ft_calloc(1, sizeof(t_mlx_img));
-// 	img->mlx = game->mlx;
-// 	img->img_ptr = mlx_xpm_file_to_image(game->mlx->mlx_ptr, "./textures/no.xpm", &width, &height);
-// 	img->data = mlx_get_data_addr(img->img_ptr, &(img->bpp), &(img->line_size), &(img->endian));
-// 	img->width = width;
-// 	img->height = height;
-// 	override_images(game->mlx->img, img, 0, 0);
-// }
 
 unsigned int	get_texture_pixel(t_mlx_img *img, float column, int line)
 {
@@ -70,9 +53,9 @@ void	build_projection(t_cub3d *game)
 		{
 			pixel = get_pixel_addres(game->projection, column, line);
 			if (line < height_relation && line < height_relation - wall_height)
-				*pixel = 0x00383838; // teto
+				*pixel = game->ceiling; // teto
 			else if (line > height_relation && line > height_relation + wall_height)
-				*pixel = 0x00717171; // chão
+				*pixel = game->floor; // chão
 			else
 			{
 				// *pixel = 0x00000053;

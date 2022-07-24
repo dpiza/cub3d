@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/24 11:16:37 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/24 11:38:20 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@
 #define	w_height 		600
 #define	FOV				75
 #define	TRANSPARENCY	4278190080
+
+#define	static_proj_floor	0x00717171
+#define	static_proj_ceil	0x00383838
 
 #define	shadow				0x001C1C1D
 
@@ -107,6 +110,8 @@ struct s_cub3d
 	t_mlx_img		*texture_so;
 	t_mlx_img		*texture_we;
 	t_mlx_img		*texture_ea;
+	unsigned int	floor;
+	unsigned int	ceiling;
 	struct s_player	player;
 };
 
@@ -211,6 +216,7 @@ void			build_projection(t_cub3d *game);
 void			print_projection(t_cub3d *game);
 void			print_bar(t_cub3d *game);
 void			clear_map(t_cub3d *game);
-void	print_weapon(t_cub3d *game);
+void			print_weapon(t_cub3d *game);
+void			load_assets(t_cub3d *game);
 
 #endif

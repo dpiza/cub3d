@@ -6,26 +6,11 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:48:44 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/24 10:00:08 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/24 11:41:29 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
-
-t_mlx_img	*load_texture(t_cub3d *game, char *filename)
-{
-	t_mlx_img		*img;
-	int				width;
-	int				height;
-
-	width = 64;
-	height = 64;
-	img = ft_calloc(1, sizeof(t_mlx_img));
-	img->mlx = game->mlx;
-	img->img_ptr = mlx_xpm_file_to_image(game->mlx->mlx_ptr, filename, &width, &height);
-	img->data = mlx_get_data_addr(img->img_ptr, &(img->bpp), &(img->line_size), &(img->endian));
-	return (img);
-}
 
 void	destroy_img(t_mlx_img *mlx_img)
 {
@@ -82,10 +67,7 @@ void	mlx_test(t_cub3d	*game)
 		game->mlx->win_ptr = mlx_new_window(game->mlx->mlx_ptr, w_width, w_height, "Nuk3d");
 		mlx_img = new_blank_img(game->mlx, w_width, w_height);
 		game->mlx->img = mlx_img;
-		game->texture_no = load_texture(game, game->s_map->no_path);
-		game->texture_so = load_texture(game, game->s_map->so_path);
-		game->texture_ea = load_texture(game, game->s_map->ea_path);
-		game->texture_we = load_texture(game, game->s_map->we_path);
+		load_assets(game);
 		mlx_hook(game->mlx->win_ptr, 17, 0L, mlx_loop_end, game->mlx->mlx_ptr); // fecha no X
 		mlx_hook(game->mlx->win_ptr, 2, 1L << 0, key_hook, game);
 		// mlx_loop_hook(game->mlx->mlx_ptr, game_loop, game); 

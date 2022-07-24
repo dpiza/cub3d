@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 11:11:45 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/24 12:08:22 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/24 18:43:42 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	build_projection(t_cub3d *game)
 					else
 						*pixel = get_texture_pixel(game->texture_we, game->player.collisions[ray].point.x - (int)game->player.collisions[ray].point.x, y_px);
 				}
-
+				color_shade(game->player.collisions[ray].perpDistance, pixel);
 			}
 			line++;
 		}

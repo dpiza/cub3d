@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 23:38:26 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/23 21:57:49 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/24 17:08:20 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_cub3d	*load_game(t_map	*map)
 	strMap = new_strmap();
 	load_strmap(strMap, map);
 	game->player.n_rays = w_width;
-	strMap->minimap_pps = 4;
+	strMap->minimap_pps = mm_pps;
 	strMap->pos.x = 0;
 	strMap->pos.y = 0;
 	game->map = strMap;

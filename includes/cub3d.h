@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/24 16:08:43 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/24 17:12:16 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 # ifndef OPEN_MAX
 #  define OPEN_MAX 256
 # endif
+
+#define	mm_pps		5
 
 #define	w_width 		800
 #define	w_height 		600
@@ -53,7 +55,7 @@
 #define mm_others_shadow	0x001c1c1c
 
 #define player_rays			0x00006c00
-#define player_rays_shadow	0x00002100
+#define player_rays_shadow	0x00004100
 
 typedef struct s_map		t_map;
 typedef struct s_strmap		t_strmap;

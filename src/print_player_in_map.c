@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 00:07:08 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/24 11:10:48 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/24 17:08:31 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	print_player_int_map(t_cub3d *game)
 	scaled_pos.x = (game->player.pos.x - 0.5) * game->map->minimap_pps;
 	scaled_pos.y = (game->player.pos.y - 0.5) * game->map->minimap_pps;
 	player_offset = get_byte_offset(game->map->minimap, scaled_pos.x, scaled_pos.y);
-	print_square(game->map->minimap, (unsigned int *)(game->map->minimap->data + player_offset), 4, 0x00fc0000);
+	print_square(game->map->minimap, (unsigned int *)(game->map->minimap->data + player_offset), mm_pps, 0x00fc0000);
 	print_rays(game);
 	print_player_dir(game);
 }

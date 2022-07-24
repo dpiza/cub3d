@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 11:11:45 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/24 11:38:37 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/24 12:01:46 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	build_projection(t_cub3d *game)
 		{
 			pixel = get_pixel_addres(game->projection, column, line);
 			if (line < height_relation && line < height_relation - wall_height)
-				*pixel = game->ceiling; // teto
+				*pixel = game->ceilling; // teto
 			else if (line > height_relation && line > height_relation + wall_height)
 				*pixel = game->floor; // chão
 			else

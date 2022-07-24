@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 21:49:33 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/24 11:47:52 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/24 12:01:21 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static void	fill_color(t_map *map, char *line)
 		if (plane == 'F')
 			map->floor_c[i] = ft_atoi(color[i]);
 		else
-			map->ceiling_c[i] = ft_atoi(color[i]);
+			map->ceilling_c[i] = ft_atoi(color[i]);
 		i++;
 	}
 	ft_split_free(&color);
@@ -53,10 +53,10 @@ static void	fill_color(t_map *map, char *line)
 
 void	print_struct(t_map *map)
 {
-	printf("no_path: %s\nso_path: %s\nwe_path: %s\nea_path: %s\nfloor_c[0]: %d\nfloor_c[1]: %d\nfloor_c[2]: %d\nceiling_c[0]: %d\nceiling_c[1]: %d\nceiling_c[2]: %d\n",
+	printf("no_path: %s\nso_path: %s\nwe_path: %s\nea_path: %s\nfloor_c[0]: %d\nfloor_c[1]: %d\nfloor_c[2]: %d\nceilling_c[0]: %d\nceilling_c[1]: %d\nceilling_c[2]: %d\n",
 		map->no_path, map->so_path, map->we_path, map->ea_path,
 		map->floor_c[0], map->floor_c[1], map->floor_c[2],
-		map->ceiling_c[0], map->ceiling_c[1], map->ceiling_c[2]);
+		map->ceilling_c[0], map->ceilling_c[1], map->ceilling_c[2]);
 }
 
 void	free_t_map(t_map *map)

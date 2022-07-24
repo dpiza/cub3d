@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:48:44 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/24 11:41:29 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/24 12:02:31 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,8 @@ int	main(int argc, char *argv[])
 
 	(void)argc;
 	(void)argv;
-	map = load_map("./maps/huge_map.cub");
-	// map = load_map("./maps/subject_map.cub");
+	// map = load_map("./maps/huge_map.cub");
+	map = load_map("./maps/subject_map.cub");
 	eval_map(map);
 	if (map->status == OK)
 	{

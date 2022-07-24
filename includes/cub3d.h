@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/24 11:38:20 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/24 12:00:52 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ struct s_cub3d
 	t_mlx_img		*texture_we;
 	t_mlx_img		*texture_ea;
 	unsigned int	floor;
-	unsigned int	ceiling;
+	unsigned int	ceilling;
 	struct s_player	player;
 };
 
@@ -123,7 +123,7 @@ struct	s_map
 	char				*we_path;
 	char				*ea_path;
 	unsigned char		floor_c[3];
-	unsigned char		ceiling_c[3];
+	unsigned char		ceilling_c[3];
 	enum e_map_status	status;
 };
 

@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 11:30:04 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/24 11:42:03 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/24 12:02:10 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,12 @@ void	load_assets(t_cub3d *game)
 	unsigned char	*ceiling;
 	
 	floor = game->s_map->floor_c;
-	ceiling = game->s_map->ceiling_c;
+	ceiling = game->s_map->ceilling_c;
 	game->texture_no = load_texture(game, game->s_map->no_path);
 	game->texture_so = load_texture(game, game->s_map->so_path);
 	game->texture_ea = load_texture(game, game->s_map->ea_path);
 	game->texture_we = load_texture(game, game->s_map->we_path);
 	game->floor = floor[0] << 16 | floor[1] << 8 | floor[2];
-	game->ceiling = ceiling[0] << 16 | ceiling[1] << 8 | ceiling[2];
-	// printf("Floor: %i\nCeiling: %i\n", game->floor, game->ceiling);
+	game->ceilling = ceiling[0] << 16 | ceiling[1] << 8 | ceiling[2];
+	// printf("Floor: %i\nCeilling: %i\n", game->floor, game->ceilling);
 }

@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 16:01:01 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/24 09:25:36 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/24 13:23:57 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,21 +44,17 @@ void	move_left(t_cub3d *game)
 	t_point	pos;
 	t_point	dir;
 	float	increment;
-	float	increment_x;
-	float	increment_y;
 
 	pos = game->player.pos;
 	dir = game->player.dir;
 	rotate_vector_new(sinf(- M_PI / 2), cosf(- M_PI / 2), &dir);
-	increment = 0.25;
-	increment_x = increment * dir.x;
-	increment_y = increment * dir.y;
+	increment = movement_step;
 	// if (pos.y - increment_y < 1 || pos.x - increment_x < 1)
 	// 	return ;
-	if (square_check(game, pos.x + increment_x, pos.y + increment_y) == '1')
+	if (square_check(game, pos.x + (2 * increment * dir.x), pos.y + (2 * increment * dir.y)) == '1')
 		return ;
-	game->player.pos.x += increment_x;
-	game->player.pos.y += increment_y;
+	game->player.pos.x += increment * dir.x;
+	game->player.pos.y += increment * dir.y;
 	set_collisions(game);
 	print_map(game);
 	print_player_int_map(game);
@@ -69,21 +65,17 @@ void	move_right(t_cub3d *game)
 	t_point	pos;
 	t_point	dir;
 	float	increment;
-	float	increment_x;
-	float	increment_y;
 
 	pos = game->player.pos;
 	dir = game->player.dir;
 	rotate_vector_new(sinf(M_PI / 2), cosf(M_PI / 2), &dir);
-	increment = 0.25;
-	increment_x = increment * dir.x;
-	increment_y = increment * dir.y;
+	increment = movement_step;
 	// if (pos.y - increment_y < 1 || pos.x - increment_x < 1)
 	// 	return ;
-	if (square_check(game, pos.x + increment_x, pos.y + increment_y) == '1')
+	if (square_check(game, pos.x + (2 * increment * dir.x), pos.y + (2 * increment * dir.y)) == '1')
 		return ;
-	game->player.pos.x += increment_x;
-	game->player.pos.y += increment_y;
+	game->player.pos.x += increment * dir.x;
+	game->player.pos.y += increment * dir.y;
 	set_collisions(game);
 	print_map(game);
 	print_player_int_map(game);
@@ -94,20 +86,14 @@ void	move_forward(t_cub3d *game)
 	t_point	pos;
 	t_point	dir;
 	float	increment;
-	float	increment_x;
-	float	increment_y;
 
 	pos = game->player.pos;
 	dir = game->player.dir;
-	increment = 0.25;
-	increment_x = increment * dir.x;
-	increment_y = increment * dir.y;
-	// if (pos.y - increment_y < 1 || pos.x - increment_x < 1)
-	// 	return ;
-	if (square_check(game, pos.x + increment_x, pos.y + increment_y) == '1')
+	increment = movement_step;
+	if (square_check(game, pos.x + (2 * increment * dir.x), pos.y + (2 * increment * dir.y)) == '1')
 		return ;
-	game->player.pos.x += increment_x;
-	game->player.pos.y += increment_y;
+	game->player.pos.x += increment * dir.x;
+	game->player.pos.y += increment * dir.y;
 	set_collisions(game);
 	print_map(game);
 	print_player_int_map(game);
@@ -118,20 +104,16 @@ void	move_backward(t_cub3d *game)
 	t_point	pos;
 	t_point	dir;
 	float	increment;
-	float	increment_x;
-	float	increment_y;
 
 	pos = game->player.pos;
 	dir = game->player.dir;
-	increment = 0.25;
-	increment_x = increment * dir.x;
-	increment_y = increment * dir.y;
+	increment = movement_step;
 	// if (pos.y - increment_y < 1 || pos.x - increment_x < 1)
 	// 	return ;
-	if (square_check(game, pos.x - increment_x, pos.y - increment_y) == '1')
+	if (square_check(game, pos.x - (2 * increment * dir.x), pos.y - (2 * increment * dir.y)) == '1')
 		return ;
-	game->player.pos.x -= increment_x;
-	game->player.pos.y -= increment_y;
+	game->player.pos.x -= increment * dir.x;
+	game->player.pos.y -= increment * dir.y;
 	set_collisions(game);
 	print_map(game);
 	print_player_int_map(game);

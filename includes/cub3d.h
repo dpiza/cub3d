@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/24 12:00:52 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/24 13:13:03 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@
 #define	w_height 		600
 #define	FOV				75
 #define	TRANSPARENCY	4278190080
+
+#define	movement_step	0.25
 
 #define	static_proj_floor	0x00717171
 #define	static_proj_ceil	0x00383838

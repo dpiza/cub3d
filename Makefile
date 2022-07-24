@@ -52,7 +52,6 @@ SRC			=	$(addprefix $(SRC_D)/,$(RAW_C))
 OBJ			=	$(addprefix $(OBJ_D)/,$(RAW_C:.c=.o))
 INCLUDES	=	$(addprefix $(INC_D)/,$(RAW_H))
 
-
 .PHONY: clean fclean
 
 $(NAME): $(OBJ) $(INCLUDES) 

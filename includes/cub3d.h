@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/24 09:28:55 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/24 09:49:12 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,10 @@
 #  define OPEN_MAX 256
 # endif
 
-#define	w_width 	800
-#define	w_height 	600
-#define	FOV			75
+#define	w_width 		800
+#define	w_height 		600
+#define	FOV				75
+#define	TRANSPARENCY	4278190080
 
 typedef struct s_map		t_map;
 typedef struct s_strmap		t_strmap;

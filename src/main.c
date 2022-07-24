@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:48:44 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/24 00:19:49 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/24 10:00:08 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_mlx_img	*load_texture(t_cub3d *game, char *filename)
 
 void	destroy_img(t_mlx_img *mlx_img)
 {
-	mlx_destroy_image(mlx_img->mlx->mlx_ptr,	mlx_img->img_ptr);
+	mlx_destroy_image(mlx_img->mlx->mlx_ptr, mlx_img->img_ptr);
 	free(mlx_img);
 }
 
@@ -102,8 +102,8 @@ int	main(int argc, char *argv[])
 
 	(void)argc;
 	(void)argv;
-	// map = load_map("./maps/huge_map.cub");
-	map = load_map("./maps/subject_map.cub");
+	map = load_map("./maps/huge_map.cub");
+	// map = load_map("./maps/subject_map.cub");
 	eval_map(map);
 	if (map->status == OK)
 	{

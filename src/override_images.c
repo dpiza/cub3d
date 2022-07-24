@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 18:42:55 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/24 11:45:55 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/24 16:11:11 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	override_minimap(t_mlx_img *dst, t_mlx_img *src, int x, int y)
 			{
 				dst_color = *(unsigned int *)(dst_pix + get_byte_offset(dst, i_x[1], i_y[1]));
 				src_color = *(unsigned int *)(src_pix + get_byte_offset(src, i_x[0], i_y[0]));
-				if (src_color == (int)mm_floor)
+				if (src_color == (int)mm_floor || src_color == 0U)
 					src_color = dst_color;
 				if (dst_color == (int)shadow && src_color == (int)mm_wall)
 					src_color = (int)mm_wall_shadow;

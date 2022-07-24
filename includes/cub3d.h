@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/23 17:16:12 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/23 23:40:34 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,6 @@ struct s_strmap
 	char		*map;
 	int			columns;
 	int			lines;
-	float		XYfactor[2];
 	t_mlx_img	*minimap;
 	int			minimap_pps;
 	t_int_point	pos;
@@ -191,5 +190,6 @@ int				game_loop(t_cub3d *game);
 void			build_projection(t_cub3d *game);
 void			print_projection(t_cub3d *game);
 void			print_bar(t_cub3d *game);
+void			clear_map(t_cub3d *game);
 
 #endif

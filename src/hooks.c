@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 16:01:01 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/23 16:16:37 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/24 09:25:36 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	player_pos(t_cub3d *game)
 {
 	printf("Player.x: %f Player.y: %f\n", game->player.pos.x, game->player.pos.y);
+	printf("Dir.x: %f Dir.y: %f\n", game->player.dir.x, game->player.dir.y);
 }
 
 void	rotate_player(t_cub3d *game, int direction)
@@ -41,15 +42,23 @@ void	rotate_player(t_cub3d *game, int direction)
 void	move_left(t_cub3d *game)
 {
 	t_point	pos;
+	t_point	dir;
 	float	increment;
+	float	increment_x;
+	float	increment_y;
 
 	pos = game->player.pos;
+	dir = game->player.dir;
+	rotate_vector_new(sinf(- M_PI / 2), cosf(- M_PI / 2), &dir);
 	increment = 0.25;
-	if (pos.x - increment < 1)
+	increment_x = increment * dir.x;
+	increment_y = increment * dir.y;
+	// if (pos.y - increment_y < 1 || pos.x - increment_x < 1)
+	// 	return ;
+	if (square_check(game, pos.x + increment_x, pos.y + increment_y) == '1')
 		return ;
-	if (square_check(game, pos.x - increment, pos.y) == '1')
-		return ;	
-	game->player.pos.x -= increment;
+	game->player.pos.x += increment_x;
+	game->player.pos.y += increment_y;
 	set_collisions(game);
 	print_map(game);
 	print_player_int_map(game);
@@ -58,15 +67,23 @@ void	move_left(t_cub3d *game)
 void	move_right(t_cub3d *game)
 {
 	t_point	pos;
+	t_point	dir;
 	float	increment;
+	float	increment_x;
+	float	increment_y;
 
 	pos = game->player.pos;
+	dir = game->player.dir;
+	rotate_vector_new(sinf(M_PI / 2), cosf(M_PI / 2), &dir);
 	increment = 0.25;
-	if (pos.x + increment >= game->map->columns - 1)
+	increment_x = increment * dir.x;
+	increment_y = increment * dir.y;
+	// if (pos.y - increment_y < 1 || pos.x - increment_x < 1)
+	// 	return ;
+	if (square_check(game, pos.x + increment_x, pos.y + increment_y) == '1')
 		return ;
-	if (square_check(game, pos.x + increment, pos.y) == '1')
-		return ;
-	game->player.pos.x += increment;
+	game->player.pos.x += increment_x;
+	game->player.pos.y += increment_y;
 	set_collisions(game);
 	print_map(game);
 	print_player_int_map(game);
@@ -129,7 +146,7 @@ int	key_hook(int k, t_cub3d *game)
 		move_left(game);
 		// printf("a pressed\n");
 	}
-	if (k == 0x0073 || k == 0x0053)
+	if (k == 0x0073 || k == 0x0053 || k == 0xff54)
 	{
 		move_backward(game);
 		// move_down(game);
@@ -140,7 +157,7 @@ int	key_hook(int k, t_cub3d *game)
 		move_right(game);
 		// printf("d pressed\n");
 	}
-	if (k == 0x0077 || k == 0x0057)
+	if (k == 0x0077 || k == 0x0057 || k == 0xff52)
 	{
 		move_forward(game);
 		// move_up(game);
@@ -160,6 +177,8 @@ int	key_hook(int k, t_cub3d *game)
 		rotate_player(game, 1);
 		// printf("→ pressed\n");
 	}
+		// printf("a pressed\n");
+	
 	/*
 	teclas de interesse:
 				normal		UPPERCASE
@@ -175,8 +194,6 @@ int	key_hook(int k, t_cub3d *game)
 	leftarrow	0xff51
 	rightarrow	0xff53
 	*/
-	build_projection(game);
-	print_projection(game);
 	// player_pos(game); // printa a posição do player no terminal
 	game_loop(game); // chama a função que printa o jogo na tela apenas quando há movimento
 	

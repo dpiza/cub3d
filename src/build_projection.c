@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 11:11:45 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/24 12:01:46 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/24 12:08:22 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,20 +53,26 @@ void	build_projection(t_cub3d *game)
 		{
 			pixel = get_pixel_addres(game->projection, column, line);
 			if (line < height_relation && line < height_relation - wall_height)
-				*pixel = game->ceilling; // teto
+				*pixel = game->ceilling;
 			else if (line > height_relation && line > height_relation + wall_height)
-				*pixel = game->floor; // chão
+				*pixel = game->floor;
 			else
 			{
-				// *pixel = 0x00000053;
 				y_px = (line - wall_top) / (wall_height * 2) * 100;
 				if(game->player.collisions[ray].side)
 				{
-					*pixel = get_texture_pixel(game->texture_no, game->player.collisions[ray].point.y - (int)game->player.collisions[ray].point.y, y_px);
-					// *pixel = 0x000000a8;
+					if(game->player.pos.x > game->player.collisions[ray].point.x)
+						*pixel = get_texture_pixel(game->texture_no, game->player.collisions[ray].point.y - (int)game->player.collisions[ray].point.y, y_px);
+					else
+						*pixel = get_texture_pixel(game->texture_so, game->player.collisions[ray].point.y - (int)game->player.collisions[ray].point.y, y_px);
 				}
 				else
-					*pixel = get_texture_pixel(game->texture_ea, game->player.collisions[ray].point.x - (int)game->player.collisions[ray].point.x, y_px);
+				{
+					if(game->player.pos.y > game->player.collisions[ray].point.y)
+						*pixel = get_texture_pixel(game->texture_ea, game->player.collisions[ray].point.x - (int)game->player.collisions[ray].point.x, y_px);
+					else
+						*pixel = get_texture_pixel(game->texture_we, game->player.collisions[ray].point.x - (int)game->player.collisions[ray].point.x, y_px);
+				}
 
 			}
 			line++;

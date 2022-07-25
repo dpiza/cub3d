@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/25 10:15:16 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/25 11:03:53 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,6 @@
 #define	TRANSPARENCY	4278190080
 
 #define	movement_step	0.25
-
-#define	static_proj_floor	0x00717171
-#define	static_proj_ceil	0x00383838
 
 #define	shadow				0x001C1C1D
 
@@ -84,6 +81,12 @@ struct s_point
 	float	y;
 };
 
+struct s_int_point
+{
+		int	x;
+		int	y;
+};
+
 struct s_collision
 {
 	t_point	point;
@@ -123,34 +126,6 @@ struct s_cub3d
 	struct s_player	player;
 };
 
-struct	s_map
-{
-	char				**lines;
-	char				*no_path;
-	char				*so_path;
-	char				*we_path;
-	char				*ea_path;
-	unsigned char		floor_c[3];
-	unsigned char		ceilling_c[3];
-	enum e_map_status	status;
-};
-
-struct s_int_point
-{
-		int	x;
-		int	y;
-};
-
-struct s_strmap
-{
-	char		*map;
-	int			columns;
-	int			lines;
-	t_mlx_img	*minimap;
-	int			minimap_pps;
-	t_int_point	pos;
-};
-
 struct	s_mlx
 {
 	void		*mlx_ptr;
@@ -170,6 +145,28 @@ struct s_mlx_img
 	int		bpp;
 	int		line_size;
 	int		endian;
+};
+
+struct	s_map
+{
+	char				**lines;
+	char				*no_path;
+	char				*so_path;
+	char				*we_path;
+	char				*ea_path;
+	unsigned char		floor_c[3];
+	unsigned char		ceilling_c[3];
+	enum e_map_status	status;
+};
+
+struct s_strmap
+{
+	char		*map;
+	int			columns;
+	int			lines;
+	t_mlx_img	*minimap;
+	int			minimap_pps;
+	t_int_point	pos;
 };
 
 char			*get_next_line(int fd);

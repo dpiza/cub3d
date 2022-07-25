@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 18:28:08 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/24 17:03:29 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/24 23:13:03 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ void	build_map_img(t_cub3d *game)
 	unsigned int	*map_vector;
 	t_mlx_img		*minimap;
 
-	game->map->pos.x = 135 - (game->player.pos.x) * game->map->minimap_pps; // menu screen center
-	game->map->pos.y = 540 - (game->player.pos.y) * game->map->minimap_pps; // menu screen center
+	game->map->pos.x = 135 - (game->player.pos.x) * game->map->minimap_pps; // bar screen center
+	game->map->pos.y = 540 - (game->player.pos.y) * game->map->minimap_pps; // bar screen center
 	if (!game->map->minimap)
 	{
 		minimap = new_blank_img(game->mlx, game->map->columns * game->map->minimap_pps, game->map->lines * game->map->minimap_pps);

@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/24 18:43:39 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/25 10:15:16 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,10 @@ struct s_cub3d
 	t_mlx_img		*texture_so;
 	t_mlx_img		*texture_we;
 	t_mlx_img		*texture_ea;
+	t_mlx_img		*bar;
+	t_mlx_img		*bar_screen;
+	t_mlx_img		*weapon;
+	t_mlx_img		*crosshair;
 	unsigned int	floor;
 	unsigned int	ceilling;
 	struct s_player	player;
@@ -216,14 +220,15 @@ t_collision		get_collision(t_cub3d *game, t_point norm_dir);
 void			set_collisions(t_cub3d	*game);
 char			square_check(t_cub3d *game, float x, float y);
 int				game_loop(t_cub3d *game);
+void			load_assets(t_cub3d *game);
 void			build_projection(t_cub3d *game);
+void			color_shade(float distance, unsigned int *pixel);
 void			print_projection(t_cub3d *game);
 void			print_bar(t_cub3d *game);
-void			clear_map(t_cub3d *game);
+void			print_map_screen(t_cub3d *game);
 void			print_weapon(t_cub3d *game);
-void			load_assets(t_cub3d *game);
-void		print_crosshair(t_cub3d *game);
-void	color_shade(float distance, unsigned int *pixel);
-
+void			print_firing_weapon(t_cub3d *game);
+void			print_crosshair(t_cub3d *game);
+void			destroy_img(t_mlx_img *mlx_img);
 
 #endif

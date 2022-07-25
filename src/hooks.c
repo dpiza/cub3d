@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 16:01:01 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/24 13:23:57 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/25 09:55:37 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,11 @@ int	key_hook(int k, t_cub3d *game)
 		rotate_player(game, 1);
 		// printf("→ pressed\n");
 	}
-		// printf("a pressed\n");
+	// if (k == 0x0020)
+	// {
+	// 	print_firing_weapon(game);
+	// 	printf("pew\n");
+	// }
 	
 	/*
 	teclas de interesse:
@@ -175,6 +179,7 @@ int	key_hook(int k, t_cub3d *game)
 	downarrow	0xff54
 	leftarrow	0xff51
 	rightarrow	0xff53
+	space		0x0020
 	*/
 	// player_pos(game); // printa a posição do player no terminal
 	game_loop(game); // chama a função que printa o jogo na tela apenas quando há movimento

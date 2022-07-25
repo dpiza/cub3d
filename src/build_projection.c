@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 11:11:45 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/24 20:32:58 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/24 23:24:14 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,13 @@ void	build_projection(t_cub3d *game)
 	int				wall_top;
 	int				y_px;
 
-	projection = new_blank_img(game->mlx, w_width,(int)(w_height * (1.0 - 0.2)));
-	game->projection = projection;
+	if (!game->projection)
+	{
+		projection = new_blank_img(game->mlx, w_width,(int)(w_height * (1.0 - 0.2)));
+		game->projection = projection;
+	}
+	else
+		projection = game->projection;
 	width_relation = (float)game->player.n_rays / (float)w_width;
 	height_relation = (w_height * (1.0 - 0.2)) / 2;
 	column = 0;

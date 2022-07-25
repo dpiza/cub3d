@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:48:44 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/24 15:18:11 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/25 10:19:29 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,11 @@ void	gracefull_shutdown(t_cub3d	*game)
 	destroy_img(game->texture_ea);
 	destroy_img(mlx->img);
 	destroy_img(game->map->minimap);
+	destroy_img(game->projection);
+	destroy_img(game->bar);
+	destroy_img(game->bar_screen);
+	destroy_img(game->weapon);
+	destroy_img(game->crosshair);
 	mlx_disconnect(mlx);
 	free(mlx);
 	destroy_strmap(game->map);
@@ -46,7 +51,7 @@ void	gracefull_shutdown(t_cub3d	*game)
 
 int		game_loop(t_cub3d *game)
 {
-	clear_map(game);
+	print_map_screen(game);
 	build_map_img(game);
 	print_player_int_map(game);
 	print_map(game);

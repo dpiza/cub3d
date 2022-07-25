@@ -60,6 +60,7 @@ $(NAME): $(OBJ) $(INCLUDES)
 	$(CC) $(OBJ) $(LIBS) -o $(NAME)
 
 $(OBJ_D)/%.o : $(SRC_D)/%.c ./libft/libft.a
+	mkdir -p $(OBJ_D)
 	$(CC) $(CFLAGS) -c $< -I $(INC_D) -o $@
 
 all:	$(NAME)

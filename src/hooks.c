@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 16:01:01 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/25 09:55:37 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/25 12:41:21 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	player_pos(t_cub3d *game)
 	printf("Dir.x: %f Dir.y: %f\n", game->player.dir.x, game->player.dir.y);
 }
 
-void	rotate_player(t_cub3d *game, int direction)
+void	rotate_player(t_cub3d *game, float direction)
 {
 	float	angle;
 	int		n_rays;
@@ -151,12 +151,12 @@ int	key_hook(int k, t_cub3d *game)
 		printf("return pressed\n");
 	if (k == 0xff51)
 	{
-		rotate_player(game, -1);
+		rotate_player(game, -2.5);
 		// printf("← pressed\n");
 	}
 	if (k == 0xff53)
 	{
-		rotate_player(game, 1);
+		rotate_player(game, 2.5);
 		// printf("→ pressed\n");
 	}
 	// if (k == 0x0020)

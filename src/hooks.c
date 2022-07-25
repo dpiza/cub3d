@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 16:01:01 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/25 12:41:21 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/25 18:09:52 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	move_left(t_cub3d *game)
 	game->player.pos.x += increment * dir.x;
 	game->player.pos.y += increment * dir.y;
 	set_collisions(game);
-	print_map(game);
+	// print_map(game);
 	print_player_int_map(game);
 }
 
@@ -77,7 +77,7 @@ void	move_right(t_cub3d *game)
 	game->player.pos.x += increment * dir.x;
 	game->player.pos.y += increment * dir.y;
 	set_collisions(game);
-	print_map(game);
+	// print_map(game);
 	print_player_int_map(game);
 }
 
@@ -95,7 +95,7 @@ void	move_forward(t_cub3d *game)
 	game->player.pos.x += increment * dir.x;
 	game->player.pos.y += increment * dir.y;
 	set_collisions(game);
-	print_map(game);
+	// print_map(game);
 	print_player_int_map(game);
 }
 
@@ -115,7 +115,7 @@ void	move_backward(t_cub3d *game)
 	game->player.pos.x -= increment * dir.x;
 	game->player.pos.y -= increment * dir.y;
 	set_collisions(game);
-	print_map(game);
+	// print_map(game);
 	print_player_int_map(game);
 }
 

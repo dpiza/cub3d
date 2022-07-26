@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:48:44 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/26 19:16:04 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/26 19:52:03 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ int		game_loop(t_cub3d *game)
 {
 	build_map_img(game);
 	print_player_int_map(game);
-	//build_projection(game);
-	build_projection_two(game);
+	build_projection(game);
+	//build_projection_two(game);
 	print_bar_screen(game);
 	print_map(game);
 	print_projection(game);

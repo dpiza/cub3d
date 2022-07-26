@@ -6,17 +6,11 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 16:01:01 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/25 18:17:36 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/25 21:28:15 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
-
-void	player_pos(t_cub3d *game)
-{
-	printf("Player.x: %f Player.y: %f\n", game->player.pos.x, game->player.pos.y);
-	printf("Dir.x: %f Dir.y: %f\n", game->player.dir.x, game->player.dir.y);
-}
 
 void	rotate_player(t_cub3d *game, float direction)
 {
@@ -116,47 +110,24 @@ int	key_hook(int k, t_cub3d *game)
 	if (k == 0xff1b) // ESC
 		mlx_loop_end(game->mlx->mlx_ptr);
 	if (k == 0x0061 || k == 0x0041)
-	{
 		move_left(game);
-		// printf("a pressed\n");
-	}
 	if (k == 0x0073 || k == 0x0053 || k == 0xff54)
-	{
 		move_backward(game);
-		// move_down(game);
-		// printf("s pressed\n");
-	}
 	if (k == 0x0064 || k == 0x0044)
-	{
 		move_right(game);
-		// printf("d pressed\n");
-	}
 	if (k == 0x0077 || k == 0x0057 || k == 0xff52)
-	{
 		move_forward(game);
-		// move_up(game);
-		// printf("w pressed\n");
-	}
+	if (k == 0xff51)
+		rotate_player(game, -2.5);
+	if (k == 0xff53)
+		rotate_player(game, 2.5);
 	if (k == 0x0070 || k == 0x0050)
 		printf("p pressed\n");
 	if (k == 0xff0d)
 		printf("return pressed\n");
-	if (k == 0xff51)
-	{
-		rotate_player(game, -2.5);
-		// printf("← pressed\n");
-	}
-	if (k == 0xff53)
-	{
-		rotate_player(game, 2.5);
-		// printf("→ pressed\n");
-	}
-	// if (k == 0x0020)
-	// {
-	// 	print_firing_weapon(game);
-	// 	printf("pew\n");
-	// }
-	
+	game_loop(game);
+	return (0);
+}
 	/*
 	teclas de interesse:
 				normal		UPPERCASE
@@ -173,8 +144,3 @@ int	key_hook(int k, t_cub3d *game)
 	rightarrow	0xff53
 	space		0x0020
 	*/
-	// player_pos(game); // printa a posição do player no terminal
-	game_loop(game); // chama a função que printa o jogo na tela apenas quando há movimento
-	
-	return (0);
-}

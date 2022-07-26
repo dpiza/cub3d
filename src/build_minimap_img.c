@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 18:28:08 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/24 23:13:03 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/25 21:12:17 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	build_map_img(t_cub3d *game)
 {
 	int				x;
 	int				y;
+	int				increment;
 	unsigned int	*map_vector;
 	t_mlx_img		*minimap;
 
@@ -31,6 +32,7 @@ void	build_map_img(t_cub3d *game)
 	else
 		minimap = game->map->minimap;
 	map_vector = (unsigned int *)minimap->data;
+	increment = minimap->line_size / 4 * game->map->minimap_pps;
 	y = 0;
 	while (y < game->map->lines)
 	{
@@ -40,7 +42,7 @@ void	build_map_img(t_cub3d *game)
 			print_square(minimap, (map_vector + x * game->map->minimap_pps), game->map->minimap_pps, get_map_color(game->map->map[y* game->map->columns + x]));
 			x++;
 		}
-		map_vector += minimap->line_size / 4 * game->map->minimap_pps;
+		map_vector += increment;
 		y++;
 	}
 }

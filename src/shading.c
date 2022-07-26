@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 18:38:08 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/24 19:56:56 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/25 21:01:20 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	color_shade(float distance, unsigned int *pixel)
 	float			factor;
 	float			max_distance;
 
-	max_distance = 20;
+	max_distance = 15;
 	factor = 1 - (distance / max_distance);
 	if (distance > max_distance)
 		factor = 0;

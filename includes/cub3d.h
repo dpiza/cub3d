@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/25 11:03:53 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/25 21:20:48 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@
 #define mm_others			0x001c1c1c
 #define mm_others_shadow	0x001c1c1c
 
+#define mm_player			0x00fc0000
 #define player_rays			0x00006c00
 #define player_rays_shadow	0x00004100
 
@@ -222,7 +223,7 @@ void			build_projection(t_cub3d *game);
 void			color_shade(float distance, unsigned int *pixel);
 void			print_projection(t_cub3d *game);
 void			print_bar(t_cub3d *game);
-void			print_map_screen(t_cub3d *game);
+void			print_bar_screen(t_cub3d *game);
 void			print_weapon(t_cub3d *game);
 void			print_firing_weapon(t_cub3d *game);
 void			print_crosshair(t_cub3d *game);

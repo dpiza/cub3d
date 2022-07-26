@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 11:11:45 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/26 19:53:02 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/26 20:40:27 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	build_projection_two(t_cub3d *game)
 		wall_top = (game->projection->height - wall_height) / 2;
 		wall_bottom = wall_top + wall_height;
 		texture = get_texture(game, game->player.collisions[column].side);
-		while(line < default_height - wall_height)
+		while(line < wall_top)
 		{
 			pixel = get_pixel_addres(game->projection, column, line);
 			*pixel = game->ceilling;
@@ -67,7 +67,7 @@ void	build_projection_two(t_cub3d *game)
 			if (game->player.collisions[column].perpDistance > 1)
 				pixel = NULL;
 			pixel = get_pixel_addres(game->projection, column, line);
-			y_px = (line - wall_top) / (wall_height * 2);
+			y_px = (line - wall_top) / (wall_height);
 			//printf("line[%i]\ty_px%f\n",line,y_px);
 			if(game->player.collisions[column].side == NORTH || game->player.collisions[column].side == SOUTH)
 			{

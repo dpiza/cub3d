@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 11:11:45 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/25 23:53:15 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/26 13:17:19 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,18 +62,19 @@ void	build_projection(t_cub3d *game)
 				if(game->player.collisions[column].side)
 				{
 					if(game->player.pos.x > game->player.collisions[column].point.x)
-						texture = game->texture_no;
+						texture = game->texture_ea;
 					else
-						texture = game->texture_so;
+						texture = game->texture_we;
+				*pixel = get_texture_pixel(texture, game->player.collisions[column].point.y - (int)game->player.collisions[column].point.y, y_px);
 				}
 				else
 				{
 					if(game->player.pos.y > game->player.collisions[column].point.y)
-						texture = game->texture_ea;
+						texture = game->texture_no;
 					else
-						texture = game->texture_we;
-				}
+						texture = game->texture_so;
 				*pixel = get_texture_pixel(texture, game->player.collisions[column].point.x - (int)game->player.collisions[column].point.x, y_px);
+				}
 				color_shade(game->player.collisions[column].perpDistance, pixel);
 			}
 			line++;

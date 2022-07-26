@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 16:01:01 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/25 21:28:15 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/25 23:10:43 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,9 +118,9 @@ int	key_hook(int k, t_cub3d *game)
 	if (k == 0x0077 || k == 0x0057 || k == 0xff52)
 		move_forward(game);
 	if (k == 0xff51)
-		rotate_player(game, -2.5);
+		rotate_player(game, -2.5f);
 	if (k == 0xff53)
-		rotate_player(game, 2.5);
+		rotate_player(game, 2.5f);
 	if (k == 0x0070 || k == 0x0050)
 		printf("p pressed\n");
 	if (k == 0xff0d)

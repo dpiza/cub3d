@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:48:44 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/27 15:49:58 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/27 21:25:51 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,27 @@ void	gracefull_shutdown(t_cub3d	*game)
 	free(game);
 }
 
+void	calculate_framerate(t_cub3d *game)
+{
+	static int		frame;
+	static int		fps;
+	static clock_t	time;
+	double			time_passed;
+	clock_t			end;
+	
+	end = clock();
+	time_passed = (end - time) / CLOCKS_PER_SEC;
+	if (time_passed > 1)
+	{
+		time = end;
+		fps = frame;
+		frame = 0;
+	}
+	mlx_string_put(game->mlx->mlx_ptr, game->mlx->win_ptr, 3, 11, 0, ft_itoa(fps));
+	mlx_string_put(game->mlx->mlx_ptr, game->mlx->win_ptr, 23, 11, 0, "FPS");
+	frame++;
+}
+
 int		game_loop(t_cub3d *game)
 {
 	build_map_img(game);
@@ -61,6 +82,7 @@ int		game_loop(t_cub3d *game)
 	print_weapon(game);
 	print_crosshair(game);
 	mlx_put_image_to_window(game->mlx->mlx_ptr, game->mlx->win_ptr, game->mlx->img->img_ptr, 0, 0);
+	calculate_framerate(game);
 	return (0);
 }
 
@@ -75,8 +97,8 @@ void	mlx_test(t_cub3d	*game)
 		game->mlx->img = mlx_img;
 		mlx_hook(game->mlx->win_ptr, 17, 0L, mlx_loop_end, game->mlx->mlx_ptr); // fecha no X
 		mlx_hook(game->mlx->win_ptr, 2, 1L << 0, key_hook, game);
-		// mlx_loop_hook(game->mlx->mlx_ptr, game_loop, game); 
-		game_loop(game); // usado no lugar do loop pra ver o ponto de colisão individualmente
+		mlx_loop_hook(game->mlx->mlx_ptr, game_loop, game); 
+		// game_loop(game); // usado no lugar do loop pra ver o ponto de colisão individualmente
 		mlx_loop(game->mlx->mlx_ptr);
 		gracefull_shutdown(game);
 	}

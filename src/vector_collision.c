@@ -3,55 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   vector_collision.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
+/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 19:30:30 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/23 16:17:34 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/26 13:34:00 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 #include <limits.h>
-
-enum	e_player_direction{
-	NORTH = 0,
-	NE = 1,
-	EAST = 2,
-	SE = 3,
-	SOUTH = 4,
-	SW = 5,
-	WEST = 6,
-	NW = 7
-};
-
-int	determine_direction(t_point *dir)
-{
-	if (dir->x == 0)
-	{
-		if (dir->y > 0)
-			return (SOUTH);
-		return (NORTH);
-	}
-	if (dir->y == 0)
-	{
-		if (dir->x > 0)
-			return (EAST);
-		return (WEST);
-	}
-	if (dir->x > 0)
-	{
-		if (dir->y > 0)
-			return (SE);
-		return (NE);
-	}
-	if (dir->x < 0)
-	{
-		if (dir->y > 0)
-			return (SW);
-		return (NW);
-	}
-	return (-1);
-};
 
 t_point	axis_collision(t_point position, t_point norm_dir, float x_factor)
 {
@@ -130,8 +90,21 @@ t_collision	get_collision(t_cub3d *game, t_point norm_dir)
 			collision.point = axis_collision(game->player.pos, norm_dir, wallDist);
 			collision.distance = wallDist;
 			collision.perpDistance = wallDist * (norm_dir.x * game->player.dir.x + norm_dir.y * game->player.dir.y);
+			if (side == 1)
+			{
+				if (norm_dir.x > 0)
+					collision.side = WEST;
+				else
+					collision.side = EAST;
+			}
+			else
+			{
+				if (norm_dir.y > 0)
+					collision.side = NORTH;
+				else
+					collision.side = SOUTH;
+			}
 			hit = 1;
-			collision.side = side;
 		}
 	}
 	return (collision);

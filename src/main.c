@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
+/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:48:44 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/25 21:43:18 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/26 20:08:30 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ int		game_loop(t_cub3d *game)
 {
 	build_map_img(game);
 	print_player_int_map(game);
-	build_projection(game);
+	//build_projection(game);
+	build_projection_two(game);
 	print_bar_screen(game);
 	print_map(game);
 	print_projection(game);
@@ -68,12 +69,11 @@ void	mlx_test(t_cub3d	*game)
 {
 	t_mlx_img	*mlx_img;
 
-	if (init_game_state(game))
+	if (game)
 	{
 		game->mlx->win_ptr = mlx_new_window(game->mlx->mlx_ptr, w_width, w_height, "Nuk3d");
 		mlx_img = new_blank_img(game->mlx, w_width, w_height);
 		game->mlx->img = mlx_img;
-		load_assets(game);
 		mlx_hook(game->mlx->win_ptr, 17, 0L, mlx_loop_end, game->mlx->mlx_ptr); // fecha no X
 		mlx_hook(game->mlx->win_ptr, 2, 1L << 0, key_hook, game);
 		// mlx_loop_hook(game->mlx->mlx_ptr, game_loop, game); 
@@ -91,8 +91,8 @@ int	main(int argc, char *argv[])
 	(void)argc;
 	(void)argv;
 	// map = load_map("./maps/huge_map.cub");
-	// map = load_map("./maps/subject_map.cub");
-	map = load_map("./maps/vault_map.cub");
+	map = load_map("./maps/subject_map.cub");
+	// map = load_map("./maps/vault_map.cub");
 	eval_map(map);
 	if (map->status == OK)
 	{

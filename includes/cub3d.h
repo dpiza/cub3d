@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
+/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/25 21:20:48 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/26 18:24:11 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 
 #define	w_width 		800
 #define	w_height 		600
-#define	FOV				75
+#define	FOV				90
 #define	TRANSPARENCY	4278190080
 
 #define	movement_step	0.25
@@ -74,6 +74,14 @@ enum e_map_status{
 	MAP_TOO_SHORT = 0b00010000,
 	MAP_NOT_WALLED = 0b00100000,
 	DUPLICATED_PARAMETER = 0b01000000
+};
+
+enum	e_wall_side{
+	NORTH = 0,
+	EAST = 1,
+	SOUTH = 2,
+	WEST = 3,
+	NA = 4
 };
 
 struct s_point
@@ -228,5 +236,6 @@ void			print_weapon(t_cub3d *game);
 void			print_firing_weapon(t_cub3d *game);
 void			print_crosshair(t_cub3d *game);
 void			destroy_img(t_mlx_img *mlx_img);
+void			build_projection_two(t_cub3d *game);
 
 #endif

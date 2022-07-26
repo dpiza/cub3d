@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   load_game.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
+/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 23:38:26 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/24 17:08:20 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/26 16:37:57 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,15 @@ t_cub3d	*load_game(t_map	*map)
 	game = ft_calloc(1, sizeof(t_cub3d));
 	if (!game)
 		return (NULL);
+	init_game_state(game);
 	strMap = new_strmap();
 	load_strmap(strMap, map);
 	game->player.n_rays = w_width;
 	strMap->minimap_pps = mm_pps;
-	strMap->pos.x = 0;
-	strMap->pos.y = 0;
+	game->projection = new_blank_img(game->mlx, w_width,(int)(w_height * (1.0 - 0.2)));
 	game->map = strMap;
 	game->s_map = map;
+	load_assets(game);
 	load_player(game, &game->player);
 	return (game);
 }

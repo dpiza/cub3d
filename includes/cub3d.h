@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/27 21:28:00 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/27 21:29:39 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 
 #define	w_width 		800
 #define	w_height 		600
-#define	FOV				90
+#define	FOV				75
 #define	TRANSPARENCY	4278190080
 
 #define	movement_step	0.25
@@ -123,7 +123,8 @@ struct s_player
 	t_collision	*collisions;
 	t_point		fov_vec[2];
 	int			fov;
-	int			state;
+	int			firing;
+	int			left_click;
 	t_cub3d		*game;
 };
 
@@ -145,6 +146,7 @@ struct s_cub3d
 	unsigned int	floor;
 	unsigned int	ceilling;
 	struct s_player	player;
+	t_int_point		mouse_pos;
 	int				tick;
 };
 
@@ -211,7 +213,11 @@ int				is_valid_color_line(char *line);
 int				is_empty_line(char *line);
 void			free_t_map(t_map *map);
 char			*get_path(char *line);
+int				mouse_hook(int k, int x, int y, t_cub3d *game);
+int				mouse_release(int k, int x, int y, t_cub3d *game);
+int				mouse_movement_hook(int x, int y, t_cub3d *game);
 int				key_hook(int k, t_cub3d *game);
+void			rotate_player(t_cub3d *game, float direction);
 void			gracefull_shutdown(t_cub3d	*game);
 void			print_map(t_cub3d *game);
 int				get_byte_offset(t_mlx_img	*img, int x, int y);

@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:48:44 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/27 21:28:52 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/27 21:30:00 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,10 @@ void	mlx_test(t_cub3d	*game)
 		game->mlx->img = mlx_img;
 		mlx_hook(game->mlx->win_ptr, 17, 0L, mlx_loop_end, game->mlx->mlx_ptr); // fecha no X
 		mlx_hook(game->mlx->win_ptr, 2, 1L << 0, key_hook, game);
+		// mlx_hook(game->mlx->win_ptr, 4, 1L << 2, mouse_press, game);
+		mlx_hook(game->mlx->win_ptr, 5, 1L << 3, mouse_release, game);
+		mlx_hook(game->mlx->win_ptr, 6, 1L << 6, mouse_movement_hook, game);
+		mlx_mouse_hook(game->mlx->win_ptr, mouse_hook, game);
 		mlx_loop_hook(game->mlx->mlx_ptr, game_loop, game); 
 		// game_loop(game); // usado no lugar do loop pra ver o ponto de colisão individualmente
 		mlx_loop(game->mlx->mlx_ptr);

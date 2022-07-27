@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/27 21:26:11 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/27 21:27:20 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ struct s_player
 	t_collision	*collisions;
 	t_point		fov_vec[2];
 	int			fov;
+	int			state;
 	t_cub3d		*game;
 };
 
@@ -139,10 +140,12 @@ struct s_cub3d
 	t_mlx_img		*bar;
 	t_mlx_img		*bar_screen;
 	t_mlx_img		*weapon;
+	t_mlx_img		*weapon_fire;
 	t_mlx_img		*crosshair;
 	unsigned int	floor;
 	unsigned int	ceilling;
 	struct s_player	player;
+	int				tick;
 };
 
 struct	s_mlx

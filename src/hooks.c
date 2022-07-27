@@ -6,11 +6,20 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 16:01:01 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/27 01:03:02 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/27 02:04:12 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
+
+void	reload(t_cub3d *game)
+{
+	if (game->player.firing == 0 && game->player.ammo == 0)
+	{
+		game->player.ammo = 15;
+		game->player.firing = -12;
+	}
+}
 
 void	rotate_player(t_cub3d *game, float direction)
 {
@@ -121,8 +130,8 @@ int	key_hook(int k, t_cub3d *game)
 		rotate_player(game, -2.5f);
 	if (k == 0xff53 || k == 0x0065)
 		rotate_player(game, 2.5f);
-	// if (k == 0x0020)
-	// 	shot(game);
+	if (k == 0x0072)
+		reload(game);
 	if (k == 0x0070 || k == 0x0050)
 		printf("p pressed\n");
 	if (k == 0xff0d)
@@ -141,6 +150,7 @@ int	key_hook(int k, t_cub3d *game)
 	p			0x0070		0x0050
 	q			0x0071
 	e			0x0065
+	r			0x0072
 	escape		0xff1b
 	enter		0xff0d
 	uparrow		0xff52

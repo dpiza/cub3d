@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_projection.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 11:11:45 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/26 20:51:58 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/27 01:40:03 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	build_projection_two(t_cub3d *game)
 	int				wall_bottom;
 	float			y_px;
 
-	default_height = 240; //(w_height * (1.0 - 0.2)) / 2
+	default_height = 480; //(w_height * (1.0 - 0.2)) / 2
 	column = 0;
 	while(column < game->projection->width)
 	{

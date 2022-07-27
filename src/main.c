@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:48:44 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/27 00:58:29 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/27 02:05:04 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,17 @@ void	calculate_framerate_clock(t_cub3d *game)
 		game->tick = 0;
 }
 
+void	print_stats(t_cub3d *game)
+{
+	mlx_string_put(game->mlx->mlx_ptr, game->mlx->win_ptr, 602, 538, 0x00746736, ft_itoa(100));
+	mlx_string_put(game->mlx->mlx_ptr, game->mlx->win_ptr, 605, 583, 0x00746736, ft_itoa(game->player.ammo));
+}
+
 int		game_loop(t_cub3d *game)
 {
 	build_map_img(game);
 	print_player_int_map(game);
-	//build_projection(game);
+	// build_projection(game);
 	build_projection_two(game);
 	print_bar_screen(game);
 	print_map(game);
@@ -80,6 +86,7 @@ int		game_loop(t_cub3d *game)
 	print_bar(game);
 	print_crosshair(game);
 	mlx_put_image_to_window(game->mlx->mlx_ptr, game->mlx->win_ptr, game->mlx->img->img_ptr, 0, 0);
+	print_stats(game);
 	calculate_framerate_clock(game);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/27 01:02:47 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/27 01:28:06 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@
 #define	FOV				75
 #define	TRANSPARENCY	4278190080
 
-#define	movement_step	0.25
+#define	movement_step	0.1
 
 #define	shadow				0x001C1C1D
 
@@ -115,6 +115,7 @@ struct s_player
 	t_point		fov_vec[2];
 	int			fov;
 	int			firing;
+	int			ammo;
 	int			left_click;
 	t_cub3d		*game;
 };

@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 00:07:08 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/27 17:36:58 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/27 17:49:38 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	print_rays(t_cub3d	*game)
 	t_point		aux;
 	t_int_point	src;
 	t_int_point	dst;
-	int		n_rays;
+	int			n_rays;
 
 	n_rays = 0;
 	aux = game->player.pos;

@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/27 17:06:59 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/27 19:37:38 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <fcntl.h>
 # include <libft.h>
 # include <mlx.h>
+# include <limits.h>
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 32

@@ -24,6 +24,7 @@ RAW_C		=	main.c \
 				parser_map_pointers.c \
 				parser_line_checkers.c \
 				hooks.c \
+				mouse_hooks.c \
 				print_map.c \
 				get_img_offset.c \
 				print_square.c \

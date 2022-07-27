@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/27 01:38:37 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/27 15:12:29 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef	struct s_point		t_point;
 typedef struct s_player		t_player;
 typedef struct s_int_point	t_int_point;
 typedef struct s_collision	t_collision;
+typedef struct s_wall_data	t_wall_data;
 
 enum e_map_status{
 	OK = 0,
@@ -82,6 +83,13 @@ enum	e_wall_side{
 	SOUTH = 2,
 	WEST = 3,
 	NA = 4
+};
+
+struct s_wall_data
+{
+	float	height;
+	int		top;
+	int		bottom;
 };
 
 struct s_point

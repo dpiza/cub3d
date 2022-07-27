@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   print_map.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
+/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 11:46:00 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/24 10:32:32 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/27 19:01:45 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,5 +14,10 @@
 
 void	print_map(t_cub3d *game)
 {
-	override_minimap(game->mlx->img, game->map->minimap, game->map->pos.x, game->map->pos.y);
+	int	x;
+	int	y;
+
+	x = game->map->pos.x;
+	y = game->map->pos.y;
+	override_minimap(game->mlx->img, game->map->minimap, x, y);
 }

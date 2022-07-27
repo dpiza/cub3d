@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mouse_hook.c                                       :+:      :+:    :+:   */
+/*   mouse_hooks.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/27 01:01:54 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/27 01:03:38 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/27 01:59:51 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,22 @@
 
 void	shot(t_cub3d *game)
 {
-	game->player.firing = 1;
+	if (game->player.firing == 0 && game->player.ammo > 0)
+	{
+		game->player.firing = 1;
+		game->player.ammo--;
+	}
 }
+
 
 int	mouse_movement_hook(int x, int y, t_cub3d *game)
 {
 	if (!game->player.left_click)
 		return (0);
 	if (x > game->mouse_pos.x)
-		rotate_player(game, 1.0f);
+		rotate_player(game, 0.9f);
 	else
-		rotate_player(game, -1.0f);
+		rotate_player(game, -0.9f);
 	game->mouse_pos.x = x;
 	game->mouse_pos.y = y;
 	return(0);
@@ -33,8 +38,8 @@ int	mouse_movement_hook(int x, int y, t_cub3d *game)
 int	mouse_hook(int k, int x, int y, t_cub3d *game)
 {
 	(void)x;
-	(void)y;
-	if (k == 1)
+	// (void)y;
+	if (k == 1 && y < 480)
 		shot(game);
 	if (k == 3)
 		game->player.left_click = 1;

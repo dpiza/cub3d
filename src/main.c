@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:48:44 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/27 21:30:00 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/27 21:31:01 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,18 @@ void	calculate_framerate(t_cub3d *game)
 	frame++;
 }
 
+void	print_stats(t_cub3d *game)
+{
+	mlx_string_put(game->mlx->mlx_ptr, game->mlx->win_ptr, 602, 538, 0x00746736, ft_itoa(100));
+	mlx_string_put(game->mlx->mlx_ptr, game->mlx->win_ptr, 605, 583, 0x00746736, ft_itoa(game->player.ammo));
+}
+
 int		game_loop(t_cub3d *game)
 {
 	build_map_img(game);
 	print_player_int_map(game);
-	build_projection(game);
+	// build_projection(game);
+	build_projection_two(game);
 	print_bar_screen(game);
 	print_map(game);
 	print_projection(game);

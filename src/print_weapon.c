@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 00:16:59 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/27 00:41:38 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/27 01:55:56 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,12 @@ void	print_weapon(t_cub3d *game)
 		override_images_bg(game->mlx->img, game->weapon_fire, w_width / 2 + 20, w_height - 146 - game->weapon->height, TRANSPARENCY);
 		game->player.firing++;
 		if (game->player.firing > 7)
-			game->player.firing = 0;
+			game->player.firing = -12;
 	}
 	else
 		override_images_bg(game->mlx->img, game->weapon, w_width / 2 + 30, w_height - 126 - game->weapon->height, TRANSPARENCY);
+	if (game->player.firing < 0)
+		game->player.firing++;
 }
 
 void	print_crosshair(t_cub3d *game)

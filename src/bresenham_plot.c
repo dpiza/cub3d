@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bresenham_plot.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
+/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/20 20:26:00 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/23 16:55:23 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/27 17:07:15 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	put_image_pixel(t_mlx_img *img, int x, int y, unsigned int color)
 {
-	unsigned int *pixel;
+	unsigned int	*pixel;
 
 	if (x < img->width && y < img->height && x >= 0 && y >= 0)
 	{
@@ -23,35 +23,33 @@ void	put_image_pixel(t_mlx_img *img, int x, int y, unsigned int color)
 	}
 }
 
-void	bresenham_line(t_mlx_img *img, int x0, int y0, int x1, int y1, unsigned int color)
+void	bresenham_line(t_mlx_img *img, t_int_point src, t_int_point dst, unsigned int color)
 {
-	int sx;
-	int sy;
-	int dx;
-	int dy;
+	t_int_point s;
+	t_int_point delta;
 	int err;
 	int e2;
 
-	dx = abs(x1 - x0);
-	sx = x0 < x1 ? 1 : -1;
-	dy = -abs(y1 - y0);
-	sy = y0 < y1 ? 1 : -1;
-	err = dx + dy;
+	delta.x = abs(dst.x - src.x);
+	s.x = src.x < dst.x ? 1 : -1;
+	delta.y = -abs(dst.y - src.y);
+	s.y = src.y < dst.y ? 1 : -1;
+	err = delta.x + delta.y;
 	while (1)
 	{
-		put_image_pixel(img, x0, y0, color);
-		if (x0 == x1 && y0 == y1)
+		put_image_pixel(img, src.x, src.y, color);
+		if (src.x == dst.x && src.y == dst.y)
 			break;
 		e2 = 2 * err;
-		if (e2 >= dy)
+		if (e2 >= delta.y)
 		{
-			err += dy;
-			x0 += sx;
+			err += delta.y;
+			src.x += s.x;
 		}
-		if (e2 <= dx)
+		if (e2 <= delta.x)
 		{
-			err += dx;
-			y0 += sy;
+			err += delta.x;
+			src.y += s.y;
 		}
 	}
 }

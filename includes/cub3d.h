@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/27 15:49:52 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/27 17:06:59 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -226,7 +226,7 @@ void			rotate_vector_new(float sin, float cos, t_point *vector);
 t_point			sum_vectors(t_point *v_one, t_point *v_two);
 t_point			subtract_vector(t_point *v_one, t_point *v_two);
 float			vector_size(t_point *vector);
-void			bresenham_line(t_mlx_img *img, int x0, int y0, int x1, int y1, unsigned int color);
+void			bresenham_line(t_mlx_img *img, t_int_point src, t_int_point dst, unsigned int color);
 void			multiply_vector_by_n(float	n, t_point	*vector);
 void			set_fov_vectors(t_cub3d *game);
 t_point			normalize_vector(t_point	vector);

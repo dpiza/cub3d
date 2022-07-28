@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:48:44 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/27 22:34:13 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/28 18:42:35 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	print_stats(t_cub3d *game)
 
 int		game_loop(t_cub3d *game)
 {
-	build_map_img(game);
+	build_map(game);
 	print_player_int_map(game);
 	build_projection(game);
 	print_bar_screen(game);

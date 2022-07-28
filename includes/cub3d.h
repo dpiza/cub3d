@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/28 18:37:10 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/28 18:42:29 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,7 +238,7 @@ void			load_player(t_cub3d	*game, t_player	*player);
 t_cub3d			*load_game(t_map	*map);
 int				init_game_state(t_cub3d *game);
 t_mlx_img		*new_blank_img(t_mlx	*mlx, int width, int height);
-void			build_map_img(t_cub3d *game);
+void			build_map(t_cub3d *game);
 void			print_player_int_map(t_cub3d *game);
 void			override_images(t_mlx_img *dst, t_mlx_img *src, int x, int y);
 void			override_minimap(t_mlx_img *dst, t_mlx_img *src, int x, int y);

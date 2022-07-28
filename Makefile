@@ -33,7 +33,7 @@ RAW_C		=	main.c \
 				init_game_state.c \
 				print_player_in_map.c \
 				new_blank_image.c \
-				build_minimap_img.c \
+				build_minimap.c \
 				override_images.c \
 				rotate_vector.c \
 				multiply_vector_by_n.c \

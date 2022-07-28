@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/28 11:18:25 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/28 11:28:43 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -255,5 +255,10 @@ void			print_weapon(t_cub3d *game);
 void			print_firing_weapon(t_cub3d *game);
 void			print_crosshair(t_cub3d *game);
 void			destroy_img(t_mlx_img *mlx_img);
+void			rotate_player(t_cub3d *game, float direction);
+void			move_left(t_cub3d *game);
+void			move_right(t_cub3d *game);
+void			move_forward(t_cub3d *game);
+void			move_backward(t_cub3d *game);
 
 #endif

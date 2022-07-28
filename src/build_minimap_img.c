@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 18:28:08 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/25 21:12:17 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/28 10:43:02 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,9 @@ void	build_map_img(t_cub3d *game)
 	unsigned int	*map_vector;
 	t_mlx_img		*minimap;
 
-	game->map->pos.x = 135 - (game->player.pos.x) * game->map->minimap_pps; // bar screen center
-	game->map->pos.y = 540 - (game->player.pos.y) * game->map->minimap_pps; // bar screen center
-	if (!game->map->minimap)
-	{
-		minimap = new_blank_img(game->mlx, game->map->columns * game->map->minimap_pps, game->map->lines * game->map->minimap_pps);
-		game->map->minimap = minimap;
-	}
-	else
-		minimap = game->map->minimap;
+	game->map->pos.x = 135 - (game->player.pos.x) * game->map->minimap_pps;
+	game->map->pos.y = 540 - (game->player.pos.y) * game->map->minimap_pps;
+	minimap = game->map->minimap;
 	map_vector = (unsigned int *)minimap->data;
 	increment = minimap->line_size / 4 * game->map->minimap_pps;
 	y = 0;
@@ -39,7 +33,8 @@ void	build_map_img(t_cub3d *game)
 		x = 0;
 		while (x < game->map->columns)
 		{
-			print_square(minimap, (map_vector + x * game->map->minimap_pps), game->map->minimap_pps, get_map_color(game->map->map[y* game->map->columns + x]));
+			print_square(minimap, (map_vector + x * mm_pps), mm_pps, \
+				get_map_color(game->map->map[y * game->map->columns + x]));
 			x++;
 		}
 		map_vector += increment;
@@ -51,9 +46,9 @@ static unsigned int	get_map_color(char c)
 {
 	if (c == ' ')
 		return (mm_empty);
-	else if(c == '1')
+	else if (c == '1')
 		return (mm_wall);
-	else if(c == '0')
+	else if (c == '0')
 		return (mm_floor);
 	else
 		return (mm_others);

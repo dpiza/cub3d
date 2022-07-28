@@ -6,16 +6,17 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 15:40:28 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/23 16:38:02 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/28 10:30:01 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-void	print_square(t_mlx_img *img, unsigned int *dest_origin, int sqr_size, unsigned int color)
+void	print_square(t_mlx_img *img, unsigned int *dest_origin, \
+	int sqr_size, unsigned int color)
 {
 	unsigned int	*dest;
-	int	i[2];
+	int				i[2];
 
 	dest = dest_origin;
 	i[0] = 0;

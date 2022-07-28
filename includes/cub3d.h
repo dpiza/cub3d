@@ -6,14 +6,13 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/27 21:46:08 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/27 22:33:56 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include <time.h>
 # include <math.h>
 # include <stdlib.h>
 # include <unistd.h>

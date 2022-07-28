@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_map_integrity.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 14:58:11 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/05 16:37:34 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/28 10:28:45 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static	void	eval_trailing_garbage(t_map *map, char **map_last_line)
 			{
 				map->status |= GARBAGE_LINES;
 				keep_going = 0;
-				break;
+				break ;
 			}
 			line++;
 		}

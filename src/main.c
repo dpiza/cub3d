@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:48:44 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/27 21:34:43 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/27 21:45:25 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,25 +49,22 @@ void	gracefull_shutdown(t_cub3d	*game)
 	free(game);
 }
 
-void	calculate_framerate(t_cub3d *game)
+void	calculate_framerate_clock(t_cub3d *game)
 {
-	static int		frame;
-	static int		fps;
-	static clock_t	time;
+	static clock_t	last_time;
+	clock_t			time;
 	double			time_passed;
-	clock_t			end;
-	
-	end = clock();
-	time_passed = (end - time) / CLOCKS_PER_SEC;
-	if (time_passed > 1)
-	{
-		time = end;
-		fps = frame;
-		frame = 0;
-	}
+	double			fps;
+
+	time = clock();
+	time_passed = (double)(time - last_time) / CLOCKS_PER_SEC;
+	fps = 1 / time_passed;
+	last_time = time;
 	mlx_string_put(game->mlx->mlx_ptr, game->mlx->win_ptr, 3, 11, 0, ft_itoa(fps));
 	mlx_string_put(game->mlx->mlx_ptr, game->mlx->win_ptr, 23, 11, 0, "FPS");
-	frame++;
+	game->tick++;
+	if (game->tick > 50)
+		game->tick = 0;
 }
 
 void	print_stats(t_cub3d *game)
@@ -88,8 +85,8 @@ int		game_loop(t_cub3d *game)
 	print_bar(game);
 	print_crosshair(game);
 	mlx_put_image_to_window(game->mlx->mlx_ptr, game->mlx->win_ptr, game->mlx->img->img_ptr, 0, 0);
-	calculate_framerate(game);
 	print_stats(game);
+	calculate_framerate_clock(game);
 	return (0);
 }
 

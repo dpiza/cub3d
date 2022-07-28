@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   init_game_state.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 23:43:33 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/05/12 23:43:56 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/28 09:26:30 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-int		init_game_state(t_cub3d *game)
+int	init_game_state(t_cub3d *game)
 {
 	game->mlx = ft_calloc(1, sizeof(t_mlx));
 	game->mlx->mlx_ptr = mlx_init();

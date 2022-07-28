@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   parser_create_strmap.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 20:55:26 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/27 18:33:27 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/28 10:01:39 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-static int	get_map_max_len(char **first_line, int n_lines);
 static void	map_to_str(char **dest, char **first_line, \
 			int n_lines, int line_size);
 

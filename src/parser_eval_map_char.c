@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_eval_map_char.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 17:40:31 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/27 19:00:41 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/07/28 10:04:57 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,18 @@ int	is_map_first_char(char c)
 		if (allowed[i] == c)
 			return (1);
 		i++;
+	}
+	return (0);
+}
+
+unsigned char	get_char_at(t_strmap *map, int x, int y)
+{
+	int	pos;
+
+	if (x >= 0 && x < map->columns && y >= 0 && y < map->lines)
+	{
+		pos = x + (y * (map->columns));
+		return (map->map[pos]);
 	}
 	return (0);
 }

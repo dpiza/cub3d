@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/28 09:30:58 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/28 10:05:18 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,6 +198,7 @@ void			eval_map(t_map	*map);
 void			map_integrity(t_map *map);
 int				is_map_allowed_character(char c);
 int				is_map_first_char(char c);
+unsigned char	get_char_at(t_strmap *map, int x, int y);
 void			eval_map_rules(t_map *map, t_strmap *strmap);
 void			eval_assets(t_map *map);
 t_strmap		*new_strmap(void);
@@ -209,6 +210,7 @@ void			destroy_strmap(t_strmap *strmap);
 int				is_valid_map_line(char *line);
 int				is_valid_texture_line(char *line);
 int				is_valid_color_line(char *line);
+int				get_map_max_len(char **first_line, int n_lines);
 int				is_empty_line(char *line);
 void			free_t_map(t_map *map);
 char			*get_path(char *line);

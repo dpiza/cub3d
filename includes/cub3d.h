@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/28 18:57:40 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/28 19:14:12 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,7 +243,7 @@ void			print_player_int_map(t_cub3d *game);
 void			override_images(t_mlx_img *dst, t_mlx_img *src, int x, int y);
 void			override_minimap(t_mlx_img *dst, t_mlx_img *src, int x, int y);
 void			rotate_vector_old(float	angle, t_point *vector);
-void			rotate_vector_new(float sin, float cos, t_point *vector);
+void			rotate_vector(float sin, float cos, t_point *vector);
 t_point			sum_vectors(t_point *v_one, t_point *v_two);
 t_point			subtract_vector(t_point *v_one, t_point *v_two);
 float			vector_size(t_point *vector);

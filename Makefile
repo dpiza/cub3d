@@ -49,7 +49,7 @@ RAW_C		=	main.c \
 				images_shading.c \
 				print_projection.c \
 				player_movement.c \
-				get_vector_collision.c \
+				get_collision.c \
 				player_action.c
 
 SRC			=	$(addprefix $(SRC_D)/,$(RAW_C))

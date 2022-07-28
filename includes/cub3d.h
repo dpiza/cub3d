@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/28 12:44:20 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/28 18:37:10 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,7 +199,6 @@ struct s_strmap
 	int			columns;
 	int			lines;
 	t_mlx_img	*minimap;
-	int			minimap_pps;
 	t_int_point	pos;
 };
 

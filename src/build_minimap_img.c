@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 18:28:08 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/28 10:43:02 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/28 18:36:29 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ void	build_map_img(t_cub3d *game)
 	unsigned int	*map_vector;
 	t_mlx_img		*minimap;
 
-	game->map->pos.x = 135 - (game->player.pos.x) * game->map->minimap_pps;
-	game->map->pos.y = 540 - (game->player.pos.y) * game->map->minimap_pps;
+	game->map->pos.x = 135 - (game->player.pos.x) * mm_pps;
+	game->map->pos.y = 540 - (game->player.pos.y) * mm_pps;
 	minimap = game->map->minimap;
 	map_vector = (unsigned int *)minimap->data;
-	increment = minimap->line_size / 4 * game->map->minimap_pps;
+	increment = minimap->line_size / 4 * mm_pps;
 	y = 0;
 	while (y < game->map->lines)
 	{

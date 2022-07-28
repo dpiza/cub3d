@@ -51,7 +51,8 @@ RAW_C		=	main.c \
 				load_assets.c \
 				shading.c \
 				print_projection.c \
-				player_movement.c
+				player_movement.c \
+				get_vector_collision.c
 
 SRC			=	$(addprefix $(SRC_D)/,$(RAW_C))
 OBJ			=	$(addprefix $(OBJ_D)/,$(RAW_C:.c=.o))

@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/28 11:28:43 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/28 12:44:20 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ typedef	struct s_point		t_point;
 typedef struct s_player		t_player;
 typedef struct s_int_point	t_int_point;
 typedef struct s_collision	t_collision;
+typedef struct s_dda		t_dda;
 typedef struct s_wall_data	t_wall_data;
 
 enum e_map_status{
@@ -111,6 +112,16 @@ struct s_collision
 	float	distance;
 	float	perpDistance;
 	int		side;
+};
+
+struct s_dda
+{
+	t_point		s_dist;
+	t_point		delta;
+	t_int_point	steps;
+	t_int_point	map;
+	float		w_dist;
+	int			side;
 };
 
 struct s_player
@@ -260,5 +271,7 @@ void			move_left(t_cub3d *game);
 void			move_right(t_cub3d *game);
 void			move_forward(t_cub3d *game);
 void			move_backward(t_cub3d *game);
+t_collision	ret_collision_result(t_cub3d *game, t_point *norm_dir, t_dda dda);
+t_dda	initialize_dda_values(t_cub3d *game, t_point norm_dir);
 
 #endif

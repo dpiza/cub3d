@@ -50,7 +50,9 @@ RAW_C		=	main.c \
 				print_projection.c \
 				player_movement.c \
 				get_collision.c \
-				player_action.c
+				player_action.c \
+				game_shutdown.c \
+				game_run.c
 
 SRC			=	$(addprefix $(SRC_D)/,$(RAW_C))
 OBJ			=	$(addprefix $(OBJ_D)/,$(RAW_C:.c=.o))

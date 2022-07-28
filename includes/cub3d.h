@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/28 19:14:12 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/28 20:18:33 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,5 +274,7 @@ t_collision	ret_collision_result(t_cub3d *game, t_point *norm_dir, t_dda dda);
 t_dda	initialize_dda_values(t_cub3d *game, t_point norm_dir);
 void	reload(t_cub3d *game);
 void	fire(t_cub3d *game);
+void	print_stats(t_cub3d *game);
+void	game_run(t_cub3d	*game);
 
 #endif

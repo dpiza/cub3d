@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shading.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
+/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 18:38:08 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/26 00:52:51 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/27 18:55:39 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ void	color_shade(float distance, unsigned int *pixel)
 	if (distance < max_distance)
 	{
 		factor = 1 - (distance / max_distance);
-		color[0] = (unsigned char)(*pixel >> 16) * factor;
-		color[1] = (unsigned char)(*pixel >> 8) * factor;
-		color[2] = (unsigned char)(*pixel) * factor;
+		color[0] = ((unsigned char)(*pixel >> 16)) * factor;
+		color[1] = ((unsigned char)(*pixel >> 8)) * factor;
+		color[2] = ((unsigned char)(*pixel)) * factor;
 		*pixel = color[0] << 16 | color[1] << 8 | color[2];
 	}
 	else

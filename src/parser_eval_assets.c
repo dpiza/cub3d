@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_eval_assets.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
+/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 21:49:33 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/24 12:01:21 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/27 16:49:41 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,16 +49,6 @@ static void	fill_color(t_map *map, char *line)
 	ft_split_free(&color);
 }
 
-
-
-void	print_struct(t_map *map)
-{
-	printf("no_path: %s\nso_path: %s\nwe_path: %s\nea_path: %s\nfloor_c[0]: %d\nfloor_c[1]: %d\nfloor_c[2]: %d\nceilling_c[0]: %d\nceilling_c[1]: %d\nceilling_c[2]: %d\n",
-		map->no_path, map->so_path, map->we_path, map->ea_path,
-		map->floor_c[0], map->floor_c[1], map->floor_c[2],
-		map->ceilling_c[0], map->ceilling_c[1], map->ceilling_c[2]);
-}
-
 void	free_t_map(t_map *map)
 {
 	free(map->no_path);
@@ -87,5 +77,4 @@ void	eval_assets(t_map *map)
 		}
 		map_lines++;
 	}
-	// print_struct(map);
 }

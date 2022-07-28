@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_load_map.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
+/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 17:14:11 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/23 15:50:11 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/27 19:28:00 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	unload_map(t_map *map)
 		if (map->lines)
 		{
 			i = 0;
-			while(map->lines[i])
+			while (map->lines[i])
 				free(map->lines[i++]);
 			free(map->lines);
 		}
@@ -29,11 +29,22 @@ void	unload_map(t_map *map)
 	}
 }
 
+void	replace_references(char ***old, char ***new, char *new_line)
+{
+	int	i;
+
+	i = 0;
+	while ((*old)[i])
+	{
+		(*new)[i] = (*old)[i];
+		i++;
+	}
+	(*new)[i] = new_line;
+}
+
 void	add_next_lines(char *new_line, char ***lines)
 {
 	int		cur_size;
-	int		new_size;
-	int		i;
 	char	**new_line_array;
 
 	if (!lines[0])
@@ -46,15 +57,8 @@ void	add_next_lines(char *new_line, char ***lines)
 		cur_size = 0;
 		while ((*lines)[cur_size])
 			cur_size++;
-		new_size = cur_size + 1;
-		new_line_array = ft_calloc(new_size + 1, sizeof(char *));
-		i = 0;
-		while (i < cur_size)
-		{
-			new_line_array[i] = (*lines)[i];
-			i++;
-		}
-		new_line_array[i] = new_line;
+		new_line_array = ft_calloc(cur_size + 2, sizeof(char *));
+		replace_references(lines, &new_line_array, new_line);
 		free((*lines));
 		(*lines) = new_line_array;
 	}

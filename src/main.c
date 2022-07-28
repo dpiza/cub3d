@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:48:44 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/28 18:42:35 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/28 20:05:03 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	gracefull_shutdown(t_cub3d	*game)
 	destroy_img(game->bar_screen);
 	destroy_img(game->crosshair);
 	destroy_img(game->weapon);
+	destroy_img(game->weapon_fire);
 	destroy_img(game->bar);
 	destroy_img(game->projection);
 	mlx_disconnect(mlx);
@@ -51,8 +52,15 @@ void	gracefull_shutdown(t_cub3d	*game)
 
 void	print_stats(t_cub3d *game)
 {
-	mlx_string_put(game->mlx->mlx_ptr, game->mlx->win_ptr, 602, 538, 0x00746736, ft_itoa(100));
-	mlx_string_put(game->mlx->mlx_ptr, game->mlx->win_ptr, 605, 583, 0x00746736, ft_itoa(game->player.ammo));
+	char	*hp;
+	char	*ammo;
+
+	hp = ft_itoa(100);
+	ammo = ft_itoa(game->player.ammo);
+	mlx_string_put(game->mlx->mlx_ptr, game->mlx->win_ptr, 602, 538, 0x00746736, hp);
+	mlx_string_put(game->mlx->mlx_ptr, game->mlx->win_ptr, 605, 583, 0x00746736, ammo);
+	free(hp);
+	free(ammo);
 }
 
 int		game_loop(t_cub3d *game)

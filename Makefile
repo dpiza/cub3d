@@ -38,9 +38,9 @@ RAW_C		=	main.c \
 				vectors_sum.c \
 				vectors_subtract.c \
 				vector_size.c \
-				bresenham_plot.c \
+				vector_collision_bresenham.c \
 				vector_normalize.c \
-				vector_collision.c \
+				vector_collision_dda.c \
 				get_map_obj.c \
 				build_projection.c \
 				print_bar.c \

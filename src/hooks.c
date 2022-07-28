@@ -6,19 +6,44 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 16:01:01 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/28 11:27:54 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/28 18:58:28 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-void	reload(t_cub3d *game)
+int	mouse_movement_hook(int x, int y, t_cub3d *game)
 {
-	if (game->player.firing == 0 && game->player.ammo == 0)
-	{
-		game->player.ammo = 15;
-		game->player.firing = -12;
-	}
+	if (!game->player.left_click)
+		return (0);
+	if (x > game->mouse_pos.x)
+		rotate_player(game, 0.9f);
+	else
+		rotate_player(game, -0.9f);
+	game->mouse_pos.x = x;
+	game->mouse_pos.y = y;
+	return (0);
+}
+
+int	mouse_hook(int k, int x, int y, t_cub3d *game)
+{
+	(void)x;
+	if (k == 1 && y < 480)
+		fire(game);
+	if (k == 3)
+		game->player.left_click = 1;
+	game_loop(game);
+	return (0);
+}
+
+int	mouse_release(int k, int x, int y, t_cub3d *game)
+{
+	(void)x;
+	(void)y;
+	if (k == 3)
+		game->player.left_click = 0;
+	game_loop(game);
+	return (0);
 }
 
 int	key_hook(int k, t_cub3d *game)

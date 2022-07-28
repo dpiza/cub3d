@@ -1,22 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_game_state.c                                  :+:      :+:    :+:   */
+/*   player_action.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/05/12 23:43:33 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/28 09:26:30 by dpiza            ###   ########.fr       */
+/*   Created: 2022/07/28 18:55:47 by dpiza             #+#    #+#             */
+/*   Updated: 2022/07/28 18:57:28 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
 
-int	init_game_state(t_cub3d *game)
+void	reload(t_cub3d *game)
 {
-	game->mlx = ft_calloc(1, sizeof(t_mlx));
-	game->mlx->mlx_ptr = mlx_init();
-	if (game->mlx->mlx_ptr)
-		return (1);
-	return (0);
+	if (game->player.firing == 0 && game->player.ammo == 0)
+	{
+		game->player.ammo = 15;
+		game->player.firing = -12;
+	}
+}
+
+void	fire(t_cub3d *game)
+{
+	if (game->player.firing == 0 && game->player.ammo > 0)
+	{
+		game->player.firing = 1;
+		game->player.ammo--;
+	}
 }

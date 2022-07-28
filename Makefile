@@ -24,35 +24,33 @@ RAW_C		=	main.c \
 				parser_map_pointers.c \
 				parser_line_checkers.c \
 				hooks.c \
-				mouse_hooks.c \
 				print_map.c \
 				get_img_offset.c \
 				print_square.c \
 				load_game.c \
 				load_player.c \
-				init_game_state.c \
 				print_player_in_map.c \
-				new_blank_image.c \
+				image_creation.c \
 				build_minimap.c \
-				override_images.c \
-				rotate_vector.c \
-				multiply_vector_by_n.c \
-				sum_vectors.c \
-				subtract_vectors.c \
+				images_override.c \
+				vector_rotate.c \
+				vector_multiply.c \
+				vectors_sum.c \
+				vectors_subtract.c \
 				vector_size.c \
 				bresenham_plot.c \
-				normalize_vector.c \
+				vector_normalize.c \
 				vector_collision.c \
-				set_collisions.c \
-				square_check.c \
+				get_map_obj.c \
 				build_projection.c \
 				print_bar.c \
 				print_weapon.c \
 				load_assets.c \
-				shading.c \
+				images_shading.c \
 				print_projection.c \
 				player_movement.c \
-				get_vector_collision.c
+				get_vector_collision.c \
+				player_action.c
 
 SRC			=	$(addprefix $(SRC_D)/,$(RAW_C))
 OBJ			=	$(addprefix $(OBJ_D)/,$(RAW_C:.c=.o))

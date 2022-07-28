@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 11:11:45 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/27 21:45:53 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/28 18:51:53 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	write_column(t_mlx_img *projection, t_int_point *xy, \
 
 	while (xy->y < end)
 	{
-		pixel = get_pixel_addres(projection, xy->x, xy->y);
+		pixel = get_pixel_address(projection, xy->x, xy->y);
 		*pixel = color;
 		xy->y++;
 	}
@@ -62,7 +62,7 @@ void	write_texture_collumn(t_cub3d *game, t_int_point *xy, \
 	texture = get_texture(game, collision->side);
 	while (xy->y >= (int)(wall->top) && xy->y <= last_line)
 	{
-		pixel = get_pixel_addres(game->projection, xy->x, xy->y);
+		pixel = get_pixel_address(game->projection, xy->x, xy->y);
 		relative_xy.x = (collision->point.x - (int)collision->point.x);
 		relative_xy.x += (collision->point.y - (int)collision->point.y);
 		relative_xy.y = (xy->y - wall->top) / (wall->height);

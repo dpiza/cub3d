@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/28 18:42:29 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/28 18:57:40 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,7 @@ void			rotate_player(t_cub3d *game, float direction);
 void			gracefull_shutdown(t_cub3d	*game);
 void			print_map(t_cub3d *game);
 int				get_byte_offset(t_mlx_img	*img, int x, int y);
-void			*get_pixel_addres(t_mlx_img	*img, int x, int y);
+void			*get_pixel_address(t_mlx_img	*img, int x, int y);
 void			print_square(t_mlx_img	*img, unsigned int *dest_origin, int sqr_size, unsigned int color);
 void			load_player(t_cub3d	*game, t_player	*player);
 t_cub3d			*load_game(t_map	*map);
@@ -253,7 +253,7 @@ void			set_fov_vectors(t_cub3d *game);
 t_point			normalize_vector(t_point	vector);
 t_collision		get_collision(t_cub3d *game, t_point norm_dir);
 void			set_collisions(t_cub3d	*game);
-char			square_check(t_cub3d *game, float x, float y);
+char			get_map_obj(t_cub3d *game, float x, float y);
 int				game_loop(t_cub3d *game);
 void			load_assets(t_cub3d *game);
 void			build_projection(t_cub3d *game);
@@ -272,5 +272,7 @@ void			move_forward(t_cub3d *game);
 void			move_backward(t_cub3d *game);
 t_collision	ret_collision_result(t_cub3d *game, t_point *norm_dir, t_dda dda);
 t_dda	initialize_dda_values(t_cub3d *game, t_point norm_dir);
+void	reload(t_cub3d *game);
+void	fire(t_cub3d *game);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 11:25:24 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/28 11:27:20 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/28 18:53:33 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	move_left(t_cub3d *game)
 	dir = game->player.dir;
 	rotate_vector_new(sinf(-M_PI / 2), cosf(-M_PI / 2), &dir);
 	increment = movement_step;
-	if (square_check(game, pos.x + (2 * increment * dir.x), \
+	if (get_map_obj(game, pos.x + (2 * increment * dir.x), \
 		pos.y + (2 * increment * dir.y)) == '1')
 		return ;
 	game->player.pos.x += increment * dir.x;
@@ -61,7 +61,7 @@ void	move_right(t_cub3d *game)
 	dir = game->player.dir;
 	rotate_vector_new(sinf(M_PI / 2), cosf(M_PI / 2), &dir);
 	increment = movement_step;
-	if (square_check(game, pos.x + (2 * increment * dir.x), \
+	if (get_map_obj(game, pos.x + (2 * increment * dir.x), \
 		pos.y + (2 * increment * dir.y)) == '1')
 		return ;
 	game->player.pos.x += increment * dir.x;
@@ -78,7 +78,7 @@ void	move_forward(t_cub3d *game)
 	pos = game->player.pos;
 	dir = game->player.dir;
 	increment = movement_step;
-	if (square_check(game, pos.x + (2 * increment * dir.x), \
+	if (get_map_obj(game, pos.x + (2 * increment * dir.x), \
 		pos.y + (2 * increment * dir.y)) == '1')
 		return ;
 	game->player.pos.x += increment * dir.x;
@@ -95,7 +95,7 @@ void	move_backward(t_cub3d *game)
 	pos = game->player.pos;
 	dir = game->player.dir;
 	increment = movement_step;
-	if (square_check(game, pos.x - (2 * increment * dir.x), \
+	if (get_map_obj(game, pos.x - (2 * increment * dir.x), \
 		pos.y - (2 * increment * dir.y)) == '1')
 		return ;
 	game->player.pos.x -= increment * dir.x;

@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/27 22:33:56 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/28 09:30:58 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,6 @@ struct s_player
 	t_point		*rays;
 	t_collision	*collisions;
 	t_point		fov_vec[2];
-	int			fov;
 	int			firing;
 	int			ammo;
 	int			left_click;

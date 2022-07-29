@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 11:11:45 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/28 18:51:53 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/28 21:13:59 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	build_projection(t_cub3d *game)
 	{
 		column_line.y = 0;
 		collision = game->player.collisions[column_line.x];
-		wall.height = default_height / collision.perpDistance;
+		wall.height = default_height / collision.perp_distance;
 		wall.top = (game->projection->height - wall.height) / 2;
 		wall.bottom = wall.top + wall.height;
 		write_column(game->projection, &column_line, wall.top, game->ceilling);

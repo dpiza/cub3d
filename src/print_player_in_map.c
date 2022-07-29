@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/13 00:07:08 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/28 18:36:54 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/28 21:08:49 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,16 @@ void	print_rays(t_cub3d	*game)
 
 	n_rays = 0;
 	aux = game->player.pos;
-	multiply_vector_by_n(mm_pps, &aux);
+	multiply_vector_by_n(MM_PPS, &aux);
 	src.x = (int)aux.x;
 	src.y = (int)aux.y;
 	while (n_rays < game->player.n_rays)
 	{
 		aux = game->player.collisions[n_rays].point;
-		multiply_vector_by_n(mm_pps, &aux);
+		multiply_vector_by_n(MM_PPS, &aux);
 		dst.x = aux.x;
 		dst.y = aux.y;
-		bresenham_line(game->map->minimap, src, dst, player_rays);
+		bresenham_line(game->map->minimap, src, dst, PLAYER_RAYS);
 		n_rays++;
 	}
 }
@@ -41,10 +41,10 @@ void	print_player_int_map(t_cub3d *game)
 	unsigned int	*pixel;
 	t_point			pos;
 
-	pos.x = (game->player.pos.x - 0.5) * mm_pps;
-	pos.y = (game->player.pos.y - 0.5) * mm_pps;
+	pos.x = (game->player.pos.x - 0.5) * MM_PPS;
+	pos.y = (game->player.pos.y - 0.5) * MM_PPS;
 	offset = get_byte_offset(game->map->minimap, pos.x, pos.y);
 	pixel = (game->map->minimap->data + offset);
-	print_square(game->map->minimap, pixel, mm_pps, mm_player);
+	print_square(game->map->minimap, pixel, MM_PPS, MM_PLAYER);
 	print_rays(game);
 }

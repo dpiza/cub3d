@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/22 22:42:40 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/28 20:08:41 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/28 21:05:20 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	print_bar_screen(t_cub3d *game)
 {
 	int	dst_y;
 
-	dst_y = w_height - game->bar_screen->height;
+	dst_y = W_HEIGHT - game->bar_screen->height;
 	override_images(game->mlx->img, game->bar_screen, 0, dst_y);
 }
 
@@ -24,7 +24,7 @@ void	print_bar(t_cub3d *game)
 {
 	int	dst_y;
 
-	dst_y = w_height - game->bar->height;
+	dst_y = W_HEIGHT - game->bar->height;
 	override_images(game->mlx->img, game->bar, 0, dst_y);
 }
 

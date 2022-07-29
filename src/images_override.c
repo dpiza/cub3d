@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   override_images.c                                  :+:      :+:    :+:   */
+/*   images_override.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/18 18:42:55 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/28 11:18:31 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/28 21:12:15 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,14 @@ void	override_mm_pixel(char *d, int d_off, char *s, int s_off)
 
 	dst_color = *(unsigned int *)(d + d_off);
 	src_color = *(unsigned int *)(s + s_off);
-	if (src_color == (int)mm_floor || src_color == 0U)
+	if (src_color == (int)MM_FLOOR || src_color == 0U)
 		src_color = dst_color;
-	if (dst_color == (int)shadow && src_color == (int)mm_wall)
-		src_color = (int)mm_wall_shadow;
-	if (dst_color == (int)shadow && src_color == (int)mm_floor)
-		src_color = (int)mm_floor_shadow;
-	if (dst_color == (int)shadow && src_color == (int)player_rays)
-		src_color = (int)player_rays_shadow;
+	if (dst_color == (int)SHADOW && src_color == (int)MM_WALL)
+		src_color = (int)MM_WALL_SHADOW;
+	if (dst_color == (int)SHADOW && src_color == (int)MM_FLOOR)
+		src_color = (int)MM_FLOOR_SHADOW;
+	if (dst_color == (int)SHADOW && src_color == (int)PLAYER_RAYS)
+		src_color = (int)PLAYER_RAYS_SHADOW;
 	*(unsigned int *)(d + d_off) = src_color;
 }
 

@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 11:25:24 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/28 19:14:36 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/28 21:06:48 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	move_left(t_cub3d *game)
 	pos = game->player.pos;
 	dir = game->player.dir;
 	rotate_vector(sinf(-M_PI / 2), cosf(-M_PI / 2), &dir);
-	increment = movement_step;
+	increment = MOVEMENT_STEP;
 	if (get_map_obj(game, pos.x + (2 * increment * dir.x), \
 		pos.y + (2 * increment * dir.y)) == '1')
 		return ;
@@ -60,7 +60,7 @@ void	move_right(t_cub3d *game)
 	pos = game->player.pos;
 	dir = game->player.dir;
 	rotate_vector(sinf(M_PI / 2), cosf(M_PI / 2), &dir);
-	increment = movement_step;
+	increment = MOVEMENT_STEP;
 	if (get_map_obj(game, pos.x + (2 * increment * dir.x), \
 		pos.y + (2 * increment * dir.y)) == '1')
 		return ;
@@ -77,7 +77,7 @@ void	move_forward(t_cub3d *game)
 
 	pos = game->player.pos;
 	dir = game->player.dir;
-	increment = movement_step;
+	increment = MOVEMENT_STEP;
 	if (get_map_obj(game, pos.x + (2 * increment * dir.x), \
 		pos.y + (2 * increment * dir.y)) == '1')
 		return ;
@@ -94,7 +94,7 @@ void	move_backward(t_cub3d *game)
 
 	pos = game->player.pos;
 	dir = game->player.dir;
-	increment = movement_step;
+	increment = MOVEMENT_STEP;
 	if (get_map_obj(game, pos.x - (2 * increment * dir.x), \
 		pos.y - (2 * increment * dir.y)) == '1')
 		return ;

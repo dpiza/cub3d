@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   vector_collision.c                                 :+:      :+:    :+:   */
+/*   vector_collision_dda.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/11 19:30:30 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/28 12:43:38 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/28 21:13:59 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_collision	ret_collision_result(t_cub3d *game, t_point *norm_dir, t_dda dda)
 
 	collision.point = axis_collision(game->player.pos, *norm_dir, dda.w_dist);
 	collision.distance = dda.w_dist;
-	collision.perpDistance = dda.w_dist * \
+	collision.perp_distance = dda.w_dist * \
 		(norm_dir->x * game->player.dir.x + norm_dir->y * game->player.dir.y);
 	if (dda.side == 1)
 	{

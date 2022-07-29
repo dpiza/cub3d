@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 20:16:56 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/28 20:18:29 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/28 21:05:20 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ int	game_loop(t_cub3d *game)
 
 void	game_run(t_cub3d	*game)
 {
-	game->mlx->win_ptr = mlx_new_window(game->mlx->mlx_ptr, w_width, \
-		w_height, "Nuk3d");
-	game->mlx->img = new_blank_img(game->mlx, w_width, w_height);
+	game->mlx->win_ptr = mlx_new_window(game->mlx->mlx_ptr, W_WIDTH, \
+		W_HEIGHT, "Nuk3d");
+	game->mlx->img = new_blank_img(game->mlx, W_WIDTH, W_HEIGHT);
 	mlx_hook(game->mlx->win_ptr, 17, 0L, mlx_loop_end, game->mlx->mlx_ptr);
 	mlx_hook(game->mlx->win_ptr, 2, 1L << 0, key_hook, game);
 	mlx_hook(game->mlx->win_ptr, 5, 1L << 3, mouse_release, game);

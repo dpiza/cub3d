@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 23:38:26 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/28 19:01:14 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/28 21:05:20 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ t_cub3d	*load_game(t_map	*map)
 	init_game_state(game);
 	str_map = new_strmap();
 	load_strmap(str_map, map);
-	game->player.n_rays = w_width;
-	height = (int)(w_height * (1.0 - 0.2));
-	game->projection = new_blank_img(game->mlx, w_width, height);
+	game->player.n_rays = W_WIDTH;
+	height = (int)(W_HEIGHT * (1.0 - 0.2));
+	game->projection = new_blank_img(game->mlx, W_WIDTH, height);
 	game->map = str_map;
 	game->s_map = map;
-	game->map->minimap = new_blank_img(game->mlx, game->map->columns * mm_pps, \
-		game->map->lines * mm_pps);
+	game->map->minimap = new_blank_img(game->mlx, game->map->columns * MM_PPS, \
+		game->map->lines * MM_PPS);
 	load_assets(game);
 	load_player(game, &game->player);
 	return (game);

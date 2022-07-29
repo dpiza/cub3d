@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_create_strmap.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
+/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 20:55:26 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/28 10:01:39 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/29 15:49:04 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_strmap	*new_strmap(void)
 {
 	t_strmap	*new_map;
 
-	new_map = ft_calloc(1, sizeof(t_strmap));
+	new_map = ft_calloc(2, sizeof(t_strmap));
 	new_map->map = NULL;
 	return (new_map);
 }

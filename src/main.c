@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
+/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:48:44 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/28 20:18:43 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/07/29 15:38:33 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,17 @@ int	main(int argc, char *argv[])
 
 	(void)argc;
 	(void)argv;
-	map = load_map("./maps/vault_map.cub");
+	if (argc < 2)
+	{
+		printf("Error\nMissing map path\n");
+		return (1);
+	}
+	if (argc > 2)
+	{
+		printf("Error\ntoo many arguments\n");
+		return (1);
+	}
+	map = load_map(argv[1]);
 	eval_map(map);
 	if (map->status == OK)
 	{

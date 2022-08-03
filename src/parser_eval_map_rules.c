@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_eval_map_rules.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
+/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 13:41:02 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/28 10:18:03 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/08/02 22:38:16 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,30 +61,61 @@ int	inner_content_touch_invalid_char(t_strmap *map, int x, int y)
 	boundaries[2] = get_char_at(map, x - 1, y);
 	boundaries[3] = get_char_at(map, x + 1, y);
 	invalid_b = 0;
-	invalid_b |= (boundaries[0] == ' ' || boundaries[0] == 0);
-	invalid_b |= (boundaries[1] == ' ' || boundaries[1] == 0);
-	invalid_b |= (boundaries[2] == ' ' || boundaries[2] == 0);
-	invalid_b |= (boundaries[3] == ' ' || boundaries[3] == 0);
+	if (boundaries[0])
+		invalid_b |= ft_strchr("10NSEW", (int)boundaries[0]) == NULL;
+	if (boundaries[1])
+		invalid_b |= ft_strchr("10NSEW", (int)boundaries[1]) == NULL;
+	if (boundaries[2])
+		invalid_b |= ft_strchr("10NSEW", (int)boundaries[2]) == NULL;
+	if (boundaries[3])
+		invalid_b |= ft_strchr("10NSEW", (int)boundaries[3]) == NULL;
 	return (invalid_b);
 }
 
-int	map_is_walled(t_strmap	*map)
+int	eval_walls(t_strmap	*strmap, t_map	*map)
 {
 	int	l;
 	int	c;
 
 	l = 0;
-	while (l < map->lines)
+	while (l < strmap->lines)
 	{
 		c = 0;
-		while (c < map->columns)
+		while (c < strmap->columns)
 		{
-			if (ft_strchr("0NSEW", (int) get_char_at(map, c, l)))
+			if (ft_strchr("0NSEW", (int) get_char_at(strmap, c, l)))
 			{
-				if (is_map_edge(map, c, l))
+				if (is_map_edge(strmap, c, l))
+				{
+					map->status |= MAP_NOT_WALLED;
 					return (0);
-				else if (inner_content_touch_invalid_char(map, c, l))
+				}
+			}
+			c++;
+		}
+		l++;
+	}
+	return (1);
+}
+
+int	eval_invalid_chars(t_strmap	*strmap, t_map	*map)
+{
+	int	l;
+	int	c;
+
+	l = 0;
+	while (l < strmap->lines)
+	{
+		c = 0;
+		while (c < strmap->columns)
+		{
+			if (ft_strchr("0NSEW", (int) get_char_at(strmap, c, l)))
+			{
+				if (inner_content_touch_invalid_char(strmap, c, l))
+				{
+					map->status |= INVALID_CHARACTER;
 					return (0);
+				}
 			}
 			c++;
 		}
@@ -95,8 +126,10 @@ int	map_is_walled(t_strmap	*map)
 
 void	eval_map_rules(t_map *map, t_strmap *strmap)
 {
-	if (!map_is_walled(strmap))
+	if (strmap->map)
 	{
-		map->status |= MAP_NOT_WALLED;
+		eval_walls(strmap, map);
+		eval_invalid_chars(strmap, map);
+		eval_player_count(map, strmap);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 20:55:26 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/29 15:49:04 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/08/02 19:22:11 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,16 @@ void	load_strmap(t_strmap *strmap, t_map *map)
 
 	first_line = get_map_first_line(map);
 	last_line = get_map_last_line(first_line);
-	strmap->lines = last_line - first_line + 1;
-	if (strmap->lines < 0)
-		strmap->lines = 0;
-	strmap->columns = get_map_max_len(first_line, strmap->lines);
-	strmap->map = ft_calloc((strmap->lines * strmap->columns) + 1, 1);
-	map_to_str(&strmap->map, first_line, strmap->lines, strmap->columns);
+	strmap->map = NULL;
+	if (first_line && last_line)
+	{
+		strmap->lines = last_line - first_line + 1;
+		if (strmap->lines < 0)
+			strmap->lines = 0;
+		strmap->columns = get_map_max_len(first_line, strmap->lines);
+		strmap->map = ft_calloc((strmap->lines * strmap->columns) + 1, 1);
+		map_to_str(&strmap->map, first_line, strmap->lines, strmap->columns);
+	}
 }
 
 void	destroy_strmap(t_strmap *strmap)

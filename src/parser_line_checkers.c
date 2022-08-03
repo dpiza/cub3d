@@ -3,14 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   parser_line_checkers.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
+/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 12:06:16 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/28 09:33:17 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/08/02 20:44:02 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
+
+int		is_xpm(char *path)
+{
+	int len;
+
+	len = ft_strlen(path);
+	if (len < 5)
+		return (0);
+	if (!ft_strncmp(path + len - 5, ".xpm", 4))
+		return (1);
+	return (0);
+}
 
 char	*get_path(char *line)
 {
@@ -24,11 +36,12 @@ char	*get_path(char *line)
 	return (path);
 }
 
-int	is_valid_texture_line(char *line)
+int	is_valid_texture_line(char *line, t_map	*map)
 {
 	char		*path;
 	int			i;
 	static char	*side[5] = {"NO", "SO", "WE", "EA", 0};
+	int			fd;
 
 	i = 0;
 	while (side[i] && ft_strncmp(line, side[i], 2) != 0)
@@ -38,9 +51,16 @@ int	is_valid_texture_line(char *line)
 	path = get_path(line);
 	if (!path)
 		return (0);
+	if (!is_xpm(path))
+		return (0);
 	path[ft_strlen((const char *)path) - 1] = '\0';
-	if (open(path, O_RDONLY) > 0)
+	fd = open(path, O_RDONLY);
+	if (fd > 0)
+	{
+		close(fd);
 		return (1);
+	}
+	map->status |= GARBAGE_LINES;
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 21:31:09 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/27 18:45:39 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/08/02 19:12:26 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,18 @@ char	**get_map_last_line(char **first_line)
 {
 	char	**last_line;
 
-	last_line = first_line;
-	while (is_map_line(*last_line))
+	if (first_line)
 	{
-		last_line++;
+		last_line = first_line;
+		while (is_map_line(*last_line))
+		{
+			last_line++;
+		}
+		if (last_line)
+			last_line--;
+		return (last_line);
 	}
-	if (last_line)
-		last_line--;
-	return (last_line);
+	return (NULL);
 }
 
 static	int	is_map_line(char *line)

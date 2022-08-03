@@ -52,7 +52,8 @@ RAW_C		=	main.c \
 				get_collision.c \
 				player_action.c \
 				game_shutdown.c \
-				game_run.c
+				game_run.c \
+				parse_player_count.c
 
 SRC			=	$(addprefix $(SRC_D)/,$(RAW_C))
 OBJ			=	$(addprefix $(OBJ_D)/,$(RAW_C:.c=.o))

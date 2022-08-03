@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 21:49:33 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/27 16:49:41 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/08/02 21:01:35 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,20 +61,40 @@ void	free_t_map(t_map *map)
 
 void	eval_assets(t_map *map)
 {
+	int	i;
+
+	i = 0;
+	i |= map->no_path == NULL;
+	i |= map->ea_path == NULL;
+	i |= map->no_path == NULL;
+	i |= map->we_path == NULL;
+	if (i)
+		map->status |= MISSING_CONFIGURATION;
+}
+void	eval_configs(t_map *map)
+{
 	char	**map_lines;
+	int		colors;
 
 	map_lines = map->lines;
+	colors = 0;
 	while (*map_lines)
 	{
 		if (!is_empty_line(*map_lines))
 		{
-			if (is_valid_texture_line(*map_lines))
+			if (is_valid_texture_line(*map_lines, map))
 				fill_texture_path(map, *map_lines);
 			else if (is_valid_color_line(*map_lines))
+			{
+				colors++;
 				fill_color(map, *map_lines);
+			}
 			else if (!is_valid_map_line(*map_lines))
 				map->status |= GARBAGE_LINES;
 		}
 		map_lines++;
 	}
+	eval_assets(map);
+	if (colors < 2)
+		map->status |= MISSING_CONFIGURATION;
 }

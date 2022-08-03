@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player_movement.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
+/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 11:25:24 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/28 21:06:48 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/08/02 19:54:45 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,17 +73,22 @@ void	move_forward(t_cub3d *game)
 {
 	t_point	pos;
 	t_point	dir;
+	int		should_move_xy[2];
 	float	increment;
 
 	pos = game->player.pos;
 	dir = game->player.dir;
 	increment = MOVEMENT_STEP;
-	if (get_map_obj(game, pos.x + (2 * increment * dir.x), \
-		pos.y + (2 * increment * dir.y)) == '1')
-		return ;
-	game->player.pos.x += increment * dir.x;
-	game->player.pos.y += increment * dir.y;
-	set_collisions(game);
+	should_move_xy[0] = 0;
+	should_move_xy[1] = 0;
+	should_move_xy[0] |= get_map_obj(game, pos.x + (2 * increment * dir.x), pos.y ) != '1';
+	should_move_xy[1] |= get_map_obj(game, pos.x, pos.y + (2 * increment * dir.y)) != '1';
+	if (should_move_xy[0])
+		game->player.pos.x += increment * dir.x;
+	if (should_move_xy[1])
+		game->player.pos.y += increment * dir.y;
+	if (should_move_xy[0] || should_move_xy[1])
+		set_collisions(game);
 }
 
 void	move_backward(t_cub3d *game)

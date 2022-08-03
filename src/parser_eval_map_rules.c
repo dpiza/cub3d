@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_eval_map_rules.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
+/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 13:41:02 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/28 10:18:03 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/08/02 19:22:25 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,12 @@ int	map_is_walled(t_strmap	*map)
 
 void	eval_map_rules(t_map *map, t_strmap *strmap)
 {
-	if (!map_is_walled(strmap))
+	if (strmap->map)
 	{
-		map->status |= MAP_NOT_WALLED;
+		if (!map_is_walled(strmap))
+		{
+			map->status |= MAP_NOT_WALLED;
+		}
+		eval_player_count(map, strmap);
 	}
 }

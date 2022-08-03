@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
+/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/28 21:15:50 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/08/02 20:49:02 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,13 @@ typedef struct s_wall_data	t_wall_data;
 enum e_map_status{
 	OK = 0,
 	NO_MAP = 0b00000001,
-	PERIMETER_ERROR = 0b00000010,
+	MISSING_CONFIGURATION = 0b00000010,
 	INVALID_CHARACTER = 0b00000100,
 	GARBAGE_LINES = 0b00001000,
 	MAP_TOO_SHORT = 0b00010000,
 	MAP_NOT_WALLED = 0b00100000,
-	DUPLICATED_PARAMETER = 0b01000000
+	DUPLICATED_PARAMETER = 0b01000000,
+	PLAYER_COUNT = 0b10000000
 };
 
 enum	e_wall_side{
@@ -206,7 +207,7 @@ int				is_map_allowed_character(char c);
 int				is_map_first_char(char c);
 unsigned char	get_char_at(t_strmap *map, int x, int y);
 void			eval_map_rules(t_map *map, t_strmap *strmap);
-void			eval_assets(t_map *map);
+void			eval_configs(t_map *map);
 t_strmap		*new_strmap(void);
 void			load_strmap(t_strmap *strmap, t_map *map);
 char			**get_map_first_line(t_map	*map);
@@ -214,7 +215,7 @@ char			**get_map_last_line(char **first_line);
 void			print_map_error(t_map *map);
 void			destroy_strmap(t_strmap *strmap);
 int				is_valid_map_line(char *line);
-int				is_valid_texture_line(char *line);
+int				is_valid_texture_line(char *line, t_map	*map);
 int				is_valid_color_line(char *line);
 int				get_map_max_len(char **first_line, int n_lines);
 int				is_empty_line(char *line);
@@ -275,5 +276,6 @@ void			reload(t_cub3d *game);
 void			fire(t_cub3d *game);
 void			print_stats(t_cub3d *game);
 void			game_run(t_cub3d	*game);
+void			eval_player_count(t_map	*map, t_strmap *strmap);
 
 #endif

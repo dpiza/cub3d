@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 13:41:02 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/08/02 21:53:53 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/08/02 22:38:16 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,14 @@ int	inner_content_touch_invalid_char(t_strmap *map, int x, int y)
 	boundaries[2] = get_char_at(map, x - 1, y);
 	boundaries[3] = get_char_at(map, x + 1, y);
 	invalid_b = 0;
-	invalid_b |= (boundaries[0] == ' ' || boundaries[0] == 0);
-	invalid_b |= (boundaries[1] == ' ' || boundaries[1] == 0);
-	invalid_b |= (boundaries[2] == ' ' || boundaries[2] == 0);
-	invalid_b |= (boundaries[3] == ' ' || boundaries[3] == 0);
+	if (boundaries[0])
+		invalid_b |= ft_strchr("10NSEW", (int)boundaries[0]) == NULL;
+	if (boundaries[1])
+		invalid_b |= ft_strchr("10NSEW", (int)boundaries[1]) == NULL;
+	if (boundaries[2])
+		invalid_b |= ft_strchr("10NSEW", (int)boundaries[2]) == NULL;
+	if (boundaries[3])
+		invalid_b |= ft_strchr("10NSEW", (int)boundaries[3]) == NULL;
 	return (invalid_b);
 }
 

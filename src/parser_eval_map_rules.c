@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 13:41:02 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/08/02 19:22:25 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/08/02 21:53:53 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,23 +68,50 @@ int	inner_content_touch_invalid_char(t_strmap *map, int x, int y)
 	return (invalid_b);
 }
 
-int	map_is_walled(t_strmap	*map)
+int	eval_walls(t_strmap	*strmap, t_map	*map)
 {
 	int	l;
 	int	c;
 
 	l = 0;
-	while (l < map->lines)
+	while (l < strmap->lines)
 	{
 		c = 0;
-		while (c < map->columns)
+		while (c < strmap->columns)
 		{
-			if (ft_strchr("0NSEW", (int) get_char_at(map, c, l)))
+			if (ft_strchr("0NSEW", (int) get_char_at(strmap, c, l)))
 			{
-				if (is_map_edge(map, c, l))
+				if (is_map_edge(strmap, c, l))
+				{
+					map->status |= MAP_NOT_WALLED;
 					return (0);
-				else if (inner_content_touch_invalid_char(map, c, l))
+				}
+			}
+			c++;
+		}
+		l++;
+	}
+	return (1);
+}
+
+int	eval_invalid_chars(t_strmap	*strmap, t_map	*map)
+{
+	int	l;
+	int	c;
+
+	l = 0;
+	while (l < strmap->lines)
+	{
+		c = 0;
+		while (c < strmap->columns)
+		{
+			if (ft_strchr("0NSEW", (int) get_char_at(strmap, c, l)))
+			{
+				if (inner_content_touch_invalid_char(strmap, c, l))
+				{
+					map->status |= INVALID_CHARACTER;
 					return (0);
+				}
 			}
 			c++;
 		}
@@ -97,10 +124,8 @@ void	eval_map_rules(t_map *map, t_strmap *strmap)
 {
 	if (strmap->map)
 	{
-		if (!map_is_walled(strmap))
-		{
-			map->status |= MAP_NOT_WALLED;
-		}
+		eval_walls(strmap, map);
+		eval_invalid_chars(strmap, map);
 		eval_player_count(map, strmap);
 	}
 }

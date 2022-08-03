@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/08/02 20:49:02 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/08/03 19:18:24 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -277,5 +277,8 @@ void			fire(t_cub3d *game);
 void			print_stats(t_cub3d *game);
 void			game_run(t_cub3d	*game);
 void			eval_player_count(t_map	*map, t_strmap *strmap);
+int				is_valid_texture_line(char *line, t_map	*map);
+int				is_valid_color_line(char *line);
+int				is_xpm(char *path);
 
 #endif

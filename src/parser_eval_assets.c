@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/24 21:49:33 by dpiza             #+#    #+#             */
-/*   Updated: 2022/08/02 21:01:35 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/08/03 19:10:58 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	eval_assets(t_map *map)
 	if (i)
 		map->status |= MISSING_CONFIGURATION;
 }
+
 void	eval_configs(t_map *map)
 {
 	char	**map_lines;

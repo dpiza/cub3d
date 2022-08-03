@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
+/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 16:01:01 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/28 18:58:28 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/08/03 19:53:38 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,6 @@ int	key_hook(int k, t_cub3d *game)
 		rotate_player(game, 2.5f);
 	if (k == 0x0072)
 		reload(game);
-	if (k == 0x0070 || k == 0x0050)
-		printf("p pressed\n");
-	if (k == 0xff0d)
-		printf("return pressed\n");
-	printf("%i pressed\n", k);
 	game_loop(game);
 	return (0);
 }

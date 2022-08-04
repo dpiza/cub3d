@@ -6,7 +6,7 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 17:14:11 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/27 19:28:00 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/08/03 19:47:58 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ t_map	*load_map(const char *path)
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
 	{
-		printf("Arquivo %s não encontrado.\n", path);
+		printf("Error\nArquivo %s não encontrado.\n", path);
 		exit(EXIT_FAILURE);
 	}
 	map = ft_calloc(1, sizeof(t_map));

@@ -53,7 +53,8 @@ RAW_C		=	main.c \
 				player_action.c \
 				game_shutdown.c \
 				game_run.c \
-				parse_player_count.c
+				parse_player_count.c \
+				parser_eval_line.c
 
 SRC			=	$(addprefix $(SRC_D)/,$(RAW_C))
 OBJ			=	$(addprefix $(OBJ_D)/,$(RAW_C:.c=.o))

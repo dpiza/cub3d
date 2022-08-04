@@ -6,38 +6,11 @@
 /*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 13:41:02 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/08/02 22:38:16 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/08/03 19:11:22 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <cub3d.h>
-
-void	convert_into_string(char **dest, char **first_line, \
-	int n_lines, int line_size)
-{
-	int	line_count;
-	int	char_count;
-	int	local_len;
-
-	line_count = 0;
-	while (line_count < n_lines)
-	{
-		local_len = ft_strlen((const char *)first_line[line_count]) - 1;
-		char_count = 0;
-		while (char_count < local_len)
-		{
-			(*dest)[(line_count * line_size) + char_count] = \
-				first_line[line_count][char_count];
-			char_count++;
-		}
-		while (char_count < line_size)
-		{
-			(*dest)[(line_count * line_size) + char_count] = ' ';
-			char_count++;
-		}
-		line_count++;
-	}
-}
 
 int	is_map_edge(t_strmap *map, int x, int y)
 {

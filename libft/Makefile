@@ -72,18 +72,18 @@ OBJS	=	$(addprefix $(OBJ_DIR)/,$(RAW:.c=.o))
 .PHONY: clean fclean re
 
 $(NAME):	$(OBJS)
-	$(AR) $(NAME) $(OBJS)
+	@$(AR) $(NAME) $(OBJS)
 
 $(OBJ_DIR)/%.o:	$(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -I./ -o $@
+	@$(CC) $(CFLAGS) -c $< -I./ -o $@
 
 all: $(NAME)
 
 clean:	
-	$(RM) $(OBJ_DIR)
+	@$(RM) $(OBJ_DIR)
 
 fclean:
-	$(RM) $(OBJ_DIR) $(NAME)
+	@$(RM) $(OBJ_DIR) $(NAME)
 
 re:	fclean all

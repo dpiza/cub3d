@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/08/08 12:52:34 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/08/08 18:38:30 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,34 +22,36 @@
 # include <mlx.h>
 # include <limits.h>
 
-# define BUFFER_SIZE 32
-# define OPEN_MAX 256
+/*
+** Used in Get Next Line
+*/
+# define BUFFER_SIZE	32
+# define OPEN_MAX		256
 
-# define MM_PPS		5
-
+/*
+** Constants used for the projection calculation
+*/
+# define MM_PPS			5
 # define W_WIDTH 		800
 # define W_HEIGHT 		600
-# define FOV				75
+# define FOV			75
 # define TRANSPARENCY	4278190080
-
 # define MOVEMENT_STEP	0.1
 
+/*
+** Colors used in the minimap
+*/
 # define SHADOW				0x001C1C1D
-
-# define MM_WALL				0x003cf800
+# define MM_WALL			0x003cf800
 # define MM_WALL_SHADOW		0x00154b03
-
 # define MM_EMPTY			0x001c1c1c
-# define MM_EMPTY_SHADOW		0x001c1c1c
-
+# define MM_EMPTY_SHADOW	0x001c1c1c
 # define MM_FLOOR			0x001c1c1c
-# define MM_FLOOR_SHADOW		0x000e0e0e
-
+# define MM_FLOOR_SHADOW	0x000e0e0e
 # define MM_OTHERS			0x001c1c1c
 # define MM_OTHERS_SHADOW	0x001c1c1c
-
 # define MM_PLAYER			0x00fc0000
-# define PLAYER_RAYS			0x00006c00
+# define PLAYER_RAYS		0x00006c00
 # define PLAYER_RAYS_SHADOW	0x00004100
 
 typedef struct s_map		t_map;
@@ -194,9 +196,32 @@ struct s_strmap
 	t_int_point	pos;
 };
 
+/*
+** Utility functions
+*/
 char			*get_next_line(int fd);
+int				get_byte_offset(t_mlx_img *img, int x, int y);
+void			*get_pixel_address(t_mlx_img *img, int x, int y);
+char			get_map_obj(t_cub3d *game, float x, float y);
+t_mlx_img		*new_blank_img(t_mlx *mlx, int width, int height);
+void			destroy_img(t_mlx_img *mlx_img);
+void			override_images(t_mlx_img *dst, t_mlx_img *src, int x, int y);
+void			override_minimap(t_mlx_img *dst, t_mlx_img *src, int x, int y);
+void			rotate_vector_old(float angle, t_point *vector);
+void			rotate_vector(float sin, float cos, t_point *vector);
+t_point			sum_vectors(t_point *v_one, t_point *v_two);
+t_point			subtract_vector(t_point *v_one, t_point *v_two);
+float			vector_size(t_point *vector);
+void			multiply_vector_by_n(float n, t_point *vector);
+t_point			normalize_vector(t_point vector);
+
+/*
+** Map parsing
+*/
 t_map			*load_map(const char *path);
-void			eval_map(t_map	*map);
+char			**get_map_first_line(t_map *map);
+char			**get_map_last_line(char **first_line);
+void			eval_map(t_map *map);
 void			map_integrity(t_map *map);
 int				is_map_allowed_character(char c);
 int				is_map_first_char(char c);
@@ -205,69 +230,62 @@ void			eval_map_rules(t_map *map, t_strmap *strmap);
 void			eval_configs(t_map *map);
 t_strmap		*new_strmap(void);
 void			load_strmap(t_strmap *strmap, t_map *map);
-char			**get_map_first_line(t_map	*map);
-char			**get_map_last_line(char **first_line);
 void			print_map_error(t_map *map);
 void			destroy_strmap(t_strmap *strmap);
 int				is_valid_map_line(char *line);
-int				is_valid_texture_line(char *line, t_map	*map);
+int				is_valid_texture_line(char *line, t_map *map);
 int				is_valid_color_line(char *line);
 int				get_map_max_len(char **first_line, int n_lines);
 int				is_empty_line(char *line);
 void			free_t_map(t_map *map);
 char			*get_path(char *line);
+void			eval_player_count(t_map *map, t_strmap *strmap);
+int				is_xpm(char *path);
+
+/*
+** Hooks and actions
+*/
 int				mouse_hook(int k, int x, int y, t_cub3d *game);
 int				mouse_release(int k, int x, int y, t_cub3d *game);
 int				mouse_movement_hook(int x, int y, t_cub3d *game);
+void			rotate_player(t_cub3d *game, float direction);
 int				key_hook(int k, t_cub3d *game);
-void			rotate_player(t_cub3d *game, float direction);
-void			gracefull_shutdown(t_cub3d	*game);
-void			print_map(t_cub3d *game);
-int				get_byte_offset(t_mlx_img	*img, int x, int y);
-void			*get_pixel_address(t_mlx_img	*img, int x, int y);
-void			print_square(t_mlx_img	*img, unsigned int *dest_origin, \
-					int sqr_size, unsigned int color);
-void			load_player(t_cub3d	*game, t_player	*player);
-t_cub3d			*load_game(t_map	*map);
-int				init_game_state(t_cub3d *game);
-t_mlx_img		*new_blank_img(t_mlx	*mlx, int width, int height);
-void			build_map(t_cub3d *game);
-void			print_player_int_map(t_cub3d *game);
-void			override_images(t_mlx_img *dst, t_mlx_img *src, int x, int y);
-void			override_minimap(t_mlx_img *dst, t_mlx_img *src, int x, int y);
-void			rotate_vector_old(float angle, t_point *vector);
-void			rotate_vector(float sin, float cos, t_point *vector);
-t_point			sum_vectors(t_point *v_one, t_point *v_two);
-t_point			subtract_vector(t_point *v_one, t_point *v_two);
-float			vector_size(t_point *vector);
-void			bresenham_line(t_mlx_img *img, t_int_point src, \
-					t_int_point dst, unsigned int color);
-void			multiply_vector_by_n(float n, t_point *vector);
-void			set_fov_vectors(t_cub3d *game);
-t_point			normalize_vector(t_point	vector);
-t_collision		get_collision(t_cub3d *game, t_point norm_dir);
-void			set_collisions(t_cub3d	*game);
-char			get_map_obj(t_cub3d *game, float x, float y);
-int				game_loop(t_cub3d *game);
-void			load_assets(t_cub3d *game);
-void			build_projection(t_cub3d *game);
-void			color_shade(float distance, unsigned int *pixel);
-void			print_projection(t_cub3d *game);
-void			print_bar(t_cub3d *game);
-void			print_bar_screen(t_cub3d *game);
-void			destroy_img(t_mlx_img *mlx_img);
-void			rotate_player(t_cub3d *game, float direction);
 void			move_left(t_cub3d *game);
 void			move_right(t_cub3d *game);
 void			move_forward(t_cub3d *game);
 void			move_backward(t_cub3d *game);
+
+/*
+** Projection
+*/
+void			set_fov_vectors(t_cub3d *game);
+void			bresenham_line(t_mlx_img *img, t_int_point src, \
+					t_int_point dst, unsigned int color);
+t_dda			initialize_dda_values(t_cub3d *game, t_point norm_dir);
+void			set_collisions(t_cub3d *game);
+t_collision		get_collision(t_cub3d *game, t_point norm_dir);
 t_collision		ret_collision_result(t_cub3d *game, t_point *norm_dir, \
 					t_dda dda);
-t_dda			initialize_dda_values(t_cub3d *game, t_point norm_dir);
-void			game_run(t_cub3d	*game);
-void			eval_player_count(t_map	*map, t_strmap *strmap);
-int				is_valid_texture_line(char *line, t_map	*map);
-int				is_valid_color_line(char *line);
-int				is_xpm(char *path);
+void			print_square(t_mlx_img *img, unsigned int *dest_origin, \
+					int sqr_size, unsigned int color);
+void			print_player_int_map(t_cub3d *game);
+void			build_projection(t_cub3d *game);
+void			print_projection(t_cub3d *game);
+void			print_bar_screen(t_cub3d *game);
+void			print_bar(t_cub3d *game);
+void			print_map(t_cub3d *game);
+void			color_shade(float distance, unsigned int *pixel);
+
+/*
+** Game execution
+*/
+int				init_game_state(t_cub3d *game);
+t_cub3d			*load_game(t_map *map);
+void			load_player(t_cub3d *game, t_player *player);
+void			load_assets(t_cub3d *game);
+void			build_map(t_cub3d *game);
+int				game_loop(t_cub3d *game);
+void			game_run(t_cub3d *game);
+void			gracefull_shutdown(t_cub3d *game);
 
 #endif

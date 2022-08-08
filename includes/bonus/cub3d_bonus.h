@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/08/07 20:36:49 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/08/08 18:42:04 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -345,8 +345,8 @@ struct s_strmap
 ** Utility functions
 */
 char			*get_next_line(int fd);
-int				get_byte_offset(t_mlx_img	*img, int x, int y);
-void			*get_pixel_address(t_mlx_img	*img, int x, int y);
+int				get_byte_offset(t_mlx_img *img, int x, int y);
+void			*get_pixel_address(t_mlx_img *img, int x, int y);
 t_point			get_obj_pos(t_cub3d *game, int index);
 char			get_map_obj(t_cub3d *game, float x, float y);
 void			get_aimed_object(t_cub3d *game);
@@ -357,8 +357,8 @@ t_point			sum_vectors(t_point *v_one, t_point *v_two);
 t_point			subtract_vector(t_point *v_one, t_point *v_two);
 float			vector_size(t_point *vector);
 void			multiply_vector_by_n(float n, t_point *vector);
-t_point			normalize_vector(t_point	vector);
-t_mlx_img		*new_blank_img(t_mlx	*mlx, int width, int height);
+t_point			normalize_vector(t_point vector);
+t_mlx_img		*new_blank_img(t_mlx *mlx, int width, int height);
 void			override_images(t_mlx_img *dst, t_mlx_img *src, int x, int y);
 void			override_minimap(t_mlx_img *dst, t_mlx_img *src, int x, int y);
 void			override_btn(t_cub3d *game, int x, int y, unsigned int color);
@@ -372,25 +372,25 @@ void			destroy_img(t_mlx_img *mlx_img);
 t_map			*load_map(const char *path);
 void			load_strmap(t_strmap *strmap, t_map *map);
 void			eval_map_rules(t_map *map, t_strmap *strmap);
-void			eval_map(t_map	*map);
+void			eval_map(t_map *map);
 void			map_integrity(t_map *map);
 int				is_map_allowed_character(char c);
 int				is_map_first_char(char c);
 unsigned char	get_char_at(t_strmap *map, int x, int y);
 void			eval_configs(t_map *map);
 t_strmap		*new_strmap(void);
-char			**get_map_first_line(t_map	*map);
+char			**get_map_first_line(t_map *map);
 char			**get_map_last_line(char **first_line);
 void			print_map_error(t_map *map);
 void			destroy_strmap(t_strmap *strmap);
 int				is_valid_map_line(char *line);
-int				is_valid_texture_line(char *line, t_map	*map);
+int				is_valid_texture_line(char *line, t_map *map);
 int				is_valid_color_line(char *line);
 int				get_map_max_len(char **first_line, int n_lines);
 int				is_empty_line(char *line);
 void			free_t_map(t_map *map);
 char			*get_path(char *line);
-void			eval_player_count(t_map	*map, t_strmap *strmap);
+void			eval_player_count(t_map *map, t_strmap *strmap);
 int				is_xpm(char *path);
 
 /*
@@ -417,7 +417,7 @@ t_point			axis_collision(t_point pos, t_point norm_dir, float x_factor);
 void			bresenham_line(t_mlx_img *img, t_int_point src, \
 					t_int_point dst, unsigned int color);
 t_dda			initialize_dda_values(t_cub3d *game, t_point norm_dir);
-void			set_collisions(t_cub3d	*game);
+void			set_collisions(t_cub3d *game);
 t_collision		get_collision(t_cub3d *game, t_point norm_dir);
 t_collision		ret_collision_result(t_cub3d *game, t_point *norm_dir, \
 					t_dda dda);
@@ -429,13 +429,13 @@ void			print_projection(t_cub3d *game);
 ** Game execution
 */
 int				init_game_state(t_cub3d *game);
-t_cub3d			*load_game(t_map	*map);
-void			load_player(t_cub3d	*game, t_player	*player);
+t_cub3d			*load_game(t_map *map);
+void			load_player(t_cub3d *game, t_player *player);
 void			load_assets(t_cub3d *game);
 void			build_map(t_cub3d *game);
 int				game_loop(t_cub3d *game);
-void			game_run(t_cub3d	*game);
-void			gracefull_shutdown(t_cub3d	*game);
+void			game_run(t_cub3d *game);
+void			gracefull_shutdown(t_cub3d *game);
 void			destroy_textures(t_cub3d *game);
 
 /*
@@ -443,7 +443,7 @@ void			destroy_textures(t_cub3d *game);
 */
 void			load_hud_assets(t_cub3d *game);
 void			print_map(t_cub3d *game);
-void			print_square(t_mlx_img	*img, unsigned int *dest_origin, \
+void			print_square(t_mlx_img *img, unsigned int *dest_origin, \
 					int sqr_size, unsigned int color);
 void			print_player_in_map(t_cub3d *game);
 void			flickering(t_cub3d *game, t_int_point *point);

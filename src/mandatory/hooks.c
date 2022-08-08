@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 16:01:01 by dpiza             #+#    #+#             */
-/*   Updated: 2022/08/03 19:53:38 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/08/08 12:50:38 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ int	mouse_movement_hook(int x, int y, t_cub3d *game)
 int	mouse_hook(int k, int x, int y, t_cub3d *game)
 {
 	(void)x;
-	if (k == 1 && y < 480)
-		fire(game);
+	(void)y;
 	if (k == 3)
 		game->player.left_click = 1;
 	game_loop(game);
@@ -62,8 +61,6 @@ int	key_hook(int k, t_cub3d *game)
 		rotate_player(game, -2.5f);
 	if (k == 0xff53 || k == 0x0065)
 		rotate_player(game, 2.5f);
-	if (k == 0x0072)
-		reload(game);
 	game_loop(game);
 	return (0);
 }

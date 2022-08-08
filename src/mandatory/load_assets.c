@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 11:30:04 by dpiza             #+#    #+#             */
-/*   Updated: 2022/08/07 20:17:30 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/08/08 12:52:51 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,8 @@ void	load_assets(t_cub3d *game)
 	game->texture_so = load_texture(game, game->s_map->so_path);
 	game->texture_ea = load_texture(game, game->s_map->ea_path);
 	game->texture_we = load_texture(game, game->s_map->we_path);
-	game->bar = load_texture(game, "./textures/hud/bar/bar.xpm");
+	game->bar = load_texture(game, "./textures/hud/bar/bar_mandatory.xpm");
 	game->bar_screen = load_texture(game, "./textures/hud/bar/bar_screen.xpm");
-	game->weapon = load_texture(game, "./textures/weapon/weapon.xpm");
-	game->weapon_fire = load_texture(game, "./textures/weapon/weapon_f.xpm");
-	game->crosshair = load_texture(game, "./textures/hud/crosshair.xpm");
 	game->floor = floor[0] << 16 | floor[1] << 8 | floor[2];
 	game->ceilling = ceiling[0] << 16 | ceiling[1] << 8 | ceiling[2];
 }

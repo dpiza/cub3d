@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 23:39:07 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/28 19:14:24 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/08/08 12:52:59 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	load_player(t_cub3d	*game, t_player	*player)
 
 	map = game->map;
 	count = 0;
-	player->ammo = 15;
 	player->game = game;
 	player->rays = ft_calloc(player->n_rays + 1, sizeof(t_point));
 	player->collisions = ft_calloc(player->n_rays + 1, sizeof(t_collision));

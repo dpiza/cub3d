@@ -53,13 +53,11 @@ RAW_C		=	main.c \
 				get_map_obj.c \
 				build_projection.c \
 				print_bar.c \
-				print_weapon.c \
 				load_assets.c \
 				images_shading.c \
 				print_projection.c \
 				player_movement.c \
 				get_collision.c \
-				player_action.c \
 				game_shutdown.c \
 				game_run.c \
 				parse_player_count.c \

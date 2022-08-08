@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/08/03 19:18:24 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/08/08 12:52:34 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,8 +129,6 @@ struct s_player
 	t_point		*rays;
 	t_collision	*collisions;
 	t_point		fov_vec[2];
-	int			firing;
-	int			ammo;
 	int			left_click;
 	t_cub3d		*game;
 };
@@ -147,9 +145,6 @@ struct s_cub3d
 	t_mlx_img		*texture_ea;
 	t_mlx_img		*bar;
 	t_mlx_img		*bar_screen;
-	t_mlx_img		*weapon;
-	t_mlx_img		*weapon_fire;
-	t_mlx_img		*crosshair;
 	unsigned int	floor;
 	unsigned int	ceilling;
 	struct s_player	player;
@@ -260,9 +255,6 @@ void			color_shade(float distance, unsigned int *pixel);
 void			print_projection(t_cub3d *game);
 void			print_bar(t_cub3d *game);
 void			print_bar_screen(t_cub3d *game);
-void			print_weapon(t_cub3d *game);
-void			print_firing_weapon(t_cub3d *game);
-void			print_crosshair(t_cub3d *game);
 void			destroy_img(t_mlx_img *mlx_img);
 void			rotate_player(t_cub3d *game, float direction);
 void			move_left(t_cub3d *game);
@@ -272,9 +264,6 @@ void			move_backward(t_cub3d *game);
 t_collision		ret_collision_result(t_cub3d *game, t_point *norm_dir, \
 					t_dda dda);
 t_dda			initialize_dda_values(t_cub3d *game, t_point norm_dir);
-void			reload(t_cub3d *game);
-void			fire(t_cub3d *game);
-void			print_stats(t_cub3d *game);
 void			game_run(t_cub3d	*game);
 void			eval_player_count(t_map	*map, t_strmap *strmap);
 int				is_valid_texture_line(char *line, t_map	*map);

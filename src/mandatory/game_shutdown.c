@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 20:17:18 by dpiza             #+#    #+#             */
-/*   Updated: 2022/07/28 20:17:55 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/08/08 12:53:24 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,6 @@ void	gracefull_shutdown(t_cub3d	*game)
 	destroy_img(game->texture_we);
 	destroy_img(game->texture_ea);
 	destroy_img(game->bar_screen);
-	destroy_img(game->crosshair);
-	destroy_img(game->weapon);
-	destroy_img(game->weapon_fire);
 	destroy_img(game->bar);
 	destroy_img(game->projection);
 	mlx_disconnect(mlx);

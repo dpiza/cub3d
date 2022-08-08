@@ -24,7 +24,7 @@ The goal is to make a dynamic view inside a maze.
 
 • Set the floor and the ceiling to two different colors;
 
-• Set the following keys:
+• Set the following key binding:
    - W A S D to move the point of view through the maze;
    - ← and → arrow keys to rotate the camera;
    - ESC to close the window and quit the program cleanly, so as the red cross.
@@ -49,7 +49,7 @@ The goal is to make a dynamic view inside a maze.
 
 ## Extra Features
 
-Since this project scrached the right itch, I couldn't miss the opportunity to add a few bonuses of my own
+Since this project scratched the right itch, I couldn't miss the opportunity to add a few bonuses of my own
 
 • A NPC;
 
@@ -112,7 +112,7 @@ To compile the program, run:
 $ make bonus
 ```
 
-Execute the program, providing the valid map file path
+Execute the program, providing the bonus map file path
 ```
 $ ./cub3d maps/bonus/vault42.cub
 ```

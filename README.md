@@ -2,8 +2,24 @@
 
 ![42-Badge](https://img.shields.io/badge/%C3%89cole-42SP-blue)![C-Badge](https://img.shields.io/badge/Language-C-lightgrey)[![42Unlicense](https://img.shields.io/badge/License-42Unlicense-yellowgreen)](https://github.com/gcamerli/42unlicense)
 
-<img src="https://github.com/dpiza/resources/blob/master/gifs/nuk3d_menu.gif?raw=true"/>
 
+• [Description](#Description)
+
+• [Goals](#Goals)
+
+<img align="right" src="https://github.com/dpiza/resources/blob/master/gifs/nuk3d_menu.gif?raw=true"/>
+
+• [Mandatory](#Mandatory)
+
+• [Bonus](#Bonus)
+
+• [Extra Features](#Extra-Features)
+
+• [Requirements](#Requirements)
+
+• [Usage](#Usage)
+
+• [Contribution](#Contribution)
 
 ## Description
 
@@ -101,8 +117,7 @@ Execute the program, providing the valid map file path
 ```
 $ ./cub3d maps/mandatory/vault_map.cub
 ```
-<img src="https://github.com/dpiza/resources/blob/master/imgs/mandatory.png?raw=true"/>
-
+<img src="https://github.com/dpiza/resources/blob/master/imgs/mandatory_new.png?raw=true"/>
 
 ### Bonus
 

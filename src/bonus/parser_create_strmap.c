@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/02 20:55:26 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/08/07 20:39:16 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/08/07 23:32:28 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ void	map_to_str(char **dest, char **first_line, int n_lines, int line_size)
 	while (l_i < n_lines)
 	{
 		local_len = ft_strlen((const char *)first_line[l_i]) - 1;
+		if (&first_line[l_i] == get_map_last_line(first_line))
+			local_len = ft_strlen((const char *)first_line[l_i]);
 		char_i = 0;
 		while (char_i < local_len)
 		{

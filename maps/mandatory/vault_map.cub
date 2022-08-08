@@ -1,10 +1,10 @@
-NO ./textures/no.xpm
-SO ./textures/so.xpm
-WE ./textures/we.xpm
-EA ./textures/ea.xpm
+NO ./textures/bricks/no.xpm
+SO ./textures/bricks/so.xpm
+WE ./textures/bricks/we.xpm
+EA ./textures/bricks/ea.xpm
 
-F 55,55,42
-C 100,100,79
+F 61,60,58
+C 156,165,204
 
         111111        111111    
        1100001        1000011   

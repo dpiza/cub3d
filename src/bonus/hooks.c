@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
+/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/06 16:01:01 by dpiza             #+#    #+#             */
-/*   Updated: 2022/08/07 20:38:33 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/08/08 22:27:56 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,29 @@
 
 int	mouse_movement(int x, int y, t_cub3d *game)
 {
+	int	dif_x;
+	int	center;
+
 	if (game->player.in_conversation)
 		return (0);
-	if (game->player.right_click)
-		rotate_player(game, (x - game->mouse_pos.x) * ROTATE_SPEED);
-	game->mouse_pos.x = x;
-	game->mouse_pos.y = y;
+	dif_x = x - game->mouse_pos.x;
+	(void)y;
+	center = W_WIDTH / 2;
+	if (game->player.right_click && dif_x != 0)
+	{
+		game->mouse_pos.x = x;
+		if (dif_x > 0)
+			rotate_player(game, ROTATE_SPEED);
+		else
+			rotate_player(game, -ROTATE_SPEED);
+		if (x < center - 5 || x > center + 5 || y < 0 || y > 470)
+		{
+			mlx_mouse_move(game->mlx->mlx_ptr,
+				game->mlx->win_ptr, center, 240);
+			game->mouse_pos.x = center;
+			game->mouse_pos.y = 240;
+		}
+	}
 	return (0);
 }
 
@@ -33,7 +50,11 @@ int	mouse_click(int k, int x, int y, t_cub3d *game)
 	if (k == 1 && y > 476)
 		game->player.left_click = 1;
 	if (k == 3)
-		game->player.right_click = 1;
+	{
+		game->player.right_click = !game->player.right_click;
+		mlx_mouse_move(game->mlx->mlx_ptr, \
+			game->mlx->win_ptr, W_WIDTH / 2, 240);
+	}
 	return (0);
 }
 
@@ -41,12 +62,6 @@ int	mouse_release(int k, int x, int y, t_cub3d *game)
 {
 	if (game->player.in_conversation)
 		return (0);
-	if (k == 3)
-	{
-		mlx_mouse_move(game->mlx->mlx_ptr, \
-			game->mlx->win_ptr, W_WIDTH / 2, 240);
-		game->player.right_click = 0;
-	}
 	if (k == 1 && y > 476)
 		game_menu(game, x, y);
 	if (k == 1)

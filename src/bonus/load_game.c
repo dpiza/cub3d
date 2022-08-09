@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   load_game.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
+/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 23:38:26 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/08/07 20:38:52 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/08/08 21:49:02 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ int	init_game_state(t_cub3d *game)
 {
 	game->mlx = ft_calloc(1, sizeof(t_mlx));
 	game->mlx->mlx_ptr = mlx_init();
+	game->mouse_pos.x = W_WIDTH / 2;
+	game->mouse_pos.y = 240;
 	if (game->mlx->mlx_ptr)
 		return (1);
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_load_map.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
+/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 17:14:11 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/08/07 20:39:53 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/08/08 21:22:55 by hde-camp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,12 @@ t_map	*load_map(const char *path)
 	}
 	map = ft_calloc(1, sizeof(t_map));
 	line = get_next_line(fd);
+	if (!line)
+	{
+		free(map);
+		printf("Arquivo %s não encontrado.\n", path);
+		exit(EXIT_FAILURE);
+	}
 	while (line)
 	{
 		add_next_lines(line, &map->lines);

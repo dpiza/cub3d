@@ -169,7 +169,7 @@ fclean:	clean
 
 re: fclean all
 
-
+re bonus: fclean bonus
 
 ./libft/libft.a:
 	@echo -n "Making LIBFT... "

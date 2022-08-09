@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/03 22:06:31 by dpiza             #+#    #+#             */
-/*   Updated: 2022/08/07 20:38:29 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/08/09 11:30:14 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,19 +68,16 @@ t_mlx_img	*get_scorched_dead(t_cub3d *game, t_sprite *sprite)
 
 t_mlx_img	*get_scorched_rot(t_cub3d *game, t_sprite *sprite)
 {
-	t_mlx_img	*texture;
-
 	if (sprite->tick < 5 * ANIMATION_CICLE)
 	{
 		game->map->map[(int)sprite->pos.y * \
 				game->map->columns + (int)sprite->pos.x] = 'Z';
 		sprite->map_obj = 'Z';
-		texture = game->texture.scor20;
 	}
 	else
 		sprite->expire = 1;
 	sprite->tick++;
-	return (texture);
+	return (game->texture.scor20);
 }
 
 t_mlx_img	*get_scorched_texture(t_cub3d *game, t_sprite *sprite)

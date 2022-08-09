@@ -63,65 +63,65 @@ RAW_C		=	main.c \
 				parse_player_count.c \
 				parser_eval_line.c
 
-RAW_C_BONUS		=	main.c \
-				get_next_line.c \
-				parser_load_map.c \
-				parser_eval_map.c \
-				parser_map_integrity.c \
-				parser_eval_map_char.c \
-				parser_eval_map_rules.c \
-				parser_eval_assets.c \
-				parser_create_strmap.c \
-				parser_map_pointers.c \
-				parser_line_checkers.c \
-				parse_player_count.c \
-				parser_utils.c \
-				vector_rotate.c \
-				vector_multiply.c \
-				vectors_sum.c \
-				vectors_subtract.c \
-				vector_size.c \
-				vector_collision_bresenham.c \
-				vector_normalize.c \
-				vector_collision_dda.c \
-				image_creation.c \
-				images_override.c \
-				images_shading.c \
-				get_img_offset.c \
-				get_map_obj.c \
-				get_aimed_object.c \
-				get_map_sprites.c \
-				get_collision.c \
-				load_game.c \
-				load_player.c \
-				load_assets.c \
-				load_hud_assets.c \
-				build_minimap.c \
-				build_projection.c \
-				player_movement.c \
-				player_action.c \
-				player_action_weapon.c \
-				game_run.c \
-				game_menu.c \
-				game_over.c \
-				hooks.c \
-				print_square.c \
-				print_player_in_map.c \
-				print_bar.c \
-				print_menu.c \
-				print_action.c \
-				print_stats.c \
-				print_weapon.c \
-				print_sprites.c \
-				print_conversation.c \
-				print_menu_inventory.c \
-				print_projection.c \
-				sprite_list.c \
-				sprite_movement.c \
-				get_scorched_texture.c \
-				get_cods_texture.c \
-				game_shutdown.c \
-				texture_destroy.c 
+RAW_C_BONUS		=	main_bonus.c \
+				get_next_line_bonus.c \
+				parser_load_map_bonus.c \
+				parser_eval_map_bonus.c \
+				parser_map_integrity_bonus.c \
+				parser_eval_map_char_bonus.c \
+				parser_eval_map_rules_bonus.c \
+				parser_eval_assets_bonus.c \
+				parser_create_strmap_bonus.c \
+				parser_map_pointers_bonus.c \
+				parser_line_checkers_bonus.c \
+				parse_player_count_bonus.c \
+				parser_utils_bonus.c \
+				vector_rotate_bonus.c \
+				vector_multiply_bonus.c \
+				vectors_sum_bonus.c \
+				vectors_subtract_bonus.c \
+				vector_size_bonus.c \
+				vector_collision_bresenham_bonus.c \
+				vector_normalize_bonus.c \
+				vector_collision_dda_bonus.c \
+				image_creation_bonus.c \
+				images_override_bonus.c \
+				images_shading_bonus.c \
+				get_img_offset_bonus.c \
+				get_map_obj_bonus.c \
+				get_aimed_object_bonus.c \
+				get_map_sprites_bonus.c \
+				get_collision_bonus.c \
+				load_game_bonus.c \
+				load_player_bonus.c \
+				load_assets_bonus.c \
+				load_hud_assets_bonus.c \
+				build_minimap_bonus.c \
+				build_projection_bonus.c \
+				player_movement_bonus.c \
+				player_action_bonus.c \
+				player_action_weapon_bonus.c \
+				game_run_bonus.c \
+				game_menu_bonus.c \
+				game_over_bonus.c \
+				hooks_bonus.c \
+				print_square_bonus.c \
+				print_player_in_map_bonus.c \
+				print_bar_bonus.c \
+				print_menu_bonus.c \
+				print_action_bonus.c \
+				print_stats_bonus.c \
+				print_weapon_bonus.c \
+				print_sprites_bonus.c \
+				print_conversation_bonus.c \
+				print_menu_inventory_bonus.c \
+				print_projection_bonus.c \
+				sprite_list_bonus.c \
+				sprite_movement_bonus.c \
+				get_scorched_texture_bonus.c \
+				get_cods_texture_bonus.c \
+				game_shutdown_bonus.c \
+				texture_destroy_bonus.c 
 
 SRC			=	$(addprefix $(SRC_D)/,$(RAW_C))
 OBJ			=	$(addprefix $(OBJ_D)/,$(RAW_C:.c=.o))
@@ -168,6 +168,8 @@ fclean:	clean
 	@make fclean --no-print-directory -C ./libft
 
 re: fclean all
+
+re bonus: fclean bonus
 
 ./libft/libft.a:
 	@echo -n "Making LIBFT... "

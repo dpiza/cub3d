@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/08/08 18:42:04 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/08/09 12:34:23 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 # include <fcntl.h>
 # include <libft.h>
 # include <mlx.h>
-# include <limits.h>
 # include <time.h>
 
 /*
@@ -88,6 +87,23 @@
 # define MM_PLAYER			0x00fc0000
 # define PLAYER_RAYS		0x00006c00
 # define PLAYER_RAYS_SHADOW	0x00004100
+
+/*
+** Keycodes used for hooks
+*/
+# define ESC				0xff1b
+# define W_KEY				0x0077
+# define A_KEY				0x0061
+# define S_KEY				0x0073
+# define D_KEY				0x0064
+# define E_KEY				0x0065
+# define R_KEY				0x0072
+# define LEFT_ARROW_KEY		0xff51
+# define UP_ARROW_KEY		0xff52
+# define RIGHT_ARROW_KEY	0xff53
+# define DOWN_ARROW_KEY		0xff54
+# define LEFT_CLICK			1
+# define RIGHT_CLICK		3
 
 typedef struct s_map			t_map;
 typedef struct s_strmap			t_strmap;

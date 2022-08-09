@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   main_bonus.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:48:44 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/08/07 20:39:04 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/08/09 12:43:25 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,12 @@ int	main(int argc, char *argv[])
 	(void)argv;
 	if (argc < 2)
 	{
-		printf("Error\nMissing map path\n");
+		printf("Error\nMissing map path.\n");
 		return (1);
 	}
 	if (argc > 2)
 	{
-		printf("Error\ntoo many arguments\n");
+		printf("Error\nToo many arguments.\n");
 		return (1);
 	}
 	map = load_map(argv[1]);

@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/08/09 12:34:23 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/08/09 12:59:43 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@
 # define W_WIDTH 		800
 # define W_HEIGHT 		600
 # define FOV			75
-# define MOVEMENT_STEP	0.15
+# define MOVEMENT_STEP	0.1
 # define ROTATE_SPEED	0.1
 # define ANIMATION_CICLE 5
 # define DEFAULT_HEIGHT	480

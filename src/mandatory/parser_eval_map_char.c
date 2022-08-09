@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 17:40:31 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/07/28 10:04:57 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/08/09 13:07:47 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	is_map_allowed_character(char c)
 	char	*allowed;
 	int		i;
 
-	allowed = "10NSEW ";
+	allowed = MAP_ALLOWED;
 	i = 0;
 	while (i < 7)
 	{

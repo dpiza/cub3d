@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 23:39:07 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/08/08 12:52:59 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/08/09 13:17:13 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	load_player(t_cub3d	*game, t_player	*player)
 	player->collisions = ft_calloc(player->n_rays + 1, sizeof(t_collision));
 	while (count < map->lines * map->columns)
 	{
-		map_v = ft_strchr("NSEW", (int)map->map[count]);
+		map_v = ft_strchr(MAP_PLAYER_DIR, (int)map->map[count]);
 		if (map_v)
 		{
 			player->pos.x = (count % map->columns) + 0.5;

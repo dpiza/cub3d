@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_eval_map_rules.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/26 13:41:02 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/08/03 19:11:22 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/08/09 13:11:42 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ int	inner_content_touch_invalid_char(t_strmap *map, int x, int y)
 	boundaries[3] = get_char_at(map, x + 1, y);
 	invalid_b = 0;
 	if (boundaries[0])
-		invalid_b |= ft_strchr("10NSEW", (int)boundaries[0]) == NULL;
+		invalid_b |= ft_strchr(MAP_INSIDE_OBJ, (int)boundaries[0]) == NULL;
 	if (boundaries[1])
-		invalid_b |= ft_strchr("10NSEW", (int)boundaries[1]) == NULL;
+		invalid_b |= ft_strchr(MAP_INSIDE_OBJ, (int)boundaries[1]) == NULL;
 	if (boundaries[2])
-		invalid_b |= ft_strchr("10NSEW", (int)boundaries[2]) == NULL;
+		invalid_b |= ft_strchr(MAP_INSIDE_OBJ, (int)boundaries[2]) == NULL;
 	if (boundaries[3])
-		invalid_b |= ft_strchr("10NSEW", (int)boundaries[3]) == NULL;
+		invalid_b |= ft_strchr(MAP_INSIDE_OBJ, (int)boundaries[3]) == NULL;
 	return (invalid_b);
 }
 
@@ -56,7 +56,7 @@ int	eval_walls(t_strmap	*strmap, t_map	*map)
 		c = 0;
 		while (c < strmap->columns)
 		{
-			if (ft_strchr("0NSEW", (int) get_char_at(strmap, c, l)))
+			if (ft_strchr(MAP_OBJ_NO_WALL, (int) get_char_at(strmap, c, l)))
 			{
 				if (is_map_edge(strmap, c, l))
 				{
@@ -82,7 +82,7 @@ int	eval_invalid_chars(t_strmap	*strmap, t_map	*map)
 		c = 0;
 		while (c < strmap->columns)
 		{
-			if (ft_strchr("0NSEW", (int) get_char_at(strmap, c, l)))
+			if (ft_strchr(MAP_OBJ_NO_WALL, (int) get_char_at(strmap, c, l)))
 			{
 				if (inner_content_touch_invalid_char(strmap, c, l))
 				{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_line_checkers.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/05 12:06:16 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/08/03 19:12:33 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/08/09 13:12:49 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	is_valid_map_line(char *line)
 			return (0);
 		i++;
 	}
-	if (!ft_strchr("10NSEW \n", (int) line[i]))
+	if (!ft_strchr(MAP_LINE, (int) line[i]))
 	{
 		return (0);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/08/08 20:51:07 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/08/09 13:12:45 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,16 @@
 # define FOV			75
 # define TRANSPARENCY	4278190080
 # define MOVEMENT_STEP	0.1
+# define ROTATE_SPEED	0.9
+
+/*
+** String patterns used for map parsing, minimap and actions
+*/
+# define MAP_LINE			"10NSEW \n"
+# define MAP_PLAYER_DIR		"NSEW"
+# define MAP_ALLOWED 		"10NSEW "
+# define MAP_INSIDE_OBJ		"10NSEW"
+# define MAP_OBJ_NO_WALL	"0NSEW"
 
 /*
 ** Colors used in the minimap
@@ -52,6 +62,22 @@
 # define MM_PLAYER			0x00fc0000
 # define PLAYER_RAYS		0x00006c00
 # define PLAYER_RAYS_SHADOW	0x00004100
+
+/*
+** Keycodes used for hooks
+*/
+# define ESC				0xff1b
+# define W_KEY				0x0077
+# define A_KEY				0x0061
+# define S_KEY				0x0073
+# define D_KEY				0x0064
+# define Q_KEY				0x0071
+# define E_KEY				0x0065
+# define LEFT_ARROW_KEY		0xff51
+# define UP_ARROW_KEY		0xff52
+# define RIGHT_ARROW_KEY	0xff53
+# define DOWN_ARROW_KEY		0xff54
+# define RIGHT_CLICK		3
 
 typedef struct s_map		t_map;
 typedef struct s_strmap		t_strmap;
@@ -130,7 +156,7 @@ struct s_player
 	t_point		*rays;
 	t_collision	*collisions;
 	t_point		fov_vec[2];
-	int			left_click;
+	int			right_click;
 	t_cub3d		*game;
 };
 

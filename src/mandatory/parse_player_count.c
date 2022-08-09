@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_player_count.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/08/02 18:41:26 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/08/02 19:36:43 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/08/09 13:06:50 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	eval_player_count(t_map	*map, t_strmap *strmap)
 		x = 0;
 		while (x < strmap->columns)
 		{
-			if (ft_strchr("NSEW", (int)get_char_at(strmap, x, y)))
+			if (ft_strchr(MAP_PLAYER_DIR, (int)get_char_at(strmap, x, y)))
 				players++;
 			x++;
 		}

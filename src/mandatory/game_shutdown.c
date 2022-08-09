@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 20:17:18 by dpiza             #+#    #+#             */
-/*   Updated: 2022/08/08 12:53:24 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/08/09 17:18:58 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,6 @@ void	gracefull_shutdown(t_cub3d	*game)
 	mlx_disconnect(mlx);
 	free(mlx);
 	destroy_strmap(game->map);
+	free_t_map(game->s_map);
 	free(game);
 }

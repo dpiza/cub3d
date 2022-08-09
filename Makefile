@@ -151,7 +151,7 @@ bonus:  $(OBJ_BONUS) $(INCLUDES_BONUS)
 $(OBJ_D_BONUS)/%.o : $(SRC_D_BONUS)/%.c ./libft/libft.a
 	@echo -n "Compiling $@... "
 	@mkdir -p $(OBJ_D_BONUS)
-	$(CC) $(CFLAGS) -c $< -I $(INC_D_BONUS) -I $(INC) -o $@
+	@$(CC) $(CFLAGS) -c $< -I $(INC_D_BONUS) -I $(INC) -o $@
 	@echo Done!
 	
 all:	$(NAME)

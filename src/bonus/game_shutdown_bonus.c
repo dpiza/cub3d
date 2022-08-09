@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   game_shutdown.c                                    :+:      :+:    :+:   */
+/*   game_shutdown_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/28 20:17:18 by dpiza             #+#    #+#             */
-/*   Updated: 2022/08/07 20:37:56 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/08/09 17:20:30 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,6 @@ void	gracefull_shutdown(t_cub3d	*game)
 	mlx_disconnect(mlx);
 	free(mlx);
 	destroy_strmap(game->map);
+	free_t_map(game->s_map);
 	free(game);
 }

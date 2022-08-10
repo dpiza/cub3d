@@ -20,7 +20,7 @@ void	unlock_door(t_cub3d *game)
 	use_pos.y = game->player.pos.y + game->player.dir.y;
 	game->map->map[(int)use_pos.y * game->map->columns + (int)use_pos.x] = 'D';
 	set_collisions(game);
-	game->player.notify = 151;
+	game->player.notify = 71;
 }
 
 void	open_use(t_cub3d *game, int *open)

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   print_weapon.c                                     :+:      :+:    :+:   */
+/*   print_weapon_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/24 00:16:59 by dpiza             #+#    #+#             */
-/*   Updated: 2022/08/07 20:41:00 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/08/10 18:38:44 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,20 +42,20 @@ void	print_notification(t_cub3d *game)
 
 	point.y = 10;
 	point.x = 10;
-	if (game->player.notify > 0 && game->player.notify <= 150)
+	if (game->player.notify > 0 && game->player.notify <= 70)
 	{
 		override_images(game->mlx->img, game->texture.notif_key, \
 			point.x, point.y);
 		game->player.notify++;
-		if (game->player.notify > 150)
+		if (game->player.notify > 70)
 			game->player.notify = 0;
 	}
-	else if (game->player.notify > 150)
+	else if (game->player.notify > 70)
 	{
 		override_images(game->mlx->img, game->texture.notif_door, \
 			point.x, point.y);
 		game->player.notify++;
-		if (game->player.notify > 300)
+		if (game->player.notify > 140)
 			game->player.notify = 0;
 	}
 }

@@ -2,7 +2,7 @@ CC	=	cc
 CFLAGS = -Wall -Wextra -Werror -g
 
 NAME 		= cub3D
-NAME_BONUS	= cub3d_bonus
+NAME_BONUS	= cub3D_bonus
 
 INC 		=	includes
 OBJ_D		=	obj

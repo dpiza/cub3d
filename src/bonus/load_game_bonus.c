@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   load_game.c                                        :+:      :+:    :+:   */
+/*   load_game_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hde-camp <hde-camp@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 23:38:26 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/08/08 21:49:02 by hde-camp         ###   ########.fr       */
+/*   Updated: 2022/08/10 13:04:37 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_cub3d	*load_game(t_map	*map)
 	load_assets(game);
 	load_player(game, &game->player);
 	game->player.health = 100;
-	get_map_sprites(game, str_map);
+	get_map_sprites(game);
 	return (game);
 }
 

@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:38:46 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/08/09 12:59:43 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/08/10 13:04:45 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -486,7 +486,7 @@ void			game_over(t_cub3d *game);
 /*
 ** Sprites
 */
-void			get_map_sprites(t_cub3d *game, t_strmap *str_map);
+void			get_map_sprites(t_cub3d *game);
 void			update_sprites_distance(t_cub3d *game);
 void			sort_sprite_list(t_cub3d *game);
 void			add_sprite(t_cub3d *game, int loc, char map_obj);

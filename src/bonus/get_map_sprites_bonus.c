@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_map_sprites.c                                  :+:      :+:    :+:   */
+/*   get_map_sprites_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/30 21:32:25 by dpiza             #+#    #+#             */
-/*   Updated: 2022/08/07 20:38:21 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/08/10 17:32:44 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,15 @@ void	update_sprites_distance(t_cub3d *game)
 	}
 }
 
-void	get_map_sprites(t_cub3d *game, t_strmap *str_map)
+void	get_map_sprites(t_cub3d *game)
 {
 	int	i;
 
 	i = 0;
-	while (str_map->map[i])
+	while (i < game->map->columns * game->map->lines)
 	{
-		if (is_in_list(str_map->map[i], SPRITE_OBJ))
-			add_sprite(game, i, str_map->map[i]);
+		if (is_in_list(game->map->map[i], SPRITE_OBJ))
+			add_sprite(game, i, game->map->map[i]);
 		i++;
 	}
 }

@@ -135,7 +135,7 @@ INCLUDES_BONUS	=	$(addprefix $(INC_D_BONUS)/,$(RAW_H_BONUS))
 
 $(NAME): $(OBJ) $(INCLUDES)
 	@echo -n "Compiling $(NAME)... "
-	@$(CC) $(OBJ) $(LIBS) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJ) $(LIBS) -o $(NAME)
 	@echo Done!
 
 $(OBJ_D)/%.o : $(SRC_D)/%.c ./libft/libft.a
@@ -148,7 +148,7 @@ bonus:  $(NAME_BONUS)
 
 $(NAME_BONUS): $(OBJ_BONUS) $(INCLUDES_BONUS)
 	@echo -n "Compiling $(NAME_BONUS)... "
-	@$(CC) $(OBJ_BONUS) $(LIBS) -o $(NAME_BONUS)
+	@$(CC) $(CFLAGS) $(OBJ_BONUS) $(LIBS) -o $(NAME_BONUS)
 	@echo Done!
 
 $(OBJ_D_BONUS)/%.o : $(SRC_D_BONUS)/%.c ./libft/libft.a

@@ -6,7 +6,7 @@
 /*   By: dpiza <dpiza@student.42sp.org.br>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/22 16:48:44 by hde-camp          #+#    #+#             */
-/*   Updated: 2022/08/09 17:17:32 by dpiza            ###   ########.fr       */
+/*   Updated: 2022/08/09 21:11:48 by dpiza            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	main(int argc, char *argv[])
 	if (argc < 2)
 		exit_error("Error\nMissing map path.\n");
 	if (argc > 2)
-		exit_error("Error\ntoo many arguments.\n");
+		exit_error("Error\nToo many arguments.\n");
 	map = load_map(argv[1]);
 	eval_map(map);
 	if (map->status == OK)

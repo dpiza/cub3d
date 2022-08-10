@@ -2,10 +2,11 @@ CC	=	cc
 CFLAGS = -Wall -Wextra -Werror -g
 
 NAME 		= cub3D
+NAME_BONUS	= cub3d_bonus
 
 INC 		=	includes
 OBJ_D		=	obj
-OBJ_D_BONUS	=	obj/bonus
+OBJ_D_BONUS	=	obj
 
 SRC_D		=	src/mandatory
 INC_D		=	includes/mandatory
@@ -143,9 +144,11 @@ $(OBJ_D)/%.o : $(SRC_D)/%.c ./libft/libft.a
 	@$(CC) $(CFLAGS) -c $< -I $(INC_D) -I $(INC) -o $@
 	@echo Done!
 
-bonus:  $(OBJ_BONUS) $(INCLUDES_BONUS)
-	@echo -n "Compiling $(NAME)... "
-	@$(CC) $(OBJ_BONUS) $(LIBS) -o $(NAME)
+bonus:  $(NAME_BONUS)
+
+$(NAME_BONUS): $(OBJ_BONUS) $(INCLUDES_BONUS)
+	@echo -n "Compiling $(NAME_BONUS)... "
+	@$(CC) $(OBJ_BONUS) $(LIBS) -o $(NAME_BONUS)
 	@echo Done!
 
 $(OBJ_D_BONUS)/%.o : $(SRC_D_BONUS)/%.c ./libft/libft.a
@@ -165,6 +168,7 @@ clean:
 
 fclean:	clean
 	@$(RM) $(NAME)
+	@$(RM) $(NAME_BONUS)
 	@make fclean --no-print-directory -C ./libft
 
 re: fclean all

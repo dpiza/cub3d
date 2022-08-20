@@ -36,7 +36,7 @@ The goal is to make a dynamic view inside a maze.
 
 • Smooth window management;
 
-• Display different wall textures thatvary deppending on which side the wall is facing;
+• Display different wall textures that vary deppending on which side the wall is facing;
 
 • Set the floor and the ceiling to two different colors;
 
@@ -65,7 +65,7 @@ The goal is to make a dynamic view inside a maze.
 
 ## Extra Features
 
-Since this project scratched the right itch, I couldn't miss the opportunity to add a few bonuses of my own
+It was so much fun doing this project, that I couldn't miss the opportunity to add a few bonuses of my own:
 
 • A NPC;
 
@@ -74,11 +74,11 @@ Since this project scratched the right itch, I couldn't miss the opportunity to 
 • Enemies that chase the player until they are defeated;
 
 • HUD bar with multiple menu options, such as:
-   - Quest log;
-   - Inventory;
+   - Quest log - that updates with the quest progression;
+   - Inventory - also updated when the quest items are collected;
    - Minimap;
-   - Character information (roleplay);
-   - Character status (roleplay);
+   - Character information (roleplay only);
+   - Character status (roleplay only);
    - Animated interaction button.
    - Shadow applied to walls, sprites, floor and ceiling
 
@@ -129,7 +129,7 @@ $ make bonus
 
 Execute the program, providing the bonus map file path
 ```
-$ ./cub3d maps/bonus/vault42.cub
+$ ./cub3d_bonus maps/bonus/vault42.cub
 ```
 <img src="https://github.com/dpiza/resources/blob/master/imgs/bonus.png?raw=true"/>
 
